@@ -12,7 +12,11 @@ server.get('/heartbeat', (req, res) => {
   res.json({
     "is": "working"
   })
-})
+});
+
+server.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './react-ui/build', 'index.html'));
+});
 
 server.listen(PORT, () => {
   console.log(`The sever is listening at port ${PORT}`);
