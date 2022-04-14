@@ -1,0 +1,56 @@
+.transactions li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.transactions__colDate {
+  width: 10%;
+}
+.transactions__colDesc {
+  width: 65%;
+}
+.transactions__colType {
+  width: 10%;
+}
+.transactions__colAmount {
+  text-align: right;
+  width: 15%;
+}
+
+.data-filter {
+  margin: 10px 0 40px;
+}
+
+.data-filter__filters {
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 0;
+
+  li {
+    span {
+      border: 1px solid #ddd;
+      cursor: pointer;
+      display: inline-block;
+      margin: 2px 0;
+      padding: 4px 12px;
+      &.active {
+        background-color: cornflowerblue;
+        color: white;
+      }
+    }
+  }
+}
+
+.data-filter__month {
+  display: flex;
+  flex-wrap: wrap;
+
+  li {
+    flex: 1 0 25%;
+  }
+}
+
+.data-filter__year {
+  display: flex;
+  flex-direction: column;
+}

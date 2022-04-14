@@ -1,0 +1,23 @@
+@import "./base.scss";
+@import "./layout.scss";
+
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  &.btn--generic {
+    background-color: cornflowerblue;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 12px;
+    &:hover {
+      background-color: crimson;
+      transition: all ease-in-out 400ms;
+    }
+  }
+}
