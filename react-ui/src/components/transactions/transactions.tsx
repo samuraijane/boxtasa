@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { SortFilters } from '../../interface';
 import data1 from '../../mocks/axos.json';
 import data2 from '../../mocks/cocc.json';
+import data3 from '../../mocks/coch.json';
+import data4 from '../../mocks/usba.json';
 import './style.scss';
 
 const Transactions = (): JSX.Element => {
@@ -30,7 +32,7 @@ const Transactions = (): JSX.Element => {
     setSortFilters(null);
   };
 
-  const combinedData = [...data1, ...data2];
+  const combinedData = [...data1, ...data2, ...data3, ...data4];
 
   const transactions = combinedData.filter(x => {
     if (!sortFilters) return x;
@@ -60,7 +62,9 @@ const Transactions = (): JSX.Element => {
   const filterButtons = {
     institutions: [
       {dataSort: "axos", value: "axos"},
-      {dataSort: "cocc", value: "ccoc"}
+      {dataSort: "cocc", value: "ccoc"},
+      {dataSort: "coch", value: "coch"},
+      {dataSort: "usba", value: "usba"}
     ],
     months: [
       {dataSort: 1, value: "January"},
