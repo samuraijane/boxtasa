@@ -1,0 +1,11 @@
+.navs {
+  display: flex;
+
+  li {
+    cursor: pointer;
+  }
+
+  li:last-of-type {
+    margin-left: 14px;
+  }
+}

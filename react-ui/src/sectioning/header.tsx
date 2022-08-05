@@ -6,7 +6,7 @@ const Header = (): JSX.Element => {
       <div className="y-wrap">
         <nav>
           <div><NavLink to="/">Boxtasa</NavLink></div>
-          <ul>
+          <ul className="navs">
             <li><NavLink to="/search">Search</NavLink></li>
             <li><NavLink to="/transactions">Transactions</NavLink></li>
           </ul>

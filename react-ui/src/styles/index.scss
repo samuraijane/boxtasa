@@ -1,12 +1,6 @@
 @import "./base.scss";
 @import "./layout.scss";
-
-* {
-  box-sizing: border-box;
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
+@import "./style.scss";
 
 .btn {
   &.btn--generic {
