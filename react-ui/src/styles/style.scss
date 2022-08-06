@@ -9,3 +9,29 @@
     margin-left: 14px;
   }
 }
+
+.search {
+  .search__input {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 40px;
+
+    input {
+      background-color: #eee;
+      border: 1px solid transparent;
+      max-width: 100px;
+      text-align: right;
+    }
+  }
+  .search__results {
+    li {
+      display: grid;
+      grid-template-columns: 1fr 1fr 3fr 1fr;
+      margin: 16px 0;
+  
+      div:last-of-type {
+        text-align: right;
+      }
+    }
+  }
+}
