@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import data1 from '../../mocks/axos.json';
+import data1 from '../../mocks/axos9152.json';
 import data2 from '../../mocks/cocc.json';
 import data3 from '../../mocks/coch.json';
 import data4 from '../../mocks/usba.json';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SortFilters } from '../../interface';
-import data1 from '../../mocks/axos.json';
+import data1 from '../../mocks/axos9152.json';
 import data2 from '../../mocks/cocc.json';
 import data3 from '../../mocks/coch.json';
 import data4 from '../../mocks/usba.json';
@@ -38,12 +38,17 @@ const Transactions = (): JSX.Element => {
     if (!sortFilters) return x;
     if (sortFilters.month && sortFilters.year && sortFilters.institution) {
       return x.postedDateYear === sortFilters.year && x.postedDateMonth === sortFilters.month && x.institutionName === sortFilters.institution;
+    } else if (sortFilters.year && sortFilters.institution) {
+      return x.postedDateYear === sortFilters.year && x.institutionName === sortFilters.institution;
     } else if (sortFilters.month && sortFilters.year) {
-      return x.postedDateYear === sortFilters.year && x.postedDateMonth === sortFilters.month
+      return x.postedDateYear === sortFilters.year && x.postedDateMonth === sortFilters.month;
     } else if (sortFilters.month) {
-      return x.postedDateMonth === sortFilters.month
-    } else if (sortFilters.year)
-      return x.postedDateYear === sortFilters.year
+      return x.postedDateMonth === sortFilters.month;
+    } else if (sortFilters.year) {
+      return x.postedDateYear === sortFilters.year;
+    } else if (sortFilters.institution) {
+      return x.institutionName === sortFilters.institution;
+    }
   })
   .map((transaction, index) => {
     const {amount, institutionName, postedDateDay, postedDateMonth, postedDateYear, description, type} = transaction;
