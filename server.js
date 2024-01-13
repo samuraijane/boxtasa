@@ -1,4 +1,5 @@
 require('dotenv').config();
+const db = require('./db');
 const express = require('express');
 const path = require('path');
 
@@ -14,6 +15,8 @@ server.get('/heartbeat', (req, res) => {
     "is": "working"
   })
 });
+
+server.get('/transactions', db.getTransactions);
 
 // delegate client-side routing to the client
 server.get('*', (req, res) => {
