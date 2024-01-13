@@ -1,0 +1,6 @@
+PORT=8080
+
+DB_NAME=some_database_name
+DB_PASSWORD=some_password
+DB_PORT=some_port
+DB_USER=some_user
