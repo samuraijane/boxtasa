@@ -25,4 +25,4 @@ server.get('*', (req, res) => {
 
 server.listen(process.env.PORT || PORT, () => {
   console.log(`The server is listening at port ${PORT}`);
-})
+});
