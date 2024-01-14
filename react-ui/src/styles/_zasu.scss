@@ -1,1 +1,20 @@
 // zasu.scss is meant to experiment with style rules before officially applying them to the application
+
+.transactions {
+
+  li {
+    margin: 0 0 12px 0;
+    padding: 10px 0 10px 10px;
+
+    span {
+      display: block;
+    }
+
+    display: grid;
+    grid-template-columns: 5% 5% 8% 5% 4% 4% 53% 6% 10%;
+
+    &:nth-child(2n + 1) {
+      background-color: #ddd;
+    }
+  }
+}

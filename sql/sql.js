@@ -1,14 +1,15 @@
 const sqlGetTransactions = `
   SELECT
-    _accounts.acct_no,
-    _institutions.short_name,
+    _transactions.transaction_id,
     _account_types.account_type_name,
-    _transactions.date_year,
-    _transactions.date_month,
+    _institutions.short_name,
+    _accounts.acct_no,
     _transactions.date_day,
+    _transactions.date_month,
+    _transactions.date_year,
+    _transactions.amount,
     _transaction_types.transaction_type_name,
-    _transactions.transaction_memo,
-    _transactions.amount
+    _transactions.transaction_memo
   FROM
     accounts _accounts
   INNER JOIN institutions _institutions USING(institution_id)
