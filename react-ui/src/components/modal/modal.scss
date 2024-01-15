@@ -67,6 +67,10 @@
         padding: 6px 14px;
       }
     }
+
+    .modal__selected-code {
+      color: crimson; // TODO use a different color to highlight which code is selected
+    }
   }
 
 
@@ -77,6 +81,7 @@
       left: 40px; // Ref A
 
       li {
+        cursor: pointer;
         display: flex;
         margin: 8px 0;
 

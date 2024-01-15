@@ -9,7 +9,7 @@ export interface Transaction {
   date_year: number;
   date_month: number;
   date_day: number;
-  transaction_id: string;
+  transaction_id: number;
   transaction_memo: string;
   transaction_type_name: string;
   amount: string;
@@ -19,7 +19,7 @@ export interface Transaction {
 export const Transactions = (): JSX.Element => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isModalActive, setIsModalActive] =useState(false);
-  const [activeTransaction, setActiveTransaction] = useState<any>();
+  const [activeTransaction, setActiveTransaction] = useState<Transaction>();
 
   const getData = async () => {
     const response = await fetch("http://localhost:8080/transactions");
@@ -27,7 +27,7 @@ export const Transactions = (): JSX.Element => {
     setTransactions(data);
   };
 
-  const postData = async (transactionId: string, codeName="AHEL") => {
+  const postData = async (transactionId: number, codeName: string) => {
     const response = await fetch("http://localhost:8080/transactions", {
       body: JSON.stringify({ codeName, transactionId }),
       headers: {
@@ -45,34 +45,34 @@ export const Transactions = (): JSX.Element => {
     }
   }, [transactions]);
 
-  const handleClick = async (e: MouseEvent<HTMLLIElement>) => {
-    e.preventDefault();
-    setIsModalActive(!isModalActive);
-    const { id } = (e.currentTarget as HTMLLIElement).dataset;
-    setActiveTransaction(transactions.find(x => {
-      console.log(typeof x.transaction_id, typeof id);
-      return x.transaction_id == id
-    }));
+  const handleClick = async (id: number, codeName: string) => {
+    const response = await postData(id, codeName);
+    const updatedTransactions = transactions.map(z => {
+      const { transaction_id } = z;
 
-    // // TODO handle error more gracefully
-    // if (!id) {
-    //  console.error('ID is missing, bruv');
-    //  return; 
-    // }
-    // const response = await postData(id);
-    // const updatedTransactions = transactions.map(z => {
-    //   const { transaction_id } = z;
-
-    //   // not strict because `transaction_id` is a number while `id` is a string
-    //   if (transaction_id != id) {
-    //     return z;
-    //   }
-    //   return response.updated;
-    // });
-    // setTransactions(updatedTransactions);
+      // not strict because `transaction_id` is a number while `id` is a string
+      if (transaction_id !== id) {
+        return z;
+      }
+      return response.updated;
+    });
+    setTransactions(updatedTransactions);
+    setIsModalActive(false);
   };
 
-  const _transactions = transactions.map((x, y) => {
+  const handleModal = (e: MouseEvent<HTMLLIElement>) => {
+    const { id } = e.currentTarget.dataset;
+    if (!id) {
+      console.error("There is no id, friend."); // TODO handle error gracefully
+      return;
+    }
+    setIsModalActive(!isModalActive);
+    setActiveTransaction(transactions.find(x => {
+      return x.transaction_id === parseInt(id);
+    }));
+  };
+
+  const _transactions = transactions.map((x) => {
     const {
       acct_no: acctNo,
       short_name: acctName,
@@ -87,7 +87,7 @@ export const Transactions = (): JSX.Element => {
       code_name: codeName
     } = x;
     return (
-      <li data-id={id} key={id} onClick={handleClick}>  
+      <li data-id={id} key={id} onClick={handleModal}>  
         <span>{acctNo}</span>
         <span>{acctName}</span>
         <span>{acctType}</span>

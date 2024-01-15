@@ -1,14 +1,26 @@
-import { MouseEventHandler } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { Transaction } from "../transactions/transactions";
 import modalJson from "./modal.json";
 import "./modal.scss";
 
 interface ModalProps {
-  action: MouseEventHandler<HTMLLIElement | HTMLButtonElement>;
+  action: Function;  // NOTE not 100% sure this is the right type but TS does not complain
   data: Transaction;
 }
 
+interface Codes {
+  codeShort: string;
+  codeLong: string;
+}
+
 export const Modal = ({ action, data }: ModalProps): JSX.Element => {
+  const [codes, setCodes] = useState<Codes[]>();
+  const [inputValue, setInputValue] = useState("");
+  const [selectedCode, setSelectedCode] = useState("");
+
+  useEffect(() => {
+    setCodes(modalJson);
+  }, []);
 
   const {
     acct_no: acctNo,
@@ -24,8 +36,29 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
     code_name: codeName
   } = data;
 
-  const codes = modalJson.map((code, index) => (
-    <li key={code.codeShort}>
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    setInputValue(value);
+    const updatedCodes = modalJson?.filter(x => x.codeShort.toLowerCase().search(value) !== -1 || x.codeLong.toLowerCase().search(value) !== -1);
+    setCodes(updatedCodes);
+  };
+
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+    const { value } = e.currentTarget.dataset;
+    if (!value) {
+      console.error("A value is missing, dude.") // TODO handle error gracefully
+      return;
+    }
+    setSelectedCode(value);
+    setInputValue(value);
+  };
+
+  const handleSave = () => {
+    action(id, selectedCode);
+  };
+
+  const _codes = codes?.map(code => (
+    <li className={`${selectedCode === code.codeShort ? "modal__selected-code": ""}`} data-value={code.codeShort} key={code.codeShort} onClick={handleClick}>
       <span>{code.codeShort}</span><span>{code.codeLong}</span>
     </li>
   ));
@@ -47,14 +80,14 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
       <div className="modal__codes">
         <div className="modal__search">
           <div className="modal__live-search">
-            <input type="text" />
+            <input onChange={handleChange} type="text" value={inputValue} />
           </div>
           <div className="modal__btn-container">
-            <button onClick={action}>Save</button>
+            <button onClick={handleSave}>Save</button>
           </div>
         </div>
         <ul className="modal__code-list">
-          {codes}
+          {_codes}
         </ul>
       </div>
     </div>
