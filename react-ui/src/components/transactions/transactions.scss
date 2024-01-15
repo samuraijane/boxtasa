@@ -1,0 +1,18 @@
+.transactions {
+
+  li {
+    margin: 0 0 12px 0;
+    padding: 10px 0 10px 10px;
+
+    span {
+      display: block;
+    }
+
+    display: grid;
+    grid-template-columns: 5% 5% 8% 5% 4% 4% 43% 6% 10% 10%;
+
+    &:nth-child(2n + 1) {
+      background-color: #ddd;
+    }
+  }
+}
