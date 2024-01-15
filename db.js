@@ -1,6 +1,8 @@
-const { sqlGetTransactions } = require("./sql/sql");
+import dotenv from "dotenv";
+import pg from "pg";
+import { sqlGetTransactions } from "./sql/sql.js";
 
-const Pool = require('pg').Pool;
+dotenv.config();
 
 const {
   DB_HOST: host,
@@ -9,7 +11,7 @@ const {
   DB_USER: user
 } = process.env;
 
-const pool = new Pool({ database, host, port, user });
+const pool = new pg.Pool({ database, host, port, user });
 
 const getTransactions = (req, res) => {
   pool.query(`${sqlGetTransactions} ORDER BY _transactions.transaction_id;`, (err, results) => {
@@ -31,7 +33,7 @@ const postCodeToTransaction = async (req, res) => {
   res.status(200).json({ message: "success", updated: updated.rows[0]});
 };
 
-module.exports = {
+export default {
   getTransactions,
   postCodeToTransaction
 };

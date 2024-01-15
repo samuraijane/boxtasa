@@ -1,14 +1,20 @@
-require('dotenv').config();
-const db = require('./db');
-const express = require('express');
-const path = require('path');
+import db from "./db.js";
+import dotenv from "dotenv";
+import express, { json } from "express";
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+dotenv.config();
+
+// This allows us to continue to use `__dirname` even though we are using es5 modules
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const server = express();
 
 const { PORT } = process.env;
 
-server.use(express.json());
-server.use(express.static(path.resolve(`${__dirname}/react-ui/build`)));
+server.use(json());
+server.use(express.static(resolve(`${__dirname}/react-ui/build`)));
 
 // CORS
 server.use(function(req, res, next) {
@@ -34,7 +40,7 @@ server.post('/transactions', db.postCodeToTransaction);
 
 // delegate client-side routing to the client
 server.get('*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/react-ui/build/index.html)`));
+  res.sendFile(resolve(`${__dirname}/react-ui/build/index.html)`));
 });
 
 server.listen(process.env.PORT || PORT, () => {

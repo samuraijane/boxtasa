@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "build": "cd react-ui/ && npm install && npm run build",
     "dev": "nodemon .",

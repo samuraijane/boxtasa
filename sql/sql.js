@@ -20,6 +20,6 @@ const sqlGetTransactions = `
   INNER JOIN codes _codes USING(code_id)
 `;
 
-module.exports = {
+export {
   sqlGetTransactions
 };
