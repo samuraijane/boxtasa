@@ -1,0 +1,210 @@
+[
+  {
+    "codeShort": "ADON",
+    "codeLong": "Charitable donations"
+  },
+  {
+    "codeShort": "AHEL",
+    "codeLong": "Medical and dental expenses"
+  },
+  {
+    "codeShort": "AINT",
+    "codeLong": "Mortgage interest paid"
+  },
+  {
+    "codeShort": "ATAX",
+    "codeLong": "Taxes paid"
+  },
+  {
+    "codeShort": "CEXP",
+    "codeLong": "Expenses"
+  },
+  {
+    "codeShort": "CINC",
+    "codeLong": "1099-MISC"
+  },
+  {
+    "codeShort": "EEXP",
+    "codeLong": "Expenses"
+  },
+  {
+    "codeShort": "EINC",
+    "codeLong": "Rents Received"
+  },
+  {
+    "codeShort": "FINC",
+    "codeLong": "W2"
+  },
+  {
+    "codeShort": "FINT",
+    "codeLong": "1099-INT"
+  },
+  {
+    "codeShort": "UNST",
+    "codeLong": "Code has not yet been set"
+  },
+  {
+    "codeShort": "AC",
+    "codeLong": "Accounts"
+  },
+  {
+    "codeShort": "BU",
+    "codeLong": "Business Admin"
+  },
+  {
+    "codeShort": "CO",
+    "codeLong": "Connections"
+  },
+  {
+    "codeShort": "CP",
+    "codeLong": "Capital Investments"
+  },
+  {
+    "codeShort": "CV",
+    "codeLong": "Civic Duties"
+  },
+  {
+    "codeShort": "DE",
+    "codeLong": "Debts"
+  },
+  {
+    "codeShort": "DO",
+    "codeLong": "Donations"
+  },
+  {
+    "codeShort": "ED",
+    "codeLong": "Education"
+  },
+  {
+    "codeShort": "ES",
+    "codeLong": "Expressions"
+  },
+  {
+    "codeShort": "ET",
+    "codeLong": "Life Change Events"
+  },
+  {
+    "codeShort": "EV",
+    "codeLong": "Events"
+  },
+  {
+    "codeShort": "EX",
+    "codeLong": "Expendables"
+  },
+  {
+    "codeShort": "FA",
+    "codeLong": "Faith-based Engagement"
+  },
+  {
+    "codeShort": "FB",
+    "codeLong": "Family Bank"
+  },
+  {
+    "codeShort": "FH",
+    "codeLong": "Family History"
+  },
+  {
+    "codeShort": "FN",
+    "codeLong": "Finds"
+  },
+  {
+    "codeShort": "HA",
+    "codeLong": "Hardware"
+  },
+  {
+    "codeShort": "HC",
+    "codeLong": "Household Consumables"
+  },
+  {
+    "codeShort": "HE",
+    "codeLong": "Health"
+  },
+  {
+    "codeShort": "ME",
+    "codeLong": "Media"
+  },
+  {
+    "codeShort": "MP",
+    "codeLong": "Mobile Phone Service"
+  },
+  {
+    "codeShort": "NC",
+    "codeLong": "Income"
+  },
+  {
+    "codeShort": "PH",
+    "codeLong": "Photography and Video"
+  },
+  {
+    "codeShort": "PJ",
+    "codeLong": "Projects"
+  },
+  {
+    "codeShort": "PR",
+    "codeLong": "Primary Residence"
+  },
+  {
+    "codeShort": "PT",
+    "codeLong": "Pets"
+  },
+  {
+    "codeShort": "PV",
+    "codeLong": "Privacy"
+  },
+  {
+    "codeShort": "RE",
+    "codeLong": "Reimbursements"
+  },
+  {
+    "codeShort": "SF",
+    "codeLong": "Software"
+  },
+  {
+    "codeShort": "SH",
+    "codeLong": "Shipping"
+  },
+  {
+    "codeShort": "TA",
+    "codeLong": "Teaching"
+  },
+  {
+    "codeShort": "TE",
+    "codeLong": "Extended Travel"
+  },
+  {
+    "codeShort": "TR",
+    "codeLong": "Local Travel"
+  },
+  {
+    "codeShort": "TX",
+    "codeLong": "Taxes and Fees"
+  },
+  {
+    "codeShort": "VA",
+    "codeLong": "Valuables"
+  },
+  {
+    "codeShort": "VE",
+    "codeLong": "Vehicles"
+  },
+  {
+    "codeShort": "PS",
+    "codeLong": "Plants and Seeds"
+  },
+  {
+    "codeShort": "WA",
+    "codeLong": "Waste"
+  },
+  {
+    "codeShort": "WE",
+    "codeLong": "Wearables"
+  },
+  {
+    "codeShort": "YD",
+    "codeLong": "Identification Documents"
+  },
+  {
+    "codeShort": "ZZ",
+    "codeLong": "Unknown"
+  }
+]

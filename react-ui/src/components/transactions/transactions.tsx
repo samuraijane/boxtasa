@@ -1,7 +1,8 @@
 import { MouseEvent, useEffect, useState } from "react";
+import { Modal } from "../modal/modal";
 import "./transactions.scss";
 
-interface Transaction {
+export interface Transaction {
   acct_no: string;
   short_name: string;
   account_type_name: string;
@@ -17,6 +18,8 @@ interface Transaction {
 
 export const Transactions = (): JSX.Element => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isModalActive, setIsModalActive] =useState(false);
+  const [activeTransaction, setActiveTransaction] = useState<any>();
 
   const getData = async () => {
     const response = await fetch("http://localhost:8080/transactions");
@@ -42,25 +45,31 @@ export const Transactions = (): JSX.Element => {
     }
   }, [transactions]);
 
-  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
-    const { id } = (e.target as HTMLButtonElement).dataset;
+  const handleClick = async (e: MouseEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    setIsModalActive(!isModalActive);
+    const { id } = (e.currentTarget as HTMLLIElement).dataset;
+    setActiveTransaction(transactions.find(x => {
+      console.log(typeof x.transaction_id, typeof id);
+      return x.transaction_id == id
+    }));
 
-    // TODO handle error more gracefully
-    if (!id) {
-     console.error('ID is missing, bruv');
-     return; 
-    }
-    const response = await postData(id);
-    const updatedTransactions = transactions.map(z => {
-      const { transaction_id } = z;
+    // // TODO handle error more gracefully
+    // if (!id) {
+    //  console.error('ID is missing, bruv');
+    //  return; 
+    // }
+    // const response = await postData(id);
+    // const updatedTransactions = transactions.map(z => {
+    //   const { transaction_id } = z;
 
-      // not strict because `transaction_id` is a number while `id` is a string
-      if (transaction_id != id) {
-        return z;
-      }
-      return response.updated;
-    });
-    setTransactions(updatedTransactions);
+    //   // not strict because `transaction_id` is a number while `id` is a string
+    //   if (transaction_id != id) {
+    //     return z;
+    //   }
+    //   return response.updated;
+    // });
+    // setTransactions(updatedTransactions);
   };
 
   const _transactions = transactions.map((x, y) => {
@@ -78,7 +87,7 @@ export const Transactions = (): JSX.Element => {
       code_name: codeName
     } = x;
     return (
-      <li key={id}>  
+      <li data-id={id} key={id} onClick={handleClick}>  
         <span>{acctNo}</span>
         <span>{acctName}</span>
         <span>{acctType}</span>
@@ -88,7 +97,7 @@ export const Transactions = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span data-id={id} onClick={handleClick}>{codeName}</span>
+        <span>{codeName}</span>
       </li>
     );
   });
@@ -96,6 +105,7 @@ export const Transactions = (): JSX.Element => {
   return (
     <main className="y-wrap">
       <ul className="transactions">{_transactions}</ul>
+      {isModalActive && activeTransaction && <Modal action={handleClick} data={activeTransaction}/>}
     </main>
   );
 };
