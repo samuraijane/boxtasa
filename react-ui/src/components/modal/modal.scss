@@ -79,6 +79,7 @@
       position: absolute;
       height: 100%;
       left: 40px; // Ref A
+      padding: 0 0 60px;
 
       li {
         cursor: pointer;
@@ -90,6 +91,9 @@
         }
 
         span:first-of-type {
+          color: #555;
+          font-family: monospace;
+          letter-spacing: 0.8px;
           width: 60px;
         }
       }
