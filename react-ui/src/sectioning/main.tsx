@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
 interface Transaction {
   acct_no: string;
@@ -11,20 +11,56 @@ interface Transaction {
   transaction_memo: string;
   transaction_type_name: string;
   amount: string;
+  code_name: string;
 }
 
 const Main = (): JSX.Element => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const fetchData = async () => {
+  const getData = async () => {
     const response = await fetch("http://localhost:8080/transactions");
     const data = await response.json();
     setTransactions(data);
   };
 
+  const postData = async (transactionId: string, codeName="AHEL") => {
+    const response = await fetch("http://localhost:8080/transactions", {
+      body: JSON.stringify({ codeName, transactionId }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+    });
+    
+    return await response.json();
+  };
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!transactions.length) {
+      getData();
+    }
+  }, [transactions]);
+
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const { id } = (e.target as HTMLButtonElement).dataset;
+
+    // TODO handle error more gracefully
+    if (!id) {
+     console.error('ID is missing, bruv');
+     return; 
+    }
+    const response = await postData(id);
+    const updatedTransactions = transactions.map(z => {
+      const { transaction_id } = z;
+
+      // not strict because `transaction_id` is a number while `id` is a string
+      if (transaction_id != id) {
+        return z;
+      }
+      return response.updated;
+    });
+    setTransactions(updatedTransactions);
+  };
 
   const _transactions = transactions.map((x, y) => {
     const {
@@ -37,7 +73,8 @@ const Main = (): JSX.Element => {
       transaction_id: id,
       transaction_memo: memo,
       transaction_type_name: transactionType,
-      amount
+      amount,
+      code_name: codeName
     } = x;
     return (
       <li key={id}>  
@@ -50,6 +87,7 @@ const Main = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
+        <span data-id={id} onClick={handleClick}>{codeName}</span>
       </li>
     );
   });
