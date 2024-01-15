@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const server = express();
 
-const { PORT } = process.env;
+const { NODE_ENV, PORT } = process.env;
 
 server.use(json());
 server.use(express.static(resolve(`${__dirname}/react-ui/build`)));
@@ -28,6 +28,11 @@ server.use(function(req, res, next) {
   next();
 });
 
+server.get('/environment', (req, res) => {
+  res.json({
+    "env": NODE_ENV
+  })
+});
 
 server.get('/heartbeat', (req, res) => {
   res.json({

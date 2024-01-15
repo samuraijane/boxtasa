@@ -4,14 +4,20 @@ import { sqlGetTransactions } from "./sql/sql.js";
 
 dotenv.config();
 
+const { Pool } = pg;
+
 const {
+  CONNECTION_STRING: cs,
   DB_HOST: host,
   DB_NAME: database,
   DB_PORT: port,
-  DB_USER: user
+  DB_USER: user,
+  NODE_ENV: env,
 } = process.env;
 
-const pool = new pg.Pool({ database, host, port, user });
+const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
+
+const pool = new Pool(config);
 
 const getTransactions = (req, res) => {
   pool.query(`${sqlGetTransactions} ORDER BY _transactions.transaction_id;`, (err, results) => {

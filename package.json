@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "cd react-ui/ && npm install && npm run build",
-    "dev": "nodemon .",
-    "start": "node .",
+    "dev": "export NODE_ENV=dev && nodemon .",
+    "start": "export NODE_ENV=prod && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
