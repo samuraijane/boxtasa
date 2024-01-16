@@ -5,6 +5,7 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from "url";
 import authRouter from "./api/auth/auth.js";
 import db from "./db.js";
+import { checkAuth } from "./middleware/middleware.js";
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ server.use(function(req, res, next) {
   next();
 });
 
-server.get('/environment', (req, res) => {
+server.get('/environment', checkAuth, (req, res) => {
   res.json({
     "env": NODE_ENV
   })

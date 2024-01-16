@@ -21,8 +21,8 @@ const {
 export const createTokens = ({ userId, username }) => {
   console.log(userId, typeof userId)
   const user = { userId, username }; 
-  const accessToken = jwt.sign(user, as, { expiresIn: '20s' });
-  const refreshToken = jwt.sign(user, rs, { expiresIn: '5m' });
+  const accessToken = jwt.sign(user, as, { expiresIn: '5m' });
+  const refreshToken = jwt.sign(user, rs, { expiresIn: '15m' });
 
   return ({ accessToken, refreshToken });
 };
