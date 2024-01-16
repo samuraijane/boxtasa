@@ -1,8 +1,10 @@
-import db from "./db.js";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express, { json } from "express";
 import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
+import authRouter from "./api/auth/auth.js";
+import db from "./db.js";
 
 dotenv.config();
 
@@ -15,6 +17,9 @@ const { NODE_ENV, PORT } = process.env;
 
 server.use(json());
 server.use(express.static(resolve(`${__dirname}/react-ui/build`)));
+server.use(cookieParser());
+
+server.use('/api/auth', authRouter);
 
 // CORS
 server.use(function(req, res, next) {

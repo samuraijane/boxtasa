@@ -17,7 +17,7 @@ const {
 
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
 
-const pool = new Pool(config);
+export const pool = new Pool(config);
 
 const getTransactions = (req, res) => {
   pool.query(`${sqlGetTransactions} ORDER BY _transactions.transaction_id;`, (err, results) => {
