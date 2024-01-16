@@ -34,17 +34,24 @@ router.post('/login', async (req, res) => {
       username: authenticatedUser.user_name
     });
 
-    res.cookie("refresh_token", tokens.refreshToken, {
+    res.cookie("refresh", tokens.refreshToken, {
       // ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN }),
       httpOnly: true,
       // sameSite: "none",
       // secure: true
     });
 
-    res.json(tokens);
+    res.cookie("access", tokens.accessToken, {
+      // ...(process.env.COOKIE_DOMAIN && { domain: process.env.COOKIE_DOMAIN }),
+      httpOnly: true,
+      // sameSite: "none",
+      // secure: true
+    });
+
+    res.json({ isError: false, tokens});
 
   } catch (error) {
-    res.status(401).json({error: error.message});
+    res.status(401).json({ error: error.message, isError: true});
   }
 });
 
