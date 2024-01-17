@@ -17,7 +17,7 @@ const server = express();
 const { NODE_ENV, PORT } = process.env;
 
 server.use(json());
-server.use(express.static(resolve(`${__dirname}/react-ui/build`)));
+server.use(express.static(`${__dirname}/react-ui/build`));
 server.use(cookieParser());
 
 server.use('/api/auth', authRouter);
@@ -51,7 +51,7 @@ server.post('/api/transactions', db.postCodeToTransaction);
 
 // delegate client-side routing to the client
 server.get('*', (req, res) => {
-  res.sendFile(resolve(`${__dirname}/react-ui/build/index.html)`));
+  res.sendFile(resolve(`${__dirname}/react-ui/build/index.html`));
 });
 
 server.listen(process.env.PORT || PORT, () => {
