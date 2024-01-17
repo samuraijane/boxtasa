@@ -34,12 +34,6 @@ export const Login = (): JSX.Element => {
     navigate("/transactions");
   };
 
-  const handleLocalAuth = (e: SyntheticEvent<HTMLFormElement>, payload: boolean) => {
-    e.preventDefault();
-    dispatch(setAuth(payload));
-    navigate("/transactions");
-  };
-
   const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     await handleFetch(creds.password, creds.username);

@@ -25,4 +25,3 @@ export const createTokens = ({ userId, username }) => {
 
   return ({ accessToken, refreshToken });
 };
-
