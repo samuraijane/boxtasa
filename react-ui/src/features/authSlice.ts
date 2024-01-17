@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export const viewportSlice = createSlice({
+export const authSlice = createSlice({
   initialState: false,
   name: "auth",
   reducers: {
@@ -8,7 +8,7 @@ export const viewportSlice = createSlice({
   }
 });
 
-export const { setAuth } = viewportSlice.actions;
-export const selectViewport = (state: boolean) => state;
+export const { setAuth } = authSlice.actions;
+export const selectAuth = (state: boolean) => state;
 
-export default viewportSlice.reducer;
+export default authSlice.reducer;
