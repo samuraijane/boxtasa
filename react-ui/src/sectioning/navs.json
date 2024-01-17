@@ -1,0 +1,26 @@
+[
+  {
+    "access": ["private", "public"],
+    "href": "/",
+    "id": "nav-home",
+    "text": "Home"
+  },
+  {
+    "access": ["private"],
+    "href": "/transactions",
+    "id": "nav-transactions",
+    "text": "Transactions"
+  },
+  {
+    "access": ["public"],
+    "href": "/login",
+    "id": "nav-login",
+    "text": "Login"
+  },
+  {
+    "access": ["private"],
+    "href": "/logout",
+    "id": "nav-logout",
+    "text": "Logout"
+  }
+]

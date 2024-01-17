@@ -1,10 +1,8 @@
-import { Login } from "../components/login/login";
-import { Transactions } from "../components/transactions/transactions";
+import { View } from "../views";
 
 const Main = (): JSX.Element => (
   <main className="y-wrap">
-    <Login />
-    {/* <Transactions /> */}
+    <View />
   </main>
 );
 
