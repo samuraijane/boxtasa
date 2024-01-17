@@ -20,6 +20,10 @@ export const authSlice = createSlice({
     builder.addCase(verifyAuth.fulfilled, (state, action) => {
       return action.payload;
     });
+    // TODO account for pending state
+    // builder.addCase(verifyAuth.pending, (state, action) => {
+    //   return action.payload;
+    // });
     builder.addCase(verifyAuth.rejected, (state, action) => {
       return false;
     });
