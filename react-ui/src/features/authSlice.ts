@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+interface Auth {
+  auth: boolean;
+}
+
 export const authSlice = createSlice({
   initialState: false,
   name: "auth",
@@ -9,6 +13,6 @@ export const authSlice = createSlice({
 });
 
 export const { setAuth } = authSlice.actions;
-export const selectAuth = (state: boolean) => state;
+export const selectAuth = (state: Auth) => state.auth;
 
 export default authSlice.reducer;
