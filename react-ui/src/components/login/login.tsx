@@ -23,12 +23,15 @@ export const Login = (): JSX.Element => {
     });
     const response = await data.json();
 
-    const { isError, tokens } = response;
+    const { isError } = response;
 
     if (isError) {
       console.error(response.error);
+      return;
     }
-    console.log("success");
+    
+    dispatch(setAuth(true));
+    navigate("/transactions");
   };
 
   const handleLocalAuth = (e: SyntheticEvent<HTMLFormElement>, payload: boolean) => {
@@ -37,9 +40,11 @@ export const Login = (): JSX.Element => {
     navigate("/transactions");
   };
 
-  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleFetch(creds.password, creds.username)
+    await handleFetch(creds.password, creds.username);
+    navigate("/transactions");
+    console.log('You are logged in.');
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +60,7 @@ export const Login = (): JSX.Element => {
   }
 
   return (
-    <form className="login" onSubmit={(e) => handleLocalAuth(e, true)}>
+    <form className="login" onSubmit={handleSubmit}>
       <div className="login__fields">
         <div className="login__field">
           <input data-type="username" onChange={handleChange} type="text" value={creds.username} />

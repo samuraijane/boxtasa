@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { PrivateView } from './private/private';
 import { LandingPage } from './landing';
 import { LoginPage } from './login';
 import { LogoutPage } from './logout';
@@ -9,6 +10,13 @@ export const View = (): JSX.Element => (
     <Route path="/" element={<LandingPage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/logout" element={<LogoutPage />} />
-    <Route path="/transactions" element={<TransactionsPage />} />
+    <Route
+      path="/transactions"
+      element={
+        <PrivateView>
+          <TransactionsPage />
+        </PrivateView>
+      }
+    />
   </Routes>
 );
