@@ -26,22 +26,3 @@ export const createTokens = ({ userId, username }) => {
   return ({ accessToken, refreshToken });
 };
 
-/**
- * @todo type this so it's a variable keyname with a string value
- * @typedef CookiesObj
- * @property {string} tbd
- */
-
-/**
- * 
- * @param {string} cookieStr
- * @returns CookiesObj
- */
-export const parseCookies = (cookieStr) => {
-  const cookies = {};
-  cookieStr.split("; ").forEach(cookie => {
-    const [ key, value ] = cookie.split("=");
-    cookies[key] = value;
-  });
-  return cookies;
-}

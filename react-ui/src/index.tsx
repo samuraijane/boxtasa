@@ -4,10 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from "./app";
+import { verifyAuth } from "./features/authSlice";
 import './styles/style.scss';
 
 const container: HTMLElement | null = document.getElementById("root");
 const root = container && createRoot(container);
+
+store.dispatch(verifyAuth());
 
 root?.render(
   <StrictMode>

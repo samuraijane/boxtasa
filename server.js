@@ -46,6 +46,10 @@ server.get('/heartbeat', (req, res) => {
   })
 });
 
+server.get("/api/auth/verify", checkAuth, (req, res) => {
+  res.json({ isAuth: req.isAuth });
+});
+
 server.get('/api/transactions', db.getTransactions);
 server.post('/api/transactions', db.postCodeToTransaction);
 
