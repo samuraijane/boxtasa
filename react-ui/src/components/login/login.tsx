@@ -1,7 +1,11 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../features/authSlice";
 import "./login.scss";
 
 export const Login = (): JSX.Element => {
+  const dispatch = useDispatch();
+
   const [creds, setCreds] = useState({
     password: "",
     username: ""
@@ -25,6 +29,11 @@ export const Login = (): JSX.Element => {
     console.log("success");
   };
 
+  const handleLocalAuth = (e: SyntheticEvent<HTMLFormElement>, payload: boolean) => {
+    e.preventDefault();
+    dispatch(setAuth(payload));
+  };
+
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleFetch(creds.password, creds.username)
@@ -43,7 +52,7 @@ export const Login = (): JSX.Element => {
   }
 
   return (
-    <form className="login" onSubmit={handleSubmit}>
+    <form className="login" onSubmit={(e) => handleLocalAuth(e, true)}>
       <div className="login__fields">
         <div className="login__field">
           <input data-type="username" onChange={handleChange} type="text" value={creds.username} />
