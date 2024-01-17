@@ -1,4 +1,4 @@
-import { View } from "../views";
+import { View } from "../../views";
 
 const Main = (): JSX.Element => (
   <main className="y-wrap">
