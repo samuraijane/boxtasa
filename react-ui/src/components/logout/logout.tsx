@@ -13,9 +13,26 @@ export const Logout = ({ href, text }: Logout): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const data = await fetch("/api/auth/logout", {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "DELETE"
+    });
+
+    const response = await data.json();
+
+    const { isError } = response;
+
+    if (isError) {
+      console.error(response.error);
+      return;
+    }
+
     dispatch(setAuth(false));
     navigate(href);
+
   };
 
   return (

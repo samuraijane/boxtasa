@@ -55,4 +55,16 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.delete("/logout", (req, res) => {
+  try {
+    res.clearCookie("refresh");
+    res.clearCookie("access");
+    return res.status(200).json({ isLoggedOut: true });
+  } catch (error) {
+    res.status(401).json({ isError: true, message: error.message });
+  }
+
+
+});
+
 export default router;
