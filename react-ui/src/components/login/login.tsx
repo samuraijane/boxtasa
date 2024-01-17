@@ -1,10 +1,12 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setAuth } from "../../features/authSlice";
 import "./login.scss";
 
 export const Login = (): JSX.Element => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [creds, setCreds] = useState({
     password: "",
@@ -32,6 +34,7 @@ export const Login = (): JSX.Element => {
   const handleLocalAuth = (e: SyntheticEvent<HTMLFormElement>, payload: boolean) => {
     e.preventDefault();
     dispatch(setAuth(payload));
+    navigate("/transactions");
   };
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
