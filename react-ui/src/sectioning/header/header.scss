@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+
+  a {
+    margin: 0 0 0 24px;
+
+    &.active {
+      color: cornflowerblue;
+    }
+  }
+
+  a:first-of-type {
+    flex: 1;
+    margin-left: 0;
+  }
+}

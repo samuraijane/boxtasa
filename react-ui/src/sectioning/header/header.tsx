@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import navsJson from "./navs.json";
+import "./header.scss";
 
 interface Nav {
   access: string[];
@@ -17,7 +18,9 @@ const Header = (): JSX.Element => {
 
   return (
     <header>
-      <div className="y-wrap">{navs}</div>
+      <div className="y-wrap">
+        <div className="header">{navs}</div>
+      </div>
     </header>
   );
 };
