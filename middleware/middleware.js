@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken';
-
+import { parseCookies } from '../utils/utils.js';
 
 export const checkAuth = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
+  const { access, refresh } = parseCookies(req.header.cookie);
 
-  if (!token) {
+  if (!access) {
     return res.sendStatus(401);
   }
 
-  jwt.verify(token, process.env.ACCESS_SECRET, (err, user) => {
+  jwt.verify(access, process.env.ACCESS_SECRET, (err, user) => {
     if (err) {
       return res.sendStatus(403);
     }

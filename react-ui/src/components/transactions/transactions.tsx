@@ -31,9 +31,11 @@ export const Transactions = (): JSX.Element => {
     const response = await fetch("http://localhost:8080/transactions", {
       body: JSON.stringify({ codeName, transactionId }),
       headers: {
+        // "Authorization": `Bearer ${}`,
         "Content-Type": "application/json"
       },
       method: "POST",
+      credentials: "same-origin"
     });
     
     return await response.json();
