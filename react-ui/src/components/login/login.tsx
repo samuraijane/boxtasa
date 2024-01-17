@@ -34,7 +34,7 @@ export const Login = (): JSX.Element => {
     const {type} = e.target.dataset;
     const {value} = e.target;
     
-    if (type && value) {
+    if (type) {
       setCreds({
         ...creds,
         [type]: value
@@ -44,13 +44,15 @@ export const Login = (): JSX.Element => {
 
   return (
     <form className="login" onSubmit={handleSubmit}>
-      <div className="login__field">
-        <input data-type="username" onChange={handleChange} type="text" value={creds.username} />
+      <div className="login__fields">
+        <div className="login__field">
+          <input data-type="username" onChange={handleChange} type="text" value={creds.username} />
+        </div>
+        <div className="login__field">
+          <input data-type="password" onChange={handleChange} type="password" value={creds.password} />
+        </div>
+        <button>Submit</button>
       </div>
-      <div className="login__field">
-        <input data-type="password" onChange={handleChange} type="password" value={creds.password} />
-      </div>
-      <button>Submit</button>
     </form>
   );
 };
