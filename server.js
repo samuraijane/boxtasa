@@ -46,8 +46,8 @@ server.get('/heartbeat', (req, res) => {
   })
 });
 
-server.get('/transactions', db.getTransactions);
-server.post('/transactions', db.postCodeToTransaction);
+server.get('/api/transactions', db.getTransactions);
+server.post('/api/transactions', db.postCodeToTransaction);
 
 // delegate client-side routing to the client
 server.get('*', (req, res) => {
