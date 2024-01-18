@@ -6,7 +6,7 @@
     "text": "Home"
   },
   {
-    "access": ["private"],
+    "access": ["public"],
     "href": "/transactions",
     "id": "nav-transactions",
     "text": "Transactions"

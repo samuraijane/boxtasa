@@ -13,9 +13,9 @@ export const View = (): JSX.Element => (
     <Route
       path="/transactions"
       element={
-        <PrivateView>
+
           <TransactionsPage />
-        </PrivateView>
+
       }
     />
   </Routes>
