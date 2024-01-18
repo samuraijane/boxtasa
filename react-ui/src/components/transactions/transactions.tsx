@@ -1,4 +1,6 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectTransactions } from "../../features/transactionsSlice";
 import { Modal } from "../modal/modal";
 import "./transactions.scss";
 
@@ -17,15 +19,10 @@ export interface Transaction {
 }
 
 export const Transactions = (): JSX.Element => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isModalActive, setIsModalActive] =useState(false);
   const [activeTransaction, setActiveTransaction] = useState<Transaction>();
 
-  const getData = async () => {
-    const response = await fetch("/api/transactions");
-    const data = await response.json();
-    setTransactions(data);
-  };
+  const transactions = useSelector(selectTransactions);
 
   const postData = async (transactionId: number, codeName: string) => {
     const response = await fetch("/api/transactions", {
@@ -41,12 +38,6 @@ export const Transactions = (): JSX.Element => {
     return await response.json();
   };
 
-  useEffect(() => {
-    if (!transactions.length) {
-      // getData();
-    }
-  }, [transactions]);
-
   const handleClick = async (id: number, codeName: string) => {
     const response = await postData(id, codeName);
     const updatedTransactions = transactions.map(z => {
@@ -58,7 +49,7 @@ export const Transactions = (): JSX.Element => {
       }
       return response.updated;
     });
-    setTransactions(updatedTransactions);
+    // setTransactions(updatedTransactions);
     setIsModalActive(false);
   };
 

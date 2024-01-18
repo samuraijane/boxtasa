@@ -4,7 +4,7 @@ export const LandingPage = (): JSX.Element => {
   
   return (
     <div className="landing">
-      <DataSelector />
+      This is the landing page.
     </div>
   );
 };
