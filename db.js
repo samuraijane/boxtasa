@@ -20,7 +20,9 @@ const config = env === "prod" ? { connectionString: cs } : { database, host, por
 export const pool = new Pool(config);
 
 const getTransactions = (req, res) => {
-  pool.query(`${sqlGetTransactions} ORDER BY _transactions.transaction_id;`, (err, results) => {
+  const { acctName, year } = req.query;
+
+  pool.query(sqlGetTransactions(acctName), [year], (err, results) => {
     if (err) {
       throw err;
     }
@@ -29,12 +31,12 @@ const getTransactions = (req, res) => {
 };
 
 const postCodeToTransaction = async (req, res) => {
-  const { codeName, transactionId } = req.body;
+  const { acctName, codeName, transactionId } = req.body;
   const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${codeName}';`);
   const codeId = query.rows[0].code_id;
 
   // TODO handle possible errors
-  await pool.query(`UPDATE transactions SET code_id = ${codeId} WHERE transaction_id = ${transactionId};`);
+  await pool.query('UPDATE $1 SET code_id = $2 WHERE transaction_id = $3;', [acctName, codeId, transactionId]);
   const updated = await pool.query(`${sqlGetTransactions} WHERE transaction_id = ${transactionId};`);
   res.status(200).json({ message: "success", updated: updated.rows[0]});
 };
