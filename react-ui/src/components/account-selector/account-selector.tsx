@@ -11,7 +11,7 @@ interface AccountSelectorNames {
 export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Element => {
 
   const accountNames = (data as AccountSelectorNames[]).map((accountName, index) => (
-    <li>
+    <li key={accountName.institutionShortName}>
       <p>{accountName.institutionName}</p>
       <ul className="account-selector__account-nos">
         {

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Logout } from "../../components/logout/logout";
 import { selectAuth } from "../../features/authSlice";
@@ -21,23 +22,23 @@ const Header = (): JSX.Element => {
 
       if (nav.id === "nav-logout") {
         return (
-          <Logout href={nav.href} key={nav.id} text={nav.text} />
+          <Logout href={nav.href} key={`private-${nav.id}`} text={nav.text} />
         )
       }
       return (
-        <NavLink key={nav.id} to={nav.href}>
+        <NavLink key={`private-${nav.id}`} to={nav.href}>
           {nav.text}
         </NavLink>
       )
     }
     if (!isAuth && nav.access.indexOf("public") > -1) {
       return (
-        <NavLink key={nav.id} to={nav.href}>
+        <NavLink key={`public-${nav.id}`} to={nav.href}>
           {nav.text}
         </NavLink>
       )
     }
-    return <></>;
+    return <Fragment key={`fragment-${nav.id}`}></Fragment>;
   });
 
   return (
