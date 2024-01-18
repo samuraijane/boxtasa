@@ -16,11 +16,12 @@ export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Elemen
       <ul className="account-selector__account-nos">
         {
           accountName.accounts.map((accountNumber) => {
+            const _id = `${accountName.institutionShortName}${accountNumber}`;
             return (
               <li
-                className={`account-selector__account-no${selected === accountNumber ? " account-selector__account-no--selected" : ""}`}
-                key={accountNumber}
-                data-id={accountNumber}
+                className={`account-selector__account-no${selected === _id ? " account-selector__account-no--selected" : ""}`}
+                key={_id}
+                data-id={_id}
                 data-type="account"
                 onClick={action}
               >

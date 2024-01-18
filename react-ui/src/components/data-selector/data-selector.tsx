@@ -25,8 +25,19 @@ export const DataSelector = () => {
     }
   };
 
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(`TODO - Call the server for data with the following arguments: ${selections.account} and ${selections.date}`);
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+    const url = `/api/transactions/?acctName=${selections.account}&year=${selections.date}`;
+    const data = await fetch(url);
+    const response = await data.json();
+
+    // TODO handle errors, currently there is no `isErorr` key when there is an error
+    const { isError } = response;
+
+    if (isError) {
+      console.error(response.error);
+      return;
+    }
+    console.log(response)
   };
 
   return (
