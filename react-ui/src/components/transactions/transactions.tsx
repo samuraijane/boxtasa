@@ -43,7 +43,7 @@ export const Transactions = (): JSX.Element => {
 
   useEffect(() => {
     if (!transactions.length) {
-      getData();
+      // getData();
     }
   }, [transactions]);
 
