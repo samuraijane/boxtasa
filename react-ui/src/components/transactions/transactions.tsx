@@ -1,6 +1,6 @@
 import { MouseEvent, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectTransactions } from "../../features/transactionsSlice";
+import { selectTransactions } from "../../features/activeDataSlice";
 import { Modal } from "../modal/modal";
 import "./transactions.scss";
 

@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/authSlice";
-import transactionsReducer from "../features/transactionsSlice";
+import activeDataReducer from "../features/activeDataSlice";
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
-    transactions: transactionsReducer
+    activeData: activeDataReducer,
+    auth: authReducer
   }
 });
 
@@ -13,3 +13,6 @@ export const store = configureStore({
 // https://stackoverflow.com/questions/70143816/argument-of-type-asyncthunkactionany-void-is-not-assignable-to-paramete
 // answer by wasilikoslow as well as commments
 export type AppDispatch = typeof store.dispatch;
+
+// https://www.smashingmagazine.com/2023/05/guide-redux-toolkit-typescript/
+export type RootState = ReturnType<typeof store.getState>;

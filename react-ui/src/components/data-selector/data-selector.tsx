@@ -2,7 +2,7 @@ import { MouseEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AccountSelector } from "../account-selector/account-selector";
 import { DateSelector } from "../date-selector/date-selector";
-import { getTransactions } from "../../features/transactionsSlice";
+import { getTransactionData } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";
 
@@ -31,7 +31,7 @@ export const DataSelector = () => {
   };
 
   const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-    dispatch(getTransactions({ acctName: selections.account, year: selections.date }));
+    dispatch(getTransactionData({ acctName: selections.account, year: selections.date }));
   };
 
   return (
