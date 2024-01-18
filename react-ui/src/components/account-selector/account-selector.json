@@ -1,0 +1,22 @@
+[
+  {
+    "accounts": ["0172", "1466", "9152", "9160"],
+    "institutionName": "Axos",
+    "institutionShortName": "axos"
+  },
+  {
+    "accounts": ["1130", "4433", "4978", "6710"],
+    "institutionName": "Capital One",
+    "institutionShortName": "capt"
+  },
+  {
+    "accounts": ["47Z4"],
+    "institutionName": "PayPal",
+    "institutionShortName": "payp"
+  },
+  {
+    "accounts": ["2659"],
+    "institutionName": "US Bank",
+    "institutionShortName": "usba"
+  }
+]

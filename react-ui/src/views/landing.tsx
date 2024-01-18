@@ -1,8 +1,10 @@
+import { AccountSelector } from "../components/account-selector/account-selector";
+
 export const LandingPage = (): JSX.Element => {
   
   return (
     <div className="landing">
-      You are on the landing page
+      <AccountSelector />
     </div>
   );
 };
