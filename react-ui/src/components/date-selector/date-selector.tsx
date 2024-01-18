@@ -25,6 +25,7 @@ export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element =
 
   return (
     <div className="date-selector">
+      <p>Year</p>
       <ul className="date-selector__dates">{dates}</ul>
     </div>
   );
