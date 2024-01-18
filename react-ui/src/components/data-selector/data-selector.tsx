@@ -1,6 +1,9 @@
 import { MouseEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import { AccountSelector } from "../account-selector/account-selector";
 import { DateSelector } from "../date-selector/date-selector";
+import { getTransactions } from "../../features/transactionsSlice";
+import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";
 
 interface DataSelectorSelections {
@@ -9,6 +12,8 @@ interface DataSelectorSelections {
 }
 
 export const DataSelector = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [selections, setSelections] = useState<DataSelectorSelections>({
     account: "",
     date: ""
@@ -26,18 +31,7 @@ export const DataSelector = () => {
   };
 
   const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-    const url = `/api/transactions/?acctName=${selections.account}&year=${selections.date}`;
-    const data = await fetch(url);
-    const response = await data.json();
-
-    // TODO handle errors, currently there is no `isErorr` key when there is an error
-    const { isError } = response;
-
-    if (isError) {
-      console.error(response.error);
-      return;
-    }
-    console.log(response)
+    dispatch(getTransactions({ acctName: selections.account, year: selections.date }));
   };
 
   return (
