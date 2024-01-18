@@ -1,22 +1,16 @@
-import { MouseEvent, useState } from "react";
+import { SelectorProps } from "../date-selector/types";
 import data from "./account-selector.json";
 import "./account-selector.scss"
 
-interface AccountSelectorProps {
+interface AccountSelectorNames {
   accounts: string[];
   institutionName: string;
   institutionShortName: string;
 }
 
-export const AccountSelector = (): JSX.Element => {
-  const [selected, setSelected] = useState("");
+export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Element => {
 
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    const { id } = (e.target as HTMLElement).dataset;
-    setSelected(id!);
-  };
-
-  const accountNames = (data as AccountSelectorProps[]).map((accountName, index) => (
+  const accountNames = (data as AccountSelectorNames[]).map((accountName, index) => (
     <li>
       <p>{accountName.institutionName}</p>
       <ul className="account-selector__account-nos">
@@ -24,10 +18,11 @@ export const AccountSelector = (): JSX.Element => {
           accountName.accounts.map((accountNumber) => {
             return (
               <li
-                className={`account-selector__account-no account-selector__account-no--${selected === accountNumber ? "selected" : ""}`}
+                className={`account-selector__account-no${selected === accountNumber ? " account-selector__account-no--selected" : ""}`}
                 key={accountNumber}
                 data-id={accountNumber}
-                onClick={handleClick}
+                data-type="account"
+                onClick={action}
               >
                 {accountNumber}
               </li>

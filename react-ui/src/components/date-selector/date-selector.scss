@@ -1,0 +1,13 @@
+.date-selector {
+
+  .date-selector__dates {
+
+    .date-selector__date {
+      cursor: pointer;
+
+      &.date-selector__date--selected {
+        color: crimson;
+      }
+    }
+  }
+}
