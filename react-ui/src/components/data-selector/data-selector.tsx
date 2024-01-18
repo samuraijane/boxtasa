@@ -28,7 +28,7 @@ export const DataSelector = () => {
   return (
     <div className="data-selector">
       <AccountSelector action={handleSelection} selected={selections.account} />
-      <DateSelector action={handleSelection} selected={selections.date} />
+      {selections.account && <DateSelector action={handleSelection} selected={selections.date} />}
     </div>
   );
 };
