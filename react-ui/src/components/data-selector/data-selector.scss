@@ -1,3 +1,13 @@
 .data-selector {
+  align-items: center;
   display: flex;
+  justify-content: space-evenly;
+
+  .btn-container {
+
+    button {
+      border: 1px solid transparent;
+      padding: 8px 18px;
+    }
+  }
 }

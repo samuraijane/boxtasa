@@ -25,10 +25,19 @@ export const DataSelector = () => {
     }
   };
 
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    console.log(`TODO - Call the server for data with the following arguments: ${selections.account} and ${selections.date}`);
+  };
+
   return (
     <div className="data-selector">
       <AccountSelector action={handleSelection} selected={selections.account} />
       {selections.account && <DateSelector action={handleSelection} selected={selections.date} />}
+      {selections.date && (
+        <div className="btn-container">
+          <button onClick={handleSubmit}>Submit</button>
+        </div>
+      )}
     </div>
   );
 };
