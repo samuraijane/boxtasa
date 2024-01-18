@@ -1,36 +1,37 @@
 import jwt from 'jsonwebtoken';
 
 export const checkAuth = (req, res, next) => {
-  const { cookies } = req;
+  next();
+  // const { cookies } = req;
 
-  const isNoCookies = Object.keys(cookies).length < 1;
+  // const isNoCookies = Object.keys(cookies).length < 1;
 
-  if (isNoCookies) {
-    req.isAuth = false;
+  // if (isNoCookies) {
+  //   req.isAuth = false;
     
-    res.json({
-      isAuth: false,
-      isError: true,
-      message: "Cookies are missing."
-    });
+  //   res.json({
+  //     isAuth: false,
+  //     isError: true,
+  //     message: "Cookies are missing."
+  //   });
     
-  } else {
-    const { access, refresh } = cookies;
+  // } else {
+  //   const { access, refresh } = cookies;
 
-    if (!access) {
-      req.isAuth = false;
-      return res.sendStatus(401);
-    }
+  //   if (!access) {
+  //     req.isAuth = false;
+  //     return res.sendStatus(401);
+  //   }
   
-    jwt.verify(access, process.env.ACCESS_SECRET, (err, user) => {
-      if (err) {
-        req.isAuth = false;
-        return res.sendStatus(403);
-      }
-      req.isAuth = true;
-      req.user = user;
+  //   jwt.verify(access, process.env.ACCESS_SECRET, (err, user) => {
+  //     if (err) {
+  //       req.isAuth = false;
+  //       return res.sendStatus(403);
+  //     }
+  //     req.isAuth = true;
+  //     req.user = user;
   
-      next();
-    });
-  }
+  //     next();
+  //   });
+  // }
 };
