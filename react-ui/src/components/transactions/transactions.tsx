@@ -22,13 +22,13 @@ export const Transactions = (): JSX.Element => {
   const [activeTransaction, setActiveTransaction] = useState<Transaction>();
 
   const getData = async () => {
-    const response = await fetch("http://localhost:8080/transactions");
+    const response = await fetch("/api/transactions");
     const data = await response.json();
     setTransactions(data);
   };
 
   const postData = async (transactionId: number, codeName: string) => {
-    const response = await fetch("http://localhost:8080/transactions", {
+    const response = await fetch("/api/transactions", {
       body: JSON.stringify({ codeName, transactionId }),
       headers: {
         // "Authorization": `Bearer ${}`,
