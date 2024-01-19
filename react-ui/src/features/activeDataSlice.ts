@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
 interface Transaction {
@@ -30,6 +30,32 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
   };
 });
 
+interface PostTransactionCode {
+  code: string;
+  transactionId: string
+}
+
+export const postTransactionCode = createAsyncThunk('transactions/post', async (args: PostTransactionCode, { getState }) => {
+  const { code, transactionId } = args;
+  const rootState = getState() as RootState;
+
+  const url = `http://localhost:8080/api/transactions/?a=${rootState.activeData.account}&c=${code}&t=${transactionId}`;
+  const data = await fetch(url, {
+    method: "POST"
+  });
+
+  const response = await data.json();
+
+  const _transactions = rootState.activeData.transactions.map(x => {
+    if (parseInt(transactionId) !== x.transaction_id) {
+      return x;
+    }
+    return response.updated;
+  });
+
+  return _transactions;
+});
+
 const _initialState: ActiveDataState = {
   account: "",
   transactions: []
@@ -50,6 +76,9 @@ export const transactionsSlice = createSlice({
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
     });
+    builder.addCase(postTransactionCode.fulfilled, (state, action) => {
+      state.transactions = action.payload;
+    })
   }
 });
 

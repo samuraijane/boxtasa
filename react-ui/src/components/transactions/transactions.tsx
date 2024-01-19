@@ -1,7 +1,9 @@
 import { MouseEvent, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectTransactions } from "../../features/activeDataSlice";
 import { Modal } from "../modal/modal";
+import { postTransactionCode } from "../../features/activeDataSlice";
+import { AppDispatch } from "../../app/store";
 import "./transactions.scss";
 
 export interface Transaction {
@@ -24,32 +26,12 @@ export const Transactions = (): JSX.Element => {
 
   const transactions = useSelector(selectTransactions);
 
-  const postData = async (transactionId: number, codeName: string) => {
-    const response = await fetch("/api/transactions", {
-      body: JSON.stringify({ codeName, transactionId }),
-      headers: {
-        // "Authorization": `Bearer ${}`,
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      credentials: "same-origin"
-    });
-    
-    return await response.json();
-  };
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleClick = async (id: number, codeName: string) => {
-    const response = await postData(id, codeName);
-    const updatedTransactions = transactions.map(z => {
-      const { transaction_id } = z;
 
-      // not strict because `transaction_id` is a number while `id` is a string
-      if (transaction_id !== id) {
-        return z;
-      }
-      return response.updated;
-    });
-    // setTransactions(updatedTransactions);
+
+  const handleClick = async (transactionId: string, code: string) => {
+    await dispatch(postTransactionCode({ code, transactionId }))
     setIsModalActive(false);
   };
 
