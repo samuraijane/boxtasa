@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AccountSelector } from "../account-selector/account-selector";
 import { DateSelector } from "../date-selector/date-selector";
@@ -19,6 +19,14 @@ export const DataSelector = () => {
     date: ""
   });
 
+  useEffect(() => {
+    const { account, date } = selections;
+
+    if (account && date) {
+      dispatch(getTransactionData({ acctName: selections.account, year: selections.date }));
+    }
+  }, [selections]);
+
   const handleSelection = (e: MouseEvent<HTMLLIElement>) => {
     const { id, type } =( e.target as HTMLElement).dataset;
 
@@ -30,19 +38,10 @@ export const DataSelector = () => {
     }
   };
 
-  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-    dispatch(getTransactionData({ acctName: selections.account, year: selections.date }));
-  };
-
   return (
     <div className="data-selector">
       <AccountSelector action={handleSelection} selected={selections.account} />
-      {selections.account && <DateSelector action={handleSelection} selected={selections.date} />}
-      {selections.date && (
-        <div className="btn-container">
-          <button onClick={handleSubmit}>Submit</button>
-        </div>
-      )}
+      <DateSelector action={handleSelection} selected={selections.date} />
     </div>
   );
 };
