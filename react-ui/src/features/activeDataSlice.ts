@@ -65,7 +65,7 @@ export const transactionsSlice = createSlice({
   name: 'activeData',
   initialState: _initialState,
   reducers: {
-    setTransactions: (_, action: PayloadAction<any>) => action.payload // remove `any` type (in a hurry right now)
+    setTransactions: (_, action: PayloadAction<any>) => action.payload, // remove `any` type (in a hurry right now)
   },
   extraReducers(builder) {
     builder.addCase(getTransactionData.fulfilled, (state, action) => {
@@ -78,7 +78,7 @@ export const transactionsSlice = createSlice({
     });
     builder.addCase(postTransactionCode.fulfilled, (state, action) => {
       state.transactions = action.payload;
-    })
+    });
   }
 });
 

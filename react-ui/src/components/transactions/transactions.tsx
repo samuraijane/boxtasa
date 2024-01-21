@@ -1,6 +1,6 @@
-import { MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTransactions } from "../../features/activeDataSlice";
+import { getMatchingTransactions, selectFilteredTransactions } from "../../features/filteredDataSlice";
 import { Modal } from "../modal/modal";
 import { postTransactionCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
@@ -21,18 +21,30 @@ export interface Transaction {
 }
 
 export const Transactions = (): JSX.Element => {
-  const [isModalActive, setIsModalActive] =useState(false);
-  const [activeTransaction, setActiveTransaction] = useState<Transaction>();
-
-  const transactions = useSelector(selectTransactions);
-
+  const matchingTransactions = useSelector(selectFilteredTransactions);
   const dispatch = useDispatch<AppDispatch>();
 
+  const [activeTransaction, setActiveTransaction] = useState<Transaction>();
+  const [inputValue, setInputValue] = useState("");
+  const [isModalActive, setIsModalActive] =useState(false);
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    setInputValue(value.toLowerCase());
+    dispatch(getMatchingTransactions(value));
+  };
 
   const handleClick = async (transactionId: string, code: string) => {
-    await dispatch(postTransactionCode({ code, transactionId }))
+    await dispatch(postTransactionCode({ code, transactionId }));
     setIsModalActive(false);
+  };
+
+  const handleKeyDown = (e: any) => {
+    // handle backspace here
+    if (e.keyCode === 8) {
+      const newValue = inputValue.slice(0, inputValue.length);
+      dispatch(getMatchingTransactions(newValue));
+    }
   };
 
   const handleModal = (e: MouseEvent<HTMLLIElement>) => {
@@ -42,12 +54,12 @@ export const Transactions = (): JSX.Element => {
       return;
     }
     setIsModalActive(!isModalActive);
-    setActiveTransaction(transactions.find(x => {
+    setActiveTransaction(matchingTransactions.find(x => {
       return x.transaction_id === parseInt(id);
     }));
   };
 
-  const _transactions = transactions.map((x) => {
+  const _transactions = matchingTransactions.map((x) => {
     const {
       acct_no: acctNo,
       short_name: acctName,
@@ -78,9 +90,18 @@ export const Transactions = (): JSX.Element => {
   });
 
   return (
-    <main className="y-wrap">
-      <ul className="transactions">{_transactions}</ul>
+    <div className="transactions">
+      <div className="transactions__search">
+        <input
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Search memos"
+          type="text"
+          value={inputValue}
+        />
+      </div>
+      <ul className="transactions__list">{_transactions}</ul>
       {isModalActive && activeTransaction && <Modal action={handleClick} data={activeTransaction}/>}
-    </main>
+    </div>
   );
 };
