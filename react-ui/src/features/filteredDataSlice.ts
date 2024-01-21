@@ -41,7 +41,13 @@ export const filteredTransactionsSlice = createSlice({
       API_DATA = transactions;
       // TODO no clue how to type this
       return transactions;
-    })
+    });
+    builder.addCase("transactions/post/fulfilled", (_, action) => {
+      // TODO no clue how to type this
+      const transactions = (action as any).payload;
+      API_DATA = transactions;
+      return transactions;
+    });
   }
 });
 

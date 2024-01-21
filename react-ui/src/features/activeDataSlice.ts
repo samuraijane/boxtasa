@@ -70,15 +70,14 @@ export const transactionsSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(getTransactionData.fulfilled, (state, action) => {
       const { account, transactions } = action.payload;
-      state.account = account;
-      state.transactions = transactions;
+      return { ...state, account, transactions };
     });
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
     });
-    builder.addCase(postTransactionCode.fulfilled, (state, action) => {
-      state.transactions = action.payload;
-    });
+    builder.addCase(postTransactionCode.fulfilled, (state, action) => (
+      { ...state, transactions: action.payload }
+    ));
   }
 });
 
