@@ -1,6 +1,10 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMatchingTransactions, selectFilteredTransactions } from "../../features/filteredDataSlice";
+import {
+  selectFilteredTransactions,
+  setSearchTerm,
+  selectSearchTerm
+} from "../../features/filteredDataSlice";
 import { Modal } from "../modal/modal";
 import { postTransactionCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
@@ -22,16 +26,15 @@ export interface Transaction {
 
 export const Transactions = (): JSX.Element => {
   const matchingTransactions = useSelector(selectFilteredTransactions);
+  const searchTerm = useSelector(selectSearchTerm);
   const dispatch = useDispatch<AppDispatch>();
 
   const [activeTransaction, setActiveTransaction] = useState<Transaction>();
-  const [inputValue, setInputValue] = useState("");
   const [isModalActive, setIsModalActive] =useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
-    setInputValue(value.toLowerCase());
-    dispatch(getMatchingTransactions(value));
+    dispatch(setSearchTerm(value));
   };
 
   const handleClick = async (transactionId: string, code: string) => {
@@ -42,8 +45,8 @@ export const Transactions = (): JSX.Element => {
   const handleKeyDown = (e: any) => {
     // handle backspace here
     if (e.keyCode === 8) {
-      const newValue = inputValue.slice(0, inputValue.length);
-      dispatch(getMatchingTransactions(newValue));
+      const newValue = searchTerm.slice(0, searchTerm.length);
+      dispatch(setSearchTerm(newValue));
     }
   };
 
@@ -97,7 +100,7 @@ export const Transactions = (): JSX.Element => {
           onKeyDown={handleKeyDown}
           placeholder="Search memos"
           type="text"
-          value={inputValue}
+          value={searchTerm}
         />
       </div>
       <ul className="transactions__list">{_transactions}</ul>

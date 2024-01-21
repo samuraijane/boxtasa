@@ -15,6 +15,16 @@ interface Transaction {
   code_name: string;
 }
 
+interface FilteredDataState {
+  filteredTransactions: Transaction[];
+  searchTerm: string;
+}
+
+const initialState: FilteredDataState = {
+  filteredTransactions: [],
+  searchTerm: ""
+};
+
 /**
  * The data from the initial call to the server is handled in a separate
  *   reducer but we cache it here because we want to create the filtered
@@ -26,31 +36,53 @@ interface Transaction {
  */
 let API_DATA = [] as Transaction[];
 
+const getMatchingTransactions = (searchStr: string) => (
+  API_DATA.filter(transactions => transactions.transaction_memo.toLowerCase().search(searchStr) !== -1)
+);
+
 export const filteredTransactionsSlice = createSlice({
   name: 'filteredData',
-  initialState: [] as Transaction[],
+  initialState,
   reducers: {
-    getMatchingTransactions: (_, action) => {
-      const matches = API_DATA.filter(x => x.transaction_memo.toLowerCase().search(action.payload) !== -1);
-      return matches;
+    setSearchTerm: (_, action) => {
+      const searchTerm = action.payload;
+      const filteredTransactions = getMatchingTransactions(searchTerm);
+
+      return {
+        filteredTransactions,
+        searchTerm
+      };
     }
   },
   extraReducers(builder) {
-    builder.addCase("transactions/get/fulfilled", (_, action) => {
-      const transactions = (action as any).payload.transactions;
-      API_DATA = transactions;
+    builder.addCase("transactions/get/fulfilled", (state, action) => {
       // TODO no clue how to type this
-      return transactions;
+      const filteredTransactions = (action as any).payload.transactions;
+      API_DATA = filteredTransactions;
+      return {
+        ...state,
+        filteredTransactions
+      };
     });
-    builder.addCase("transactions/post/fulfilled", (_, action) => {
-      // TODO no clue how to type this
-      const transactions = (action as any).payload;
-      API_DATA = transactions;
-      return transactions;
+    builder.addCase("transactions/post/fulfilled", (state, action) => {
+      API_DATA = (action as any).payload;
+
+      if (state.searchTerm) {
+        return {
+          ...state,
+          filteredTransactions: getMatchingTransactions(state.searchTerm)
+        }
+      }
+      
+      return {
+        ...state,
+        filteredTransactions: API_DATA
+      };
     });
   }
 });
 
-export const { getMatchingTransactions } = filteredTransactionsSlice.actions;
-export const selectFilteredTransactions = (state: RootState) => state.filteredData;
+export const { setSearchTerm } = filteredTransactionsSlice.actions;
+export const selectFilteredTransactions = (state: RootState) => state.filteredData.filteredTransactions;
+export const selectSearchTerm = (state: RootState) => state.filteredData.searchTerm;
 export default filteredTransactionsSlice.reducer;
