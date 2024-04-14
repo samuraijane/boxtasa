@@ -77,7 +77,7 @@ export const Transactions = (): JSX.Element => {
       code_name: codeName
     } = x;
     return (
-      <li data-id={id} key={id} onClick={handleModal}>  
+      <li key={id}>  
         <span>{acctNo}</span>
         <span>{acctName}</span>
         <span>{acctType}</span>
@@ -87,7 +87,7 @@ export const Transactions = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span>{codeName}</span>
+        <span className="transactions__amount" data-id={id} onClick={handleModal}>{codeName}</span>
       </li>
     );
   });

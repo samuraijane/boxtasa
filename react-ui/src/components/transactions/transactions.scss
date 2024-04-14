@@ -11,12 +11,15 @@
   .transactions__list {
 
     li {
-      cursor: pointer;
       margin: 0 0 12px 0;
       padding: 10px 0 10px 10px;
 
       span {
         display: block;
+      }
+
+      .transactions__amount {
+        cursor: pointer;
       }
 
       display: grid;
