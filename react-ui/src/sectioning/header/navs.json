@@ -13,6 +13,12 @@
   },
   {
     "access": ["public"],
+    "href": "/bulk",
+    "id": "nav-bulk",
+    "text": "Bulk"
+  },
+  {
+    "access": ["public"],
     "href": "/login",
     "id": "nav-login",
     "text": "Login"
