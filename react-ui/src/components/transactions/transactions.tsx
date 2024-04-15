@@ -51,7 +51,7 @@ export const Transactions = (): JSX.Element => {
   };
 
   const handleModal = (e: MouseEvent<HTMLLIElement>) => {
-    const { id } = e.currentTarget.dataset;
+    const id = (e.currentTarget.dataset.id as string).split("-")[0];
     if (!id) {
       console.error("There is no id, friend."); // TODO handle error gracefully
       return;
@@ -76,8 +76,11 @@ export const Transactions = (): JSX.Element => {
       amount,
       code_name: codeName
     } = x;
+
+    const _id = `${id}-${acctName}${acctNo}`;
+
     return (
-      <li key={id}>  
+      <li key={_id}>  
         <span>{acctNo}</span>
         <span>{acctName}</span>
         <span>{acctType}</span>
@@ -87,7 +90,7 @@ export const Transactions = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span className="transactions__amount" data-id={id} onClick={handleModal}>{codeName}</span>
+        <span className="transactions__amount" data-id={_id} onClick={handleModal}>{codeName}</span>
       </li>
     );
   });
