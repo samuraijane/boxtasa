@@ -50,6 +50,7 @@ server.get("/api/auth/verify", checkAuth, (req, res) => {
   res.json({ isAuth: req.isAuth });
 });
 
+server.get('/api/bulk', db.getAllTransactionsAcrossAllTables);
 server.get('/api/transactions', db.getTransactions);
 server.post('/api/transactions', db.postCodeToTransaction);
 

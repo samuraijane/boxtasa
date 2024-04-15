@@ -1,6 +1,10 @@
 import dotenv from "dotenv";
 import pg from "pg";
-import { sqlGetTransaction, sqlGetTransactions } from "./sql/sql.js";
+import {
+  sqlGetAllTransactionsAcrossAllTables,
+  sqlGetTransaction,
+  sqlGetTransactions
+} from "./sql/sql.js";
 
 dotenv.config();
 
@@ -18,6 +22,15 @@ const {
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
 
 export const pool = new Pool(config);
+
+const getAllTransactionsAcrossAllTables = (req, res) => {
+  pool.query(sqlGetAllTransactionsAcrossAllTables(), (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
 
 const getTransactions = (req, res) => {
   const { acctName, year } = req.query;
@@ -44,6 +57,7 @@ const postCodeToTransaction = async (req, res) => {
 };
 
 export default {
+  getAllTransactionsAcrossAllTables,
   getTransactions,
   postCodeToTransaction
 };
