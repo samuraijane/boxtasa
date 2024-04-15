@@ -9,6 +9,7 @@ import { Modal } from "../modal/modal";
 import { postTransactionCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./transactions.scss";
+import { PostTransactionCode, postTransactionCodesInBulk } from "../../features/activeDataSlice";
 
 export interface Transaction {
   acct_no: string;
@@ -37,9 +38,15 @@ export const Transactions = (): JSX.Element => {
     dispatch(setSearchTerm(value));
   };
 
-  const handleClick = async (transactionId: string, code: string) => {
-    await dispatch(postTransactionCode({ code, transactionId }));
-    setIsModalActive(false);
+  const handleClick = async (data: PostTransactionCode | PostTransactionCode[]) => {
+    if ((data as PostTransactionCode[]).length) {
+      await dispatch(postTransactionCodesInBulk(data as PostTransactionCode[]));
+      setIsModalActive(false);
+    } else {
+      const { code, transactionId } = data as PostTransactionCode;
+      await dispatch(postTransactionCode({ code, transactionId }));
+      setIsModalActive(false);
+    }
   };
 
   const handleKeyDown = (e: any) => {

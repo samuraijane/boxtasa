@@ -32,7 +32,8 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
   };
 });
 
-interface PostTransactionCode {
+export interface PostTransactionCode {
+  account?: string; // TODO consider an enum here
   code: string;
   transactionId: string
 }
@@ -54,6 +55,25 @@ export const postTransactionCode = createAsyncThunk('transactions/post', async (
     }
     return response.updated;
   });
+
+  return _transactions;
+});
+
+export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransactionCode[], { getState }) => {
+  const rootState = getState() as RootState;
+  
+  const data = await fetch("http://localhost:8080/api/bulk", {
+    body: JSON.stringify(args),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST"
+  });
+
+  const response = await data.json();
+
+  const keep = rootState.activeData.transactions.filter(x => !(response.updated as Transaction[]).some(y => y.transaction_id === x.transaction_id));
+  const _transactions: Transaction[] = keep.concat(response.updated).sort((x, y) => x.transaction_id - y.transaction_id);
 
   return _transactions;
 });
@@ -80,6 +100,9 @@ export const transactionsSlice = createSlice({
     builder.addCase(postTransactionCode.fulfilled, (state, action) => (
       { ...state, transactions: action.payload }
     ));
+    builder.addCase(postTransactionCodesInBulk.fulfilled, (state, action) => {
+      return { ...state, transactions: action.payload }
+    });
   }
 });
 

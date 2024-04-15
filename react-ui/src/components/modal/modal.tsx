@@ -1,7 +1,10 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectFilteredTransactions } from "../../features/filteredDataSlice";
 import { Transaction } from "../transactions/transactions";
 import modalJson from "./modal.json";
 import "./modal.scss";
+import { prepBulkData } from "../../utils";
 
 interface ModalProps {
   action: Function;  // NOTE not 100% sure this is the right type but TS does not complain
@@ -14,9 +17,12 @@ interface Codes {
 }
 
 export const Modal = ({ action, data }: ModalProps): JSX.Element => {
+  const [isBulkSave, setIsBulkSave] = useState(false);
   const [codes, setCodes] = useState<Codes[]>();
   const [inputValue, setInputValue] = useState("");
   const [selectedCode, setSelectedCode] = useState("");
+
+  const filteredTransactions = useSelector(selectFilteredTransactions);
 
   useEffect(() => {
     setCodes(modalJson);
@@ -43,8 +49,13 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
     setCodes(updatedCodes);
   };
 
+  const handleCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+    const { checked: isChecked } = e.target;
+    setIsBulkSave(isChecked);
+  };
+
   const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    const { value } = e.currentTarget.dataset;
+  const { value } = e.currentTarget.dataset;
     if (!value) {
       console.error("A value is missing, dude.") // TODO handle error gracefully
       return;
@@ -54,7 +65,12 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
   };
 
   const handleSave = () => {
-    action(id, selectedCode);
+    if (isBulkSave) {
+      const bulkData = prepBulkData(filteredTransactions, selectedCode);
+      action(bulkData);
+      return false;
+    }
+    action({ transactionId: id, code: selectedCode });
   };
 
   const _codes = codes?.map(code => (
@@ -85,6 +101,10 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
           <div className="modal__btn-container">
             <button onClick={handleSave}>Save</button>
           </div>
+        </div>
+        <div>
+          <label>Apply code to all found records?</label>
+          <input onChange={handleCheckbox} type="checkbox" />
         </div>
         <ul className="modal__code-list">
           {_codes}

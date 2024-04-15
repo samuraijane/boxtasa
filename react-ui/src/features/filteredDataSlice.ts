@@ -79,6 +79,21 @@ export const filteredTransactionsSlice = createSlice({
         filteredTransactions: API_DATA
       };
     });
+    builder.addCase("transactionsbulk/post/fulfilled", (state, action) => {
+      API_DATA = (action as any).payload;
+
+      if (state.searchTerm) {
+        return {
+          ...state,
+          filteredTransactions: getMatchingTransactions(state.searchTerm)
+        }
+      }
+      
+      return {
+        ...state,
+        filteredTransactions: API_DATA
+      };
+    });
   }
 });
 
