@@ -15,16 +15,16 @@ const sqlGetTransaction = (acctName) => (`
   ${acctName} _transactions
   INNER JOIN (
     SELECT
-      _accounts.account_ref,
+      _accounts.account_id,
       _accounts.acct_no,
       _institutions.short_name,
       _account_types.account_type_name
     FROM accounts _accounts
-    INNER JOIN institutions _institutions USING(institution_ref)
-    INNER JOIN account_types _account_types USING(account_type_ref)
-  ) as _accounts USING(account_ref)
-  INNER JOIN transaction_types _transaction_types USING(transaction_type_ref)
-  INNER JOIN codes _codes USING(code_ref)
+    INNER JOIN institutions _institutions USING(institution_id)
+    INNER JOIN account_types _account_types USING(account_type_id)
+  ) as _accounts USING(account_id)
+  INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
+  INNER JOIN codes _codes USING(code_id)
   WHERE _transactions.transaction_id = $1;
 `);
 
@@ -45,16 +45,16 @@ const sqlGetTransactions = (acctName) => (`
     ${acctName} _transactions
   INNER JOIN (
     SELECT
-      _accounts.account_ref,
+      _accounts.account_id,
       _accounts.acct_no,
       _institutions.short_name,
       _account_types.account_type_name
     FROM accounts _accounts
-    INNER JOIN institutions _institutions USING(institution_ref)
-    INNER JOIN account_types _account_types USING(account_type_ref)
-  ) as _accounts USING(account_ref)
-  INNER JOIN transaction_types _transaction_types USING(transaction_type_ref)
-  INNER JOIN codes _codes USING(code_ref)
+    INNER JOIN institutions _institutions USING(institution_id)
+    INNER JOIN account_types _account_types USING(account_type_id)
+  ) as _accounts USING(account_id)
+  INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
+  INNER JOIN codes _codes USING(code_id)
   WHERE _transactions.date_year = $1
   ORDER BY
     _transactions.date_year,

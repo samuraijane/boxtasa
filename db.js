@@ -33,11 +33,11 @@ const getTransactions = (req, res) => {
 const postCodeToTransaction = async (req, res) => {
   const { a: account, c: code, t: transactionId } = req.query;
 
-  const query = await pool.query(`SELECT code_ref FROM codes WHERE code_name like '${code}';`);
-  const codeId = query.rows[0].code_ref;
+  const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${code}';`);
+  const codeId = query.rows[0].code_id;
 
   // TODO handle possible errors
-  await pool.query(`UPDATE ${account} SET code_ref = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+  await pool.query(`UPDATE ${account} SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
   const updated = await pool.query(sqlGetTransaction(account), [transactionId]);
   
   res.status(200).json({ message: "success", updated: updated.rows[0]});
