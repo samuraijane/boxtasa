@@ -25,3 +25,7 @@ export const createTokens = ({ userId, username }) => {
 
   return ({ accessToken, refreshToken });
 };
+
+export const prepResponseDataAfterBulkUpdate = (data) => {
+  return data.map(x => ({ ...x.rows[0] }))
+};

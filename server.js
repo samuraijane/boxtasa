@@ -52,6 +52,7 @@ server.get("/api/auth/verify", checkAuth, (req, res) => {
 
 server.get('/api/bulk', db.getAllTransactionsAcrossAllTables);
 server.get('/api/transactions', db.getTransactions);
+server.post('/api/bulk', db.postCodesInBulk);
 server.post('/api/transactions', db.postCodeToTransaction);
 
 // delegate client-side routing to the client

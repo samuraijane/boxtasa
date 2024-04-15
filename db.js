@@ -5,6 +5,7 @@ import {
   sqlGetTransaction,
   sqlGetTransactions
 } from "./sql/sql.js";
+import { prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
 
 dotenv.config();
 
@@ -43,6 +44,26 @@ const getTransactions = (req, res) => {
   });
 };
 
+const postCodesInBulk = async (req, res) => {
+  const bulkTransactions = req.body;
+
+  const updateMultipleTransactions = await bulkTransactions.map(async bulkTransaction => {
+    const { account, code, transactionId } = bulkTransaction;
+
+    const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${code}';`);
+    const codeId = query.rows[0].code_id;
+  
+    // TODO handle possible errors
+    await pool.query(`UPDATE ${account} SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+    return await pool.query(sqlGetTransaction(account), [transactionId]);
+  });
+
+  Promise.all(updateMultipleTransactions).then((x) => {
+    const updated = prepResponseDataAfterBulkUpdate(x);
+    res.status(200).json({ message: "success", updated });
+  });
+};
+
 const postCodeToTransaction = async (req, res) => {
   const { a: account, c: code, t: transactionId } = req.query;
 
@@ -59,5 +80,6 @@ const postCodeToTransaction = async (req, res) => {
 export default {
   getAllTransactionsAcrossAllTables,
   getTransactions,
+  postCodesInBulk,
   postCodeToTransaction
 };
