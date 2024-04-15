@@ -48,6 +48,10 @@
     "codeLong": "Accounts"
   },
   {
+    "codeShort": "AW",
+    "codeLong": "Allowance"
+  },
+  {
     "codeShort": "BU",
     "codeLong": "Business Admin"
   },
