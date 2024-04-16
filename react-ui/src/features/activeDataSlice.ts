@@ -87,6 +87,12 @@ export const transactionsSlice = createSlice({
   name: 'activeData',
   initialState: _initialState,
   reducers: {
+    setActiveAccount: (state, action) => {
+      return {
+        ...state,
+        account: action.payload
+      }
+    },
     setTransactions: (_, action: PayloadAction<any>) => action.payload, // remove `any` type (in a hurry right now)
   },
   extraReducers(builder) {
@@ -106,7 +112,7 @@ export const transactionsSlice = createSlice({
   }
 });
 
-export const { setTransactions } = transactionsSlice.actions; // TODO pretty sure we can delete this
+export const { setActiveAccount, setTransactions } = transactionsSlice.actions; // TODO pretty sure we can delete this
 export const selectAccount = (state: RootState) => state.activeData.account;
 export const selectTransactions = (state: RootState) => state.activeData.transactions;
 
