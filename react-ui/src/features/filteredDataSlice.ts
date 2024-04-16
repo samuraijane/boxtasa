@@ -52,6 +52,24 @@ export const filteredTransactionsSlice = createSlice({
         filteredTransactions,
         searchTerm
       };
+    },
+    sortFilteredTransactions: (state, action) => {
+      const _transactions: Transaction[] = [...action.payload];
+      const sorted = _transactions.sort((x, y) => {
+        const textX = x.transaction_memo.toUpperCase();
+        const textY = y.transaction_memo.toUpperCase();
+        if (textX < textY) {
+          return -1;
+        }
+        if (textX > textY) {
+          return 1;
+        }
+        return 0;
+      });
+      return {
+        ...state,
+        filteredTransactions: sorted
+      }
     }
   },
   extraReducers(builder) {
@@ -97,7 +115,7 @@ export const filteredTransactionsSlice = createSlice({
   }
 });
 
-export const { setSearchTerm } = filteredTransactionsSlice.actions;
+export const { setSearchTerm, sortFilteredTransactions } = filteredTransactionsSlice.actions;
 export const selectFilteredTransactions = (state: RootState) => state.filteredData.filteredTransactions;
 export const selectSearchTerm = (state: RootState) => state.filteredData.searchTerm;
 export default filteredTransactionsSlice.reducer;

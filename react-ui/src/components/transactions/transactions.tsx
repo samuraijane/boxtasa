@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectFilteredTransactions,
   setSearchTerm,
-  selectSearchTerm
+  selectSearchTerm,
+  sortFilteredTransactions
 } from "../../features/filteredDataSlice";
 import { Modal } from "../modal/modal";
-import { postTransactionCode } from "../../features/activeDataSlice";
+import { postTransactionCode, setActiveAccount } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./transactions.scss";
 import { PostTransactionCode, postTransactionCodesInBulk } from "../../features/activeDataSlice";
@@ -64,9 +65,13 @@ export const Transactions = (): JSX.Element => {
       return;
     }
     setIsModalActive(!isModalActive);
-    setActiveTransaction(matchingTransactions.find(x => {
-      return x.transaction_id === parseInt(id);
-    }));
+    const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
+    dispatch(setActiveAccount(`${_activeTransaction?.short_name}${_activeTransaction?.acct_no}`))
+    setActiveTransaction(_activeTransaction);
+  };
+
+  const handleSort = (e: MouseEvent<HTMLButtonElement>) => {
+    dispatch(sortFilteredTransactions(matchingTransactions));
   };
 
   const _transactions = matchingTransactions.map((x) => {
@@ -112,6 +117,7 @@ export const Transactions = (): JSX.Element => {
           type="text"
           value={searchTerm}
         />
+        <button onClick={handleSort}>Sort</button>
       </div>
       <ul className="transactions__list">{_transactions}</ul>
       {isModalActive && activeTransaction && <Modal action={handleClick} data={activeTransaction}/>}
