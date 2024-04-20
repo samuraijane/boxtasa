@@ -118,6 +118,7 @@ export const Transactions = (): JSX.Element => {
           value={searchTerm}
         />
         <button onClick={handleSort}>Sort</button>
+        <div>{_transactions.length}</div>
       </div>
       <ul className="transactions__list">{_transactions}</ul>
       {isModalActive && activeTransaction && <Modal action={handleClick} data={activeTransaction}/>}
