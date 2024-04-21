@@ -56,7 +56,17 @@ export const postTransactionCode = createAsyncThunk('transactions/post', async (
     return response.updated;
   });
 
-  return _transactions;
+  return _transactions.sort((x, y) => { // TODO consider making this a util
+    const textX = x.code_name.toUpperCase();
+    const textY = y.code_name.toUpperCase();
+    if (textX < textY) {
+      return 1;
+    }
+    if (textX > textY) {
+      return -1;
+    }
+    return 0;
+  });
 });
 
 export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransactionCode[], { getState }) => {

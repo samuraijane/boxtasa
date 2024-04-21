@@ -55,14 +55,14 @@ export const filteredTransactionsSlice = createSlice({
     },
     sortFilteredTransactions: (state, action) => {
       const _transactions: Transaction[] = [...action.payload];
-      const sorted = _transactions.sort((x, y) => {
-        const textX = x.transaction_memo.toUpperCase();
-        const textY = y.transaction_memo.toUpperCase();
+      const sorted = _transactions.sort((x, y) => { // TODO consider making this a util
+        const textX = x.code_name.toUpperCase();
+        const textY = y.code_name.toUpperCase();
         if (textX < textY) {
-          return -1;
+          return 0;
         }
         if (textX > textY) {
-          return 1;
+          return -1;
         }
         return 0;
       });
