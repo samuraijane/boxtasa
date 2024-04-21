@@ -20,7 +20,7 @@
     "babel-loader": "^9.1.2",
     "sass": "^1.62.1",
     "typescript": "^5.0.4",
-    "webpack-dev-server": "^4.15.0"
+    "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
