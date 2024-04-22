@@ -2,9 +2,10 @@ import dotenv from "dotenv";
 import pg from "pg";
 import {
   sqlGetAllTransactionsAcrossAllTables,
+  sqlGetCodes,
   sqlGetTransaction,
   sqlGetTransactions
-} from "./sql/sql.js";
+} from "./sql/index.js";
 import { prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
 
 dotenv.config();
@@ -23,6 +24,15 @@ const {
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
 
 export const pool = new Pool(config);
+
+const getCodes = (req, res) => {
+  pool.query(sqlGetCodes(), (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
 
 const getTransactions = (req, res) => {
   const { acctName, year } = req.query;
@@ -83,6 +93,7 @@ const postCodeToTransaction = async (req, res) => {
 };
 
 export default {
+  getCodes,
   getTransactions,
   getTransactionsByCode,
   postCodesInBulk,
