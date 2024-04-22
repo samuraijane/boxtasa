@@ -32,6 +32,21 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
   };
 });
 
+export const getTransactionsByCode = createAsyncThunk('transactionsByCode/get', async ({ code }: {code: string}) => {
+  if (!code) {
+    console.error("Field for code is empty.")
+    return {
+      transactions: []
+    };
+  }
+  const url = `http://localhost:8080/api/transactions-by-code/?code=${code}`;
+  const data = await fetch(url);
+  const _transactions = await data.json();
+  return {
+    transactions: _transactions
+  };
+});
+
 export interface PostTransactionCode {
   account?: string; // TODO consider an enum here
   code: string;
@@ -112,6 +127,10 @@ export const transactionsSlice = createSlice({
     });
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
+    });
+    builder.addCase(getTransactionsByCode.fulfilled, (state, action) => {
+      const { transactions } = action.payload;
+      return { ...state, transactions };
     });
     builder.addCase(postTransactionCode.fulfilled, (state, action) => (
       { ...state, transactions: action.payload }

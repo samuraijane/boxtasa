@@ -1,10 +1,12 @@
-import { DataSelector } from "../components/data-selector/data-selector";
+import { Search } from "../components/search";
+import { Transactions } from "../components/transactions/transactions";
 
 export const LandingPage = (): JSX.Element => {
   
   return (
     <div className="landing">
-      This is the landing page.
+      <Search />
+      <Transactions />
     </div>
   );
 };
