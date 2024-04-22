@@ -13,7 +13,6 @@ enum SearchTypes {
 }
 
 export const Search = (): JSX.Element => {
-  const [codeInput, setCodeInput] = useState("");
   const [memoInput, setMemoInput] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
@@ -25,9 +24,6 @@ export const Search = (): JSX.Element => {
     const { type } = e.target.dataset;
 
     switch(type) {
-      case SearchTypes.CODE:
-        setCodeInput(value);
-        break;
       case SearchTypes.MEMO:
         setMemoInput(value);
         break;
@@ -43,20 +39,13 @@ export const Search = (): JSX.Element => {
 
   return (
     <div className="search">
-      {!memoInput && (<input
-        data-type={SearchTypes.CODE}
-        onChange={handleChange}
-        placeholder="Search code values"
-        type="text"
-        value={codeInput}
-      />)}
-      {!codeInput && (<input
+      <input
         data-type={SearchTypes.MEMO}
         onChange={handleChange}
         placeholder="Search memo values"
         type="text"
         value={memoInput}
-      />)}
+      />
       <button onClick={handleClick}>Search</button>
     </div>
   );
