@@ -8,3 +8,29 @@ export const prepBulkData = (transactions: Transaction[], code: string): PostTra
     transactionId: transaction.transaction_id.toString()
   }));
 };
+
+const addLeadingZeroMaybe = (digit: number) => {
+  if (digit < 10) {
+    return `0${digit}`;
+  }
+  return `${digit}`;
+};
+
+export const sortByDate = (transactions: Transaction[]) => {
+  return transactions.sort((x, y) => {
+    const xMonth = addLeadingZeroMaybe(x.date_month);
+    const xDay = addLeadingZeroMaybe(x.date_day);
+    const yMonth = addLeadingZeroMaybe(y.date_month);
+    const yDay = addLeadingZeroMaybe(y.date_day);
+    const dateX = parseInt(`${x.date_year}${xMonth}${xDay}`);
+    const dateY = parseInt(`${y.date_year}${yMonth}${yDay}`);
+
+    if (dateX < dateY) {
+      return -1;
+    }
+    if (dateX > dateY) {
+      return 1;
+    }
+    return 0;
+  });
+};

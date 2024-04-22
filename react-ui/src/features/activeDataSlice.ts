@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
+import { sortByDate } from '../utils';
 
 interface Transaction {
   transaction_id: number,
@@ -71,17 +72,7 @@ export const postTransactionCode = createAsyncThunk('transactions/post', async (
     return response.updated;
   });
 
-  return _transactions.sort((x, y) => { // TODO consider making this a util
-    const textX = x.code_name.toUpperCase();
-    const textY = y.code_name.toUpperCase();
-    if (textX < textY) {
-      return 1;
-    }
-    if (textX > textY) {
-      return -1;
-    }
-    return 0;
-  });
+  return sortByDate(_transactions);
 });
 
 export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransactionCode[], { getState }) => {
@@ -98,9 +89,9 @@ export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/pos
   const response = await data.json();
 
   const keep = rootState.activeData.transactions.filter(x => !(response.updated as Transaction[]).some(y => y.transaction_id === x.transaction_id));
-  const _transactions: Transaction[] = keep.concat(response.updated).sort((x, y) => x.transaction_id - y.transaction_id);
+  const _transactions: Transaction[] = keep.concat(response.updated);
 
-  return _transactions;
+  return sortByDate(_transactions);
 });
 
 const _initialState: ActiveDataState = {

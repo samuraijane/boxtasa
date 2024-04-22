@@ -1,5 +1,6 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
+import { sortByDate } from '../utils';
 
 interface Transaction {
   transaction_id: number,
@@ -55,17 +56,7 @@ export const filteredTransactionsSlice = createSlice({
     },
     sortFilteredTransactions: (state, action) => {
       const _transactions: Transaction[] = [...action.payload];
-      const sorted = _transactions.sort((x, y) => { // TODO consider making this a util
-        const textX = x.code_name.toUpperCase();
-        const textY = y.code_name.toUpperCase();
-        if (textX < textY) {
-          return 0;
-        }
-        if (textX > textY) {
-          return -1;
-        }
-        return 0;
-      });
+      const sorted = sortByDate(_transactions);
       return {
         ...state,
         filteredTransactions: sorted
