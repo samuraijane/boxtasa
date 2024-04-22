@@ -13,6 +13,12 @@
   },
   {
     "access": ["public"],
+    "href": "/codes",
+    "id": "nav-codes",
+    "text": "Codes"
+  },
+  {
+    "access": ["public"],
     "href": "/login",
     "id": "nav-login",
     "text": "Login"
