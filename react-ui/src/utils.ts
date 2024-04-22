@@ -1,6 +1,12 @@
 import { PostTransactionCode } from "./features/activeDataSlice";
 import { Transaction } from "./components/transactions/transactions";
 
+interface Totals {
+  count: number;
+  total: number;
+  year: number;
+}
+
 export const prepBulkData = (transactions: Transaction[], code: string): PostTransactionCode[] => {
   return transactions.map(transaction => ({
     account: `${transaction.short_name}${transaction.acct_no}`,
@@ -17,7 +23,7 @@ const addLeadingZeroMaybe = (digit: number) => {
 };
 
 export const sortByDate = (transactions: Transaction[]) => {
-  return transactions.sort((x, y) => {
+  const sorted = transactions.sort((x, y) => {
     const xMonth = addLeadingZeroMaybe(x.date_month);
     const xDay = addLeadingZeroMaybe(x.date_day);
     const yMonth = addLeadingZeroMaybe(y.date_month);
@@ -33,4 +39,41 @@ export const sortByDate = (transactions: Transaction[]) => {
     }
     return 0;
   });
+
+  let totals: Totals[] = [];
+  let currentCount = 0;
+  let currentTotal = 0;
+  let currentYear = 0;
+  let runningCount = 0;
+  const length = sorted.length;
+
+  sorted.forEach(x => {
+    runningCount += 1;
+    if (!currentYear) {
+      currentYear = x.date_year;
+    }
+    if (currentYear === x.date_year) {
+      currentCount += 1;
+      currentTotal += parseInt(x.amount);
+    } else {
+      totals.push({ count: currentCount, total: currentTotal, year: currentYear });
+      currentCount = 1;
+      currentTotal = parseInt(x.amount);
+      currentYear = x.date_year;
+    }
+    if (length === runningCount) { // 1
+      totals.push({ count: currentCount, total: currentTotal, year: currentYear });
+    }
+  });
+
+  return {sorted, totals};
 };
+
+/*
+NOTES
+
+[1]
+This ensures that the date from the very last iteration is accounted
+for.
+
+*/

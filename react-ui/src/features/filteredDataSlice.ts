@@ -42,7 +42,7 @@ export const filteredTransactionsSlice = createSlice({
     },
     sortFilteredTransactions: (state, action) => {
       const _transactions: Transaction[] = [...action.payload];
-      const sorted = sortByDate(_transactions);
+      const { sorted } = sortByDate(_transactions);
       return {
         ...state,
         filteredTransactions: sorted

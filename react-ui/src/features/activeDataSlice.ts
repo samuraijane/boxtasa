@@ -57,7 +57,7 @@ export const postTransactionCode = createAsyncThunk('transactions/post', async (
     return response.updated;
   });
 
-  return sortByDate(_transactions);
+  return sortByDate(_transactions).sorted;
 });
 
 export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransactionCode[], { getState }) => {
@@ -76,7 +76,7 @@ export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/pos
   const keep = rootState.activeData.transactions.filter(x => !(response.updated as Transaction[]).some(y => y.transaction_id === x.transaction_id));
   const _transactions: Transaction[] = keep.concat(response.updated);
 
-  return sortByDate(_transactions);
+  return sortByDate(_transactions).sorted;
 });
 
 const _initialState: ActiveDataState = {
