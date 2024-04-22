@@ -18,14 +18,14 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
   };
 });
 
-export const getTransactionsByCode = createAsyncThunk('transactionsByCode/get', async ({ code }: {code: string}) => {
-  if (!code) {
-    console.error("Field for code is empty.")
+export const getTransactionsByCode = createAsyncThunk('transactionsByCode/get', async ({ codeId }: {codeId: string}) => {
+  if (!codeId) {
+    console.error("Field for code id is empty.");
     return {
       transactions: []
     };
   }
-  const url = `http://localhost:8080/api/transactions-by-code/?code=${code}`;
+  const url = `http://localhost:8080/api/transactions-by-code/?codeId=${codeId}`;
   const data = await fetch(url);
   const _transactions = await data.json();
   return {

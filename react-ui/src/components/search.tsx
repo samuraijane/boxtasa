@@ -34,7 +34,7 @@ export const Search = (): JSX.Element => {
 
   const handleClick = () => {
     // TODO handle query by memo; ignore memo queries for now
-    dispatch(getTransactionsByCode({code: codeInput}))
+    // dispatch(getTransactionsByCode({code: codeInput}))
   };
 
   return (

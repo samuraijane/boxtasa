@@ -46,10 +46,7 @@ const getTransactions = (req, res) => {
 };
 
 const getTransactionsByCode = async (req, res) => {
-  const { code } = req.query;
-
-  const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${code}';`);
-  const codeId = query.rows[0].code_id;
+  const { codeId } = req.query;
 
   pool.query(sqlGetAllTransactionsAcrossAllTables(), [codeId], (err, results) => {
     if (err) {
