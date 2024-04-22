@@ -1,20 +1,7 @@
 import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
+import { ReduxStore } from '../types/interface';
 import { sortByDate } from '../utils';
-
-interface Transaction {
-  transaction_id: number,
-  account_type_name: string,
-  short_name: string,
-  acct_no: string,
-  date_day: number,
-  date_month: number,
-  date_year: number,
-  amount: string;
-  transaction_type_name: string;
-  transaction_memo: string;
-  code_name: string;
-}
+import { Transaction } from '../types/interface';
 
 interface ActiveDataState {
   account: string;
@@ -54,7 +41,7 @@ export interface PostTransactionCode {
 
 export const postTransactionCode = createAsyncThunk('transactions/post', async (args: PostTransactionCode, { getState }) => {
   const { code, transactionId } = args;
-  const rootState = getState() as RootState;
+  const rootState = getState() as ReduxStore;
 
   const url = `http://localhost:8080/api/transactions/?a=${rootState.activeData.account}&c=${code}&t=${transactionId}`;
   const data = await fetch(url, {
@@ -74,7 +61,7 @@ export const postTransactionCode = createAsyncThunk('transactions/post', async (
 });
 
 export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransactionCode[], { getState }) => {
-  const rootState = getState() as RootState;
+  const rootState = getState() as ReduxStore;
   
   const data = await fetch("http://localhost:8080/api/bulk", {
     body: JSON.stringify(args),
@@ -131,7 +118,7 @@ export const transactionsSlice = createSlice({
 });
 
 export const { setActiveAccount, setTransactions } = transactionsSlice.actions; // TODO pretty sure we can delete this
-export const selectAccount = (state: RootState) => state.activeData.account;
-export const selectTransactions = (state: RootState) => state.activeData.transactions;
+export const selectAccount = (state: ReduxStore) => state.activeData.account;
+export const selectTransactions = (state: ReduxStore) => state.activeData.transactions;
 
 export default transactionsSlice.reducer;

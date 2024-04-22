@@ -1,12 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface Code {
-  code_id: number;
-  code_name: string;
-  code_description: string;
-  created_at: string;
-  updated_at: string;
-}
+import { ReduxStore } from '../types/interface';
 
 export const getCodes = createAsyncThunk('codes/get', async () => {
   const response = await fetch('http://localhost:8080/api/codes');
@@ -26,6 +19,6 @@ export const codeSlice = createSlice({
   }
 });
 
-export const selectCode = (state: Code[]) => state;
+export const selectCode = (state: ReduxStore) => state.code;
 
 export default codeSlice.reducer;

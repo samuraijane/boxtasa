@@ -1,20 +1,6 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
 import { sortByDate } from '../utils';
-
-interface Transaction {
-  transaction_id: number,
-  account_type_name: string,
-  short_name: string,
-  acct_no: string,
-  date_day: number,
-  date_month: number,
-  date_year: number,
-  amount: string;
-  transaction_type_name: string;
-  transaction_memo: string;
-  code_name: string;
-}
+import { ReduxStore, Transaction } from '../types/interface';
 
 interface FilteredDataState {
   filteredTransactions: Transaction[];
@@ -116,6 +102,6 @@ export const filteredTransactionsSlice = createSlice({
 });
 
 export const { setSearchTerm, sortFilteredTransactions } = filteredTransactionsSlice.actions;
-export const selectFilteredTransactions = (state: RootState) => state.filteredData.filteredTransactions;
-export const selectSearchTerm = (state: RootState) => state.filteredData.searchTerm;
+export const selectFilteredTransactions = (state: ReduxStore) => state.filteredData.filteredTransactions;
+export const selectSearchTerm = (state: ReduxStore) => state.filteredData.searchTerm;
 export default filteredTransactionsSlice.reducer;
