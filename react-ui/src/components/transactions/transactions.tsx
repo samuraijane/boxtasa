@@ -59,13 +59,16 @@ export const Transactions = (): JSX.Element => {
   };
 
   const handleModal = (e: MouseEvent<HTMLLIElement>) => {
-    const id = (e.currentTarget.dataset.id as string).split("-")[0];
+    const id = (e.currentTarget.dataset.id as string);
     if (!id) {
       console.error("There is no id, friend."); // TODO handle error gracefully
       return;
     }
     setIsModalActive(!isModalActive);
-    const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
+    const _activeTransaction = matchingTransactions.find(x => {
+      const interpolatedDatabaseId = `${x.transaction_id}-${x.short_name}${x.acct_no}` // 1
+      return interpolatedDatabaseId === id; // 1
+    });
     dispatch(setActiveAccount(`${_activeTransaction?.short_name}${_activeTransaction?.acct_no}`))
     setActiveTransaction(_activeTransaction);
   };
@@ -125,3 +128,16 @@ export const Transactions = (): JSX.Element => {
     </div>
   );
 };
+
+/*
+NOTES
+
+[1]
+An example of an interpolated database id is "178-axos9152". We have to
+do this because in the UI, this is what the the id of each element looks
+like and this was necessary because the it's possible multiple elements
+may have the same id since the UI can show transactions from more than
+one table. To avoid bugs that this can cause, we create an id that
+concatenates the id, the bank account name, and the bank account number.
+
+*/
