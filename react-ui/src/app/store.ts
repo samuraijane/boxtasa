@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/authSlice";
 import activeDataReducer from "../features/activeDataSlice";
+import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
 
 export const store = configureStore({
   reducer: {
     activeData: activeDataReducer,
     auth: authReducer,
+    code: codeReducer,
     filteredData: filteredDataReducer
   }
 });
