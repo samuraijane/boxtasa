@@ -90,7 +90,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsA.code_id = 11
+  WHERE _transactionsA.code_id = $1
   ORDER BY
     _transactionsA.date_year,
     _transactionsA.date_month,
@@ -124,7 +124,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsB.code_id = 11
+  WHERE _transactionsB.code_id = $1
   ORDER BY
     _transactionsB.date_year,
     _transactionsB.date_month,
@@ -158,7 +158,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsC.code_id = 11
+  WHERE _transactionsC.code_id = $1
   ORDER BY
     _transactionsC.date_year,
     _transactionsC.date_month,
@@ -192,7 +192,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsD.code_id = 11
+  WHERE _transactionsD.code_id = $1
   ORDER BY
     _transactionsD.date_year,
     _transactionsD.date_month,
@@ -226,7 +226,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsE.code_id = 11
+  WHERE _transactionsE.code_id = $1
   ORDER BY
     _transactionsE.date_year,
     _transactionsE.date_month,
@@ -260,7 +260,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsF.code_id = 11
+  WHERE _transactionsF.code_id = $1
   ORDER BY
     _transactionsF.date_year,
     _transactionsF.date_month,
@@ -294,7 +294,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsG.code_id = 11
+  WHERE _transactionsG.code_id = $1
   ORDER BY
     _transactionsG.date_year,
     _transactionsG.date_month,
@@ -328,7 +328,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsH.code_id = 11
+  WHERE _transactionsH.code_id = $1
   ORDER BY
     _transactionsH.date_year,
     _transactionsH.date_month,
@@ -362,7 +362,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsI.code_id = 11
+  WHERE _transactionsI.code_id = $1
   ORDER BY
     _transactionsI.date_year,
     _transactionsI.date_month,
@@ -396,7 +396,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsJ.code_id = 11
+  WHERE _transactionsJ.code_id = $1
   ORDER BY
     _transactionsJ.date_year,
     _transactionsJ.date_month,
@@ -430,7 +430,7 @@ const sqlGetAllTransactionsAcrossAllTables = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
-  WHERE _transactionsK.code_id = 11
+  WHERE _transactionsK.code_id = $1
   ORDER BY
     _transactionsK.date_year,
     _transactionsK.date_month,

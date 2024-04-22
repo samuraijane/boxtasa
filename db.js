@@ -24,8 +24,10 @@ const config = env === "prod" ? { connectionString: cs } : { database, host, por
 
 export const pool = new Pool(config);
 
-const getAllTransactionsAcrossAllTables = (req, res) => {
-  pool.query(sqlGetAllTransactionsAcrossAllTables(), (err, results) => {
+const getTransactions = (req, res) => {
+  const { acctName, year } = req.query;
+
+  pool.query(sqlGetTransactions(acctName), [year], (err, results) => {
     if (err) {
       throw err;
     }
@@ -33,10 +35,13 @@ const getAllTransactionsAcrossAllTables = (req, res) => {
   });
 };
 
-const getTransactions = (req, res) => {
-  const { acctName, year } = req.query;
+const getTransactionsByCode = async (req, res) => {
+  const { code } = req.query;
 
-  pool.query(sqlGetTransactions(acctName), [year], (err, results) => {
+  const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${code}';`);
+  const codeId = query.rows[0].code_id;
+
+  pool.query(sqlGetAllTransactionsAcrossAllTables(), [codeId], (err, results) => {
     if (err) {
       throw err;
     }
@@ -78,8 +83,8 @@ const postCodeToTransaction = async (req, res) => {
 };
 
 export default {
-  getAllTransactionsAcrossAllTables,
   getTransactions,
+  getTransactionsByCode,
   postCodesInBulk,
   postCodeToTransaction
 };
