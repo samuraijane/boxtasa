@@ -33,6 +33,12 @@ export const filteredTransactionsSlice = createSlice({
   name: 'filteredData',
   initialState,
   reducers: {
+    clearTotals: (state) => {
+      return {
+        ...state,
+        totals: []
+      };
+    },
     setSearchTerm: (_, action) => {
       const searchTerm = action.payload;
       const filteredTransactions = getMatchingTransactions(searchTerm);
@@ -104,7 +110,8 @@ export const filteredTransactionsSlice = createSlice({
   }
 });
 
-export const { setSearchTerm, sortFilteredTransactions } = filteredTransactionsSlice.actions;
+export const { clearTotals, setSearchTerm, sortFilteredTransactions } = filteredTransactionsSlice.actions;
 export const selectFilteredTransactions = (state: ReduxStore) => state.filteredData.filteredTransactions;
 export const selectSearchTerm = (state: ReduxStore) => state.filteredData.searchTerm;
+export const selectTotals = (state: ReduxStore) => state.filteredData.totals;
 export default filteredTransactionsSlice.reducer;

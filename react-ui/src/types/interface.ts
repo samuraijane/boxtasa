@@ -29,6 +29,7 @@ interface ActiveData {
 interface FilteredData {
   filteredTransactions: Transaction[];
   searchTerm: string;
+  totals: Total[]
 }
 
 export interface ReduxStore {
@@ -36,7 +37,6 @@ export interface ReduxStore {
   auth: boolean;
   code: Code[];
   filteredData: FilteredData;
-  totals: Total[]
 }
 
 export interface Total {

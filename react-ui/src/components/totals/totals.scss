@@ -1,0 +1,17 @@
+.totals {
+  display: flex;
+
+  .totals__total {
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    padding: 10px 50px;
+    text-align: center;
+  }
+
+  .totals__count {
+    color: #999;
+    margin: 10px 0;
+  }
+}

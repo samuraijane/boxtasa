@@ -5,7 +5,8 @@ import { getTransactionsByCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./codes.scss";
 import { Code } from "../../types/interface";
-
+import { Totals } from "../totals/totals";
+import { clearTotals } from "../../features/filteredDataSlice";
 
 
 export const Codes = () => {
@@ -14,6 +15,7 @@ export const Codes = () => {
   const [selectedCode, setSelectedCode] = useState("");
 
   const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+    dispatch(clearTotals());
     if (!(e.currentTarget instanceof HTMLLIElement)) {
       return;
     }
@@ -63,12 +65,17 @@ export const Codes = () => {
   }));
 
   return (
-    <ul className="codes">
+    <div className={`codes${selectedCode ? " codes--single" : ""}`}>
+      <ul>
+        {
+          !selectedCode
+          ? _codes
+          : renderClickedCode()
+        }
+      </ul>
       {
-        !selectedCode
-        ? _codes
-        : renderClickedCode()
+        selectedCode && <Totals />
       }
-    </ul>
+    </div>
   )
 }

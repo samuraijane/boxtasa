@@ -1,24 +1,30 @@
 .codes {
-  display: grid;
-  grid-auto-rows: 1fr;
-  grid-gap: 2rem;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
+  &.codes--single {
+    display: flex;
+  }
 
-  li {
-    background-color: aliceblue;
-    border: 1px solid rgba(100, 100, 100, 0.3);
-    cursor: pointer;
-    text-align: center;
+  ul {
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 2fr));
 
-    div {
-      background-color: cornflowerblue;
-      color: white;
-      margin: 0 0 10px;
-      padding: 6px 0;
-    }
+    li {
+      background-color: aliceblue;
+      border: 1px solid rgba(100, 100, 100, 0.3);
+      cursor: pointer;
+      text-align: center;
 
-    p {
-      padding: 16px 0;
+      div {
+        background-color: cornflowerblue;
+        color: white;
+        margin: 0 0 10px;
+        padding: 6px 0;
+      }
+
+      p {
+        padding: 16px 0;
+      }
     }
   }
 }
