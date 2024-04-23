@@ -1,15 +1,17 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { sortByDate } from '../utils';
-import { ReduxStore, Transaction } from '../types/interface';
+import { ReduxStore, Total, Transaction } from '../types/interface';
 
 interface FilteredDataState {
   filteredTransactions: Transaction[];
   searchTerm: string;
+  totals?: Total[]
 }
 
 const initialState: FilteredDataState = {
   filteredTransactions: [],
-  searchTerm: ""
+  searchTerm: "",
+  totals: []
 };
 
 /**
@@ -42,10 +44,11 @@ export const filteredTransactionsSlice = createSlice({
     },
     sortFilteredTransactions: (state, action) => {
       const _transactions: Transaction[] = [...action.payload];
-      const { sorted } = sortByDate(_transactions);
+      const { sorted, totals } = sortByDate(_transactions);
       return {
         ...state,
-        filteredTransactions: sorted
+        filteredTransactions: sorted,
+        totals
       }
     }
   },

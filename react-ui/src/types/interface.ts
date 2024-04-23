@@ -36,4 +36,11 @@ export interface ReduxStore {
   auth: boolean;
   code: Code[];
   filteredData: FilteredData;
+  totals: Total[]
+}
+
+export interface Total {
+  count: number;
+  total: number;
+  year: number;
 }
