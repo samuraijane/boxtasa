@@ -5,7 +5,7 @@ import "./totals.scss";
 export const Totals = () => {
   const totals = useSelector(selectTotals);
 
-  const _totals = totals.map(total => (
+  const _totals = totals?.map(total => (
     <div className="totals__total" key={total.year}>
       <span>{total.year}</span>
       <span className="totals__count">{total.count}</span>
@@ -14,8 +14,13 @@ export const Totals = () => {
   ));
 
   return (
-    <div className="totals">
-      {_totals}
-    </div>
+    <>
+      {_totals?.length && (
+        <div className="totals">
+          {_totals}
+        </div>
+      )}
+    </>
+
   )
 };
