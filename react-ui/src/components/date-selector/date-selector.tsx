@@ -11,6 +11,7 @@ interface DateSelectorProps {
 export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element => {
 
   // TODO at some point far in the future, implement a really nice way to select dates
+  // TODO get years that are available from the database rather than a hardcoded JSON file
   const dates = (data as string[]).map((date, index) => (
     <li
       className={`date-selector__date${selected === date ? " date-selector__date--selected" : ""}`}
