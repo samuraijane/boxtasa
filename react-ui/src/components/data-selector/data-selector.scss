@@ -1,5 +1,8 @@
 .data-selector {
-  align-items: center;
-  display: flex;
-  justify-content: space-evenly;
+
+  .data-selector__selectors-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+  }
 }

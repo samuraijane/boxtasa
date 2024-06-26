@@ -32,7 +32,16 @@ interface FilteredData {
   totals: Total[]
 }
 
+export interface Account {
+  account_id: number;
+  account_type_name: string;
+  is_active: boolean;
+  acct_no: string;
+  short_name: string;
+}
+
 export interface ReduxStore {
+  account: Account[];
   activeData: ActiveData;
   auth: boolean;
   code: Code[];

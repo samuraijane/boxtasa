@@ -17,6 +17,6 @@ export const accountSlice = createSlice({
   }
 });
 
-export const selectAccounts = (state: ReduxStore) => state.code;
+export const selectAccounts = (state: ReduxStore) => state.account;
 
 export default accountSlice.reducer;

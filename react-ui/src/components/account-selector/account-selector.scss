@@ -1,31 +1,26 @@
 .account-selector {
 
   .account-selector__account-names {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
 
     p {
       font-size: 1.2rem;
     }
+  }
 
-    > li {
-      margin: 0 60px;
-      text-align: center;
+  .account-selector__account-container {
+    cursor: pointer;
 
-      &:first-of-type {
-        margin-left: 0;
-      }
+    &.account-selector__account-container--selected {
+      color: crimson;
     }
   }
 
-  .account-selector__account-nos {
-
-    li {
-      cursor: pointer;
-      margin: 10px 0;
-
-      &.account-selector__account-no--selected {
-        color: crimson;
-      }
-    }
+  .account-selector__account {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
   }
 }

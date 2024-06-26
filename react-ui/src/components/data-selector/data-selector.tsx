@@ -22,7 +22,7 @@ export const DataSelector = () => {
   });;
 
   const handleSelection = (e: MouseEvent<HTMLLIElement>) => {
-    const { id, type } =( e.target as HTMLElement).dataset;
+    const { id, type } =( e.currentTarget as HTMLElement).dataset;
 
     if (!id) return; // TODO handle this error gracefully
     if (!type) return; // TODO handle this error gracefully
@@ -43,8 +43,10 @@ export const DataSelector = () => {
 
   return (
     <div className="data-selector">
-      <AccountSelector action={handleSelection} selected={selections.acctId} />
-      <DateSelector action={handleSelection} selected={selections.year} />
+      <div className="data-selector__selectors-container">
+        <AccountSelector action={handleSelection} selected={parseInt(selections.acctId)} />
+        <DateSelector action={handleSelection} selected={selections.year} />
+      </div>
       <button onClick={handleClick}>Get Transactions</button>
     </div>
   );

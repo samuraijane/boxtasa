@@ -1,43 +1,37 @@
 import { SelectorProps } from "../date-selector/types";
-import data from "./account-selector.json";
-import "./account-selector.scss"
-
-interface Accounts {
-  acctId: string;
-  acctNo: string;
-}
-interface AccountSelectorNames {
-  accounts: Accounts[];
-  institutionName: string;
-  institutionShortName: string;
-}
+import "./account-selector.scss";
+import { useSelector } from "react-redux";
+import { selectAccounts } from "../../features/accountsSlice";
+import { Account } from "../../types/interface";
 
 export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Element => {
+  const accounts = useSelector(selectAccounts);
 
-  // TODO replace hardcoded account data with queries to the database
-  const accountNames = (data as AccountSelectorNames[]).map((datum, index) => (
-    <li key={datum.institutionShortName}>
-      <p>{datum.institutionName}</p>
-      <ul className="account-selector__account-nos">
-        {
-          datum.accounts.map((account) => {
-            const _id = account.acctId;
-            return (
-              <li
-                className={`account-selector__account-no${selected === _id ? " account-selector__account-no--selected" : ""}`}
-                key={_id}
-                data-id={_id}
-                data-type="acctId"
-                onClick={action}
-              >
-                {account.acctNo}
-              </li>
-            );
-          })
-        }
-      </ul>
-    </li>
-  ));
+  const accountNames = (accounts as Account[]).map((account) => {
+    const {
+      account_id,
+      account_type_name,
+      is_active,
+      acct_no,
+      short_name,
+    } = account;
+
+    return (
+      <li
+        className={`account-selector__account-container${selected === account_id ? " account-selector__account-container--selected" : ""}`}
+        data-id={account_id}
+        data-type="acctId"
+        key={acct_no}
+        onClick={action}
+      >
+        <div className="account-selector__account">
+          <span>{acct_no}</span>
+          <span>{short_name}</span>
+          <span>{account_type_name}</span>
+        </div>
+      </li>
+    )
+  });
 
   return (
     <div className="account-selector">
