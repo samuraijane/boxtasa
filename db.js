@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import pg from "pg";
 import {
-  sqlGetAllTransactionsAcrossAllTables,
   sqlGetCodes,
   sqlGetTransaction,
   sqlGetTransactions
@@ -34,21 +33,56 @@ const getCodes = (req, res) => {
   });
 };
 
-const getTransactions = (req, res) => {
-  const { acctName, year } = req.query;
-
-  pool.query(sqlGetTransactions(acctName), [year], (err, results) => {
-    if (err) {
-      throw err;
+const getQueryType = (currentPattern) => {
+  const patterns = [
+    {
+      name: "A",
+      pattern: [false, false, false]
+    },
+    {
+      name: "B",
+      pattern: [true, true, true]
+    },
+    {
+      name: "C",
+      pattern: [true, true, false]
+    },
+    {
+      name: "D",
+      pattern: [true, false, true]
+    },
+    {
+      name: "E",
+      pattern: [true, false, false]
+    },
+    {
+      name: "F",
+      pattern: [false, true, false]
+    },
+    {
+      name: "G",
+      pattern: [false, true, true]
+    },
+    {
+      name: "H",
+      pattern: [false, false, true]
     }
-    res.status(200).json(results.rows);
-  });
+  ];
+
+  const match = patterns.find((x) => x.pattern.every((val, i) => val === currentPattern[i]));
+  return match.name;
 };
 
-const getTransactionsByCode = async (req, res) => {
-  const { codeId } = req.query;
+const getTransactions = (req, res) => {
+  const { acctId, code, year } = req.query;
 
-  pool.query(sqlGetAllTransactionsAcrossAllTables(), [codeId], (err, results) => {
+  const _acctId = typeof acctId === "undefined" ? null : parseInt(acctId);
+  const _code = typeof code === "undefined" ? null : code;
+  const _year = typeof year === "undefined" ? null : parseInt(year);
+
+  const queryType = getQueryType([!!acctId, !!code, !!year]);
+
+  pool.query(sqlGetTransactions(queryType), [_acctId, _code, _year], (err, results) => {
     if (err) {
       throw err;
     }
@@ -92,7 +126,6 @@ const postCodeToTransaction = async (req, res) => {
 export default {
   getCodes,
   getTransactions,
-  getTransactionsByCode,
   postCodesInBulk,
   postCodeToTransaction
 };
