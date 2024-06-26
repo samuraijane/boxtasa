@@ -140,4 +140,8 @@ may have the same id since the UI can show transactions from more than
 one table. To avoid bugs that this can cause, we create an id that
 concatenates the id, the bank account name, and the bank account number.
 
+TODO Because transactions are no longer separated by account, the note
+above no longer applies. We need to investigate how to best simplify
+this or even remove it, if possible.
+
 */
