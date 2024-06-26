@@ -1,4 +1,4 @@
-const sqlGetTransaction = (acctName) => (`
+const sqlGetTransaction = () => (`
   SELECT
     _transactions.transaction_id,
     _accounts.acct_no,
@@ -12,7 +12,7 @@ const sqlGetTransaction = (acctName) => (`
     _transactions.transaction_memo,
     _codes.code_name
   FROM
-  ${acctName} _transactions
+  transactions _transactions
   INNER JOIN (
     SELECT
       _accounts.account_id,

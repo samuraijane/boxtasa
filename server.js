@@ -51,6 +51,7 @@ server.get("/api/auth/verify", checkAuth, (req, res) => {
 });
 
 server.get('/api/codes', db.getCodes);
+server.get('/api/transaction/:id', db.getTransaction);
 server.get('/api/transactions', db.getTransactions);
 server.post('/api/bulk', db.postCodesInBulk);
 server.post('/api/transactions', db.postCodeToTransaction);

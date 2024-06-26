@@ -33,6 +33,17 @@ const getCodes = (req, res) => {
   });
 };
 
+const getTransaction = (req, res) => {
+  const { id } = req.params;
+
+  pool.query(sqlGetTransaction(), [id], (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
+
 const getTransactions = (req, res) => {
   const { acctId, code, year } = req.query;
 
@@ -85,6 +96,7 @@ const postCodeToTransaction = async (req, res) => {
 
 export default {
   getCodes,
+  getTransaction,
   getTransactions,
   postCodesInBulk,
   postCodeToTransaction
