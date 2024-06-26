@@ -50,6 +50,7 @@ server.get("/api/auth/verify", checkAuth, (req, res) => {
   res.json({ isAuth: req.isAuth });
 });
 
+server.get('/api/accounts', db.getAccounts);
 server.get('/api/codes', db.getCodes);
 server.get('/api/transaction/:id', db.getTransaction);
 server.get('/api/transactions', db.getTransactions);

@@ -1,3 +1,4 @@
+import { sqlGetAccounts } from "./accounts.js";
 import { sqlGetCodes } from "./codes.js";
 import {
   sqlGetTransaction,
@@ -5,6 +6,7 @@ import {
 } from "./transactions.js";
 
 export {
+  sqlGetAccounts,
   sqlGetCodes,
   sqlGetTransaction,
   sqlGetTransactions

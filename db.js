@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import pg from "pg";
 import {
+  sqlGetAccounts,
   sqlGetCodes,
   sqlGetTransaction,
   sqlGetTransactions
@@ -23,6 +24,15 @@ const {
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
 
 export const pool = new Pool(config);
+
+const getAccounts = (req, res) => {
+  pool.query(sqlGetAccounts(), (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
 
 const getCodes = (req, res) => {
   pool.query(sqlGetCodes(), (err, results) => {
@@ -95,6 +105,7 @@ const postCodeToTransaction = async (req, res) => {
 };
 
 export default {
+  getAccounts,
   getCodes,
   getTransaction,
   getTransactions,
