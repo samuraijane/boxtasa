@@ -7,7 +7,7 @@ import {
   sortFilteredTransactions
 } from "../../features/filteredDataSlice";
 import { Modal } from "../modal/modal";
-import { postTransactionCode, setActiveAccount } from "../../features/activeDataSlice";
+import { postTransactionCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./transactions.scss";
 import { PostTransactionCode, postTransactionCodesInBulk } from "../../features/activeDataSlice";
@@ -69,7 +69,6 @@ export const Transactions = (): JSX.Element => {
       const interpolatedDatabaseId = `${x.transaction_id}-${x.short_name}${x.acct_no}` // 1
       return interpolatedDatabaseId === id; // 1
     });
-    dispatch(setActiveAccount(`${_activeTransaction?.short_name}${_activeTransaction?.acct_no}`))
     setActiveTransaction(_activeTransaction);
   };
 

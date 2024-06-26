@@ -1,14 +1,15 @@
 import { Transactions } from "../components/transactions/transactions";
 import { DataSelector } from "../components/data-selector/data-selector";
 import { useSelector } from "react-redux";
-import { selectAccount } from "../features/activeDataSlice";
+import { selectFilteredTransactions } from "../features/filteredDataSlice";
+
 
 export const TransactionsPage = (): JSX.Element => {
-  const account = useSelector(selectAccount);
+  const filteredTransactions = useSelector(selectFilteredTransactions);
   return (
     <>
       <DataSelector />
-      {account && <Transactions />}
+      {filteredTransactions.length && <Transactions />}
     </>
   )
 };

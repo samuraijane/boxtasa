@@ -4,20 +4,19 @@ import { sortByDate } from '../utils';
 import { Transaction } from '../types/interface';
 
 interface ActiveDataState {
-  account: string;
   transactions: Transaction[];
 }
 
-export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctId, year }: {acctId: string, year: string}) => {
-  const url = `http://localhost:8080/api/transactions/?acctId=${acctId}&year=${year}`
+export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctId, code, year }: {acctId: string, code: string, year: string}) => {
+  const url = `http://localhost:8080/api/transactions/?acctId=${acctId}&code=${code}&year=${year}`
   const data = await fetch(url);
   const _transactions = await data.json();
   return {
-    account: acctId,
     transactions: _transactions
   };
 });
 
+// TODO check that POST still works since we've changed things on the server and in the database recently
 export interface PostTransactionCode {
   account?: string; // TODO consider an enum here
   code: string;
@@ -65,7 +64,6 @@ export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/pos
 });
 
 const _initialState: ActiveDataState = {
-  account: "",
   transactions: []
 };
 
@@ -73,18 +71,12 @@ export const transactionsSlice = createSlice({
   name: 'activeData',
   initialState: _initialState,
   reducers: {
-    setActiveAccount: (state, action) => {
-      return {
-        ...state,
-        account: action.payload
-      }
-    },
     setTransactions: (_, action: PayloadAction<any>) => action.payload, // remove `any` type (in a hurry right now)
   },
   extraReducers(builder) {
     builder.addCase(getTransactionData.fulfilled, (state, action) => {
-      const { account, transactions } = action.payload;
-      return { ...state, account, transactions };
+      const { transactions } = action.payload;
+      return { ...state, transactions };
     });
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
@@ -98,8 +90,6 @@ export const transactionsSlice = createSlice({
   }
 });
 
-export const { setActiveAccount, setTransactions } = transactionsSlice.actions; // TODO pretty sure we can delete this
-export const selectAccount = (state: ReduxStore) => state.activeData.account;
 export const selectTransactions = (state: ReduxStore) => state.activeData.transactions;
 
 export default transactionsSlice.reducer;

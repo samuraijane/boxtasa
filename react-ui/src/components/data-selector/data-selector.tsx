@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AccountSelector } from "../account-selector/account-selector";
 import { DateSelector } from "../date-selector/date-selector";
@@ -8,6 +8,7 @@ import "./data-selector.scss";
 
 interface DataSelectorSelections {
   acctId: string;
+  code: string;
   year: string; // TODO for now we only care about the year but we'll get more granular later
 }
 
@@ -16,32 +17,35 @@ export const DataSelector = () => {
 
   const [selections, setSelections] = useState<DataSelectorSelections>({
     acctId: "",
+    code: "",
     year: ""
-  });
-
-  useEffect(() => {
-    const { acctId, year } = selections;
-
-    if (acctId && year) {
-      dispatch(getTransactionData({ acctId: selections.acctId, year: selections.year }));
-    }
-  }, [selections]);
+  });;
 
   const handleSelection = (e: MouseEvent<HTMLLIElement>) => {
     const { id, type } =( e.target as HTMLElement).dataset;
 
-    if (id && type) {
-      setSelections({
-        ...selections,
-        [type]: id
-      });
-    }
+    if (!id) return; // TODO handle this error gracefully
+    if (!type) return; // TODO handle this error gracefully
+
+    setSelections({
+      ...selections,
+      [type]: id
+    });
+  };
+
+  const handleClick = () => {
+    dispatch(getTransactionData({
+      acctId: selections.acctId,
+      code: selections.code,
+      year: selections.year
+    }));
   };
 
   return (
     <div className="data-selector">
       <AccountSelector action={handleSelection} selected={selections.acctId} />
       <DateSelector action={handleSelection} selected={selections.year} />
+      <button onClick={handleClick}>Get Transactions</button>
     </div>
   );
 };
