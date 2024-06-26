@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { AccountSelector } from "../account-selector/account-selector";
-import { DateSelector } from "../date-selector/date-selector";
+import { AccountSelector } from "./subcomponents/account-selector/account-selector";
+import { DateSelector } from "./subcomponents/date-selector/date-selector";
 import { getTransactionData } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";

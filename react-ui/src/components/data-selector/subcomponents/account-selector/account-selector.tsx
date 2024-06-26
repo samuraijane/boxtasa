@@ -1,8 +1,8 @@
 import { SelectorProps } from "../date-selector/types";
 import "./account-selector.scss";
 import { useSelector } from "react-redux";
-import { selectAccounts } from "../../features/accountsSlice";
-import { Account } from "../../types/interface";
+import { selectAccounts } from "../../../../features/accountsSlice";
+import { Account } from "../../../../types/interface";
 
 export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Element => {
   const accounts = useSelector(selectAccounts);
