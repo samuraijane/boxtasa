@@ -5,7 +5,7 @@ import {
   sqlGetTransaction,
   sqlGetTransactions
 } from "./sql/index.js";
-import { prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
+import { getQueryType, prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
 
 dotenv.config();
 
@@ -31,46 +31,6 @@ const getCodes = (req, res) => {
     }
     res.status(200).json(results.rows);
   });
-};
-
-const getQueryType = (currentPattern) => {
-  const patterns = [
-    {
-      name: "A",
-      pattern: [false, false, false]
-    },
-    {
-      name: "B",
-      pattern: [true, true, true]
-    },
-    {
-      name: "C",
-      pattern: [true, true, false]
-    },
-    {
-      name: "D",
-      pattern: [true, false, true]
-    },
-    {
-      name: "E",
-      pattern: [true, false, false]
-    },
-    {
-      name: "F",
-      pattern: [false, true, false]
-    },
-    {
-      name: "G",
-      pattern: [false, true, true]
-    },
-    {
-      name: "H",
-      pattern: [false, false, true]
-    }
-  ];
-
-  const match = patterns.find((x) => x.pattern.every((val, i) => val === currentPattern[i]));
-  return match.name;
 };
 
 const getTransactions = (req, res) => {
