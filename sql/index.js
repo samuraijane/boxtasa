@@ -1,8 +1,8 @@
-import { sqlGetCodes } from "./get-codes.js";
+import { sqlGetCodes } from "./codes.js";
 import {
   sqlGetTransaction,
   sqlGetTransactions
-} from "./sql.js";
+} from "./transactions.js";
 
 export {
   sqlGetCodes,
