@@ -16,7 +16,7 @@ export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element =
     <li
       className={`date-selector__date${selected === date ? " date-selector__date--selected" : ""}`}
       data-id={date}
-      data-type="date"
+      data-type="year"
       key={date}
       onClick={action}
     >

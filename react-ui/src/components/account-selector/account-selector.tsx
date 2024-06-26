@@ -2,30 +2,35 @@ import { SelectorProps } from "../date-selector/types";
 import data from "./account-selector.json";
 import "./account-selector.scss"
 
+interface Accounts {
+  acctId: string;
+  acctNo: string;
+}
 interface AccountSelectorNames {
-  accounts: string[];
+  accounts: Accounts[];
   institutionName: string;
   institutionShortName: string;
 }
 
 export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Element => {
 
-  const accountNames = (data as AccountSelectorNames[]).map((accountName, index) => (
-    <li key={accountName.institutionShortName}>
-      <p>{accountName.institutionName}</p>
+  // TODO replace hardcoded account data with queries to the database
+  const accountNames = (data as AccountSelectorNames[]).map((datum, index) => (
+    <li key={datum.institutionShortName}>
+      <p>{datum.institutionName}</p>
       <ul className="account-selector__account-nos">
         {
-          accountName.accounts.map((accountNumber) => {
-            const _id = `${accountName.institutionShortName}${accountNumber}`;
+          datum.accounts.map((account) => {
+            const _id = account.acctId;
             return (
               <li
                 className={`account-selector__account-no${selected === _id ? " account-selector__account-no--selected" : ""}`}
                 key={_id}
                 data-id={_id}
-                data-type="account"
+                data-type="acctId"
                 onClick={action}
               >
-                {accountNumber}
+                {account.acctNo}
               </li>
             );
           })

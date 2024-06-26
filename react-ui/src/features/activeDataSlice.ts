@@ -8,27 +8,12 @@ interface ActiveDataState {
   transactions: Transaction[];
 }
 
-export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctName, year }: {acctName: string, year: string}) => {
-  const url = `http://localhost:8080/api/transactions/?acctName=${acctName}&year=${year}`
+export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctId, year }: {acctId: string, year: string}) => {
+  const url = `http://localhost:8080/api/transactions/?acctId=${acctId}&year=${year}`
   const data = await fetch(url);
   const _transactions = await data.json();
   return {
-    account: acctName,
-    transactions: _transactions
-  };
-});
-
-export const getTransactionsByCode = createAsyncThunk('transactionsByCode/get', async ({ codeId }: {codeId: string}) => {
-  if (!codeId) {
-    console.error("Field for code id is empty.");
-    return {
-      transactions: []
-    };
-  }
-  const url = `http://localhost:8080/api/transactions-by-code/?codeId=${codeId}`;
-  const data = await fetch(url);
-  const _transactions = await data.json();
-  return {
+    account: acctId,
     transactions: _transactions
   };
 });
@@ -103,10 +88,6 @@ export const transactionsSlice = createSlice({
     });
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
-    });
-    builder.addCase(getTransactionsByCode.fulfilled, (state, action) => {
-      const { transactions } = action.payload;
-      return { ...state, transactions };
     });
     builder.addCase(postTransactionCode.fulfilled, (state, action) => (
       { ...state, transactions: action.payload }

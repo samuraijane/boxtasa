@@ -7,23 +7,23 @@ import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";
 
 interface DataSelectorSelections {
-  account: string;
-  date: string; // TODO for now we only care about the year but we'll get more granular later
+  acctId: string;
+  year: string; // TODO for now we only care about the year but we'll get more granular later
 }
 
 export const DataSelector = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [selections, setSelections] = useState<DataSelectorSelections>({
-    account: "",
-    date: ""
+    acctId: "",
+    year: ""
   });
 
   useEffect(() => {
-    const { account, date } = selections;
+    const { acctId, year } = selections;
 
-    if (account && date) {
-      dispatch(getTransactionData({ acctName: selections.account, year: selections.date }));
+    if (acctId && year) {
+      dispatch(getTransactionData({ acctId: selections.acctId, year: selections.year }));
     }
   }, [selections]);
 
@@ -40,8 +40,8 @@ export const DataSelector = () => {
 
   return (
     <div className="data-selector">
-      <AccountSelector action={handleSelection} selected={selections.account} />
-      <DateSelector action={handleSelection} selected={selections.date} />
+      <AccountSelector action={handleSelection} selected={selections.acctId} />
+      <DateSelector action={handleSelection} selected={selections.year} />
     </div>
   );
 };

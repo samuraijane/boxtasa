@@ -68,15 +68,6 @@ export const filteredTransactionsSlice = createSlice({
         filteredTransactions
       };
     });
-    builder.addCase("transactionsByCode/get/fulfilled", (state, action) => {
-      // TODO no clue how to type this
-      const filteredTransactions = (action as any).payload.transactions;
-      API_DATA = filteredTransactions;
-      return {
-        ...state,
-        filteredTransactions
-      };
-    });
     builder.addCase("transactions/post/fulfilled", (state, action) => {
       API_DATA = (action as any).payload;
 

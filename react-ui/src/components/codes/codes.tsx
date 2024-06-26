@@ -1,7 +1,6 @@
 import { MouseEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCode } from "../../features/codesSlice";
-import { getTransactionsByCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./codes.scss";
 import { Code } from "../../types/interface";
@@ -28,7 +27,6 @@ export const Codes = () => {
       setSelectedCode("");
     } else {
       setSelectedCode(id);
-      dispatch(getTransactionsByCode({codeId: id}));
     }
   };
 

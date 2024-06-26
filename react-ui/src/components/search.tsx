@@ -4,7 +4,6 @@
 
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getTransactionsByCode } from "../features/activeDataSlice";
 import { AppDispatch } from "../app/store";
 
 enum SearchTypes {
@@ -34,7 +33,6 @@ export const Search = (): JSX.Element => {
 
   const handleClick = () => {
     // TODO handle query by memo; ignore memo queries for now
-    // dispatch(getTransactionsByCode({code: codeInput}))
   };
 
   return (
