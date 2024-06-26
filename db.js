@@ -47,9 +47,9 @@ const getTransaction = (req, res) => {
 const getTransactions = (req, res) => {
   const { acctId, code, year } = req.query;
 
-  const _acctId = typeof acctId === "undefined" ? null : parseInt(acctId);
-  const _code = typeof code === "undefined" ? null : code;
-  const _year = typeof year === "undefined" ? null : parseInt(year);
+  const _acctId = (typeof acctId === "undefined" || !acctId) ? null : parseInt(acctId);
+  const _code = (typeof code === "undefined" || !code) ? null : code;
+  const _year = (typeof year === "undefined" || !year) ? null : parseInt(year);
 
   const queryType = getQueryType([!!acctId, !!code, !!year]);
 
