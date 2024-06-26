@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import accountReducer from "../features/accountsSlice"
 import authReducer from "../features/authSlice";
 import activeDataReducer from "../features/activeDataSlice";
 import codeReducer from "../features/codesSlice";
@@ -6,6 +7,7 @@ import filteredDataReducer from "../features/filteredDataSlice";
 
 export const store = configureStore({
   reducer: {
+    account: accountReducer,
     activeData: activeDataReducer,
     auth: authReducer,
     code: codeReducer,
