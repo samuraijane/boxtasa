@@ -31,7 +31,7 @@ export const prepResponseDataAfterBulkUpdate = (data) => {
 };
 
 /**
- * Finds the query type that matches the values of given array.
+ * Finds the query type that matches the values of the given array.
  * @param {boolean[]} currentPattern 
  * @returns {string}
  */
