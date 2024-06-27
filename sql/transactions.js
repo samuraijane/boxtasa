@@ -68,56 +68,56 @@ const transactionOrderBy = `
 // all transactions
 const sqlGetTransactionsA = `
   WHERE $1::int IS NULL
-  AND $2::text IS NULL
+  AND $2::int IS NULL
   AND $3::int IS NULL
 `;
 
 // acctId, code, year
 const sqlGetTransactionsB = `
   WHERE _accounts.account_id = $1
-  AND _codes.code_name = $2
+  AND _codes.code_id = $2
   AND _transactions.date_year = $3
 `;
 
 // acctId, code
 const sqlGetTransactionsC = `
   WHERE _accounts.account_id = $1
-  AND _codes.code_name = $2
+  AND _codes.code_id = $2
   AND $3::int IS NULL
 `;
 
 // acctId, year
 const sqlGetTransactionsD = `
   WHERE _accounts.account_id = $1
-  AND $2::text IS NULL
+  AND $2::int IS NULL
   AND _transactions.date_year = $3
 `;
 
 // acctId
 const sqlGetTransactionsE = `
   WHERE _accounts.account_id = $1
-  AND $2::text IS NULL
+  AND $2::int IS NULL
   AND $3::int IS NULL
 `;
 
 // code
 const sqlGetTransactionsF = `
   WHERE $1::int IS NULL
-  AND _codes.code_name = $2
+  AND _codes.code_id = $2
   AND $3::int IS NULL
 `;
 
 // code, year
 const sqlGetTransactionsG = `
   WHERE $1::int IS NULL
-  AND _codes.code_name = $2
+  AND _codes.code_id = $2
   AND _transactions.date_year = $3
 `;
 
 // year
 const sqlGetTransactionsH = `
   WHERE $1::int IS NULL
-  AND $2::text IS NULL
+  AND $2::int IS NULL
   AND _transactions.date_year = $3
 `;
 
