@@ -49,7 +49,9 @@ export const DataSelector = () => {
         <CodeSelector action={handleSelection} selected={selections.codeId} />
         <DateSelector action={handleSelection} selected={selections.year} />
       </div>
-      <button onClick={handleClick}>Get Transactions</button>
+      <div className="btn-container">
+        <button onClick={handleClick}>Get Transactions</button>
+      </div>
     </div>
   );
 };
