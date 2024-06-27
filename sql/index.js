@@ -4,10 +4,12 @@ import {
   sqlGetTransaction,
   sqlGetTransactions
 } from "./transactions.js";
+import { sqlGetVendors } from "./vendors.js";
 
 export {
   sqlGetAccounts,
   sqlGetCodes,
   sqlGetTransaction,
-  sqlGetTransactions
+  sqlGetTransactions,
+  sqlGetVendors
 }

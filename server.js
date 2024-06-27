@@ -56,6 +56,8 @@ server.get('/api/codes', db.getCodes);
 server.get('/api/transaction/:id', db.getTransaction);
 server.get('/api/transactions', db.getTransactions);
 
+server.get('/api/vendors', db.getVendors);
+
 server.post('/api/bulk', db.postCodesInBulk);
 server.post('/api/transactions', db.postCodeToTransaction);
 

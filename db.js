@@ -4,7 +4,8 @@ import {
   sqlGetAccounts,
   sqlGetCodes,
   sqlGetTransaction,
-  sqlGetTransactions
+  sqlGetTransactions,
+  sqlGetVendors
 } from "./sql/index.js";
 import { getQueryType, prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
 
@@ -71,6 +72,15 @@ const getTransactions = (req, res) => {
   });
 };
 
+const getVendors = (req, res) => {
+  pool.query(sqlGetVendors(), (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
+
 const postCodesInBulk = async (req, res) => {
   const bulkTransactions = req.body;
 
@@ -109,6 +119,7 @@ export default {
   getCodes,
   getTransaction,
   getTransactions,
+  getVendors,
   postCodesInBulk,
   postCodeToTransaction
 };
