@@ -1,20 +1,13 @@
 .account-selector {
+  padding: 0 20px;
 
   .account-selector__account-names {
     display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 10px;
+    grid-template-columns: repeat(2, minmax(176px, 1fr));
+    gap: 8px;
 
     p {
       font-size: 1.2rem;
-    }
-  }
-
-  .account-selector__account-container {
-    cursor: pointer;
-
-    &.account-selector__account-container--selected {
-      color: crimson;
     }
   }
 

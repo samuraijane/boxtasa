@@ -12,9 +12,9 @@ export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element =
 
   // TODO at some point far in the future, implement a really nice way to select dates
   // TODO get years that are available from the database rather than a hardcoded JSON file
-  const dates = (data as string[]).map((date, index) => (
+  const dates = data.map((date, index) => (
     <li
-      className={`date-selector__date${selected === date ? " date-selector__date--selected" : ""}`}
+      className={`selector-container${selected === date ? " selector-container--selected" : ""}`}
       data-id={date}
       data-type="year"
       key={date}
@@ -26,7 +26,6 @@ export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element =
 
   return (
     <div className="date-selector">
-      <p>Year</p>
       <ul className="date-selector__dates">{dates}</ul>
     </div>
   );

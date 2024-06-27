@@ -1,19 +1,13 @@
 .date-selector {
-  margin: 0 0 0 60px;
-  
+  padding: 0 20px;
+
   p {
     font-size: 1.2rem;
   }
 
   .date-selector__dates {
-
-    .date-selector__date {
-      cursor: pointer;
-      margin: 10px 0;
-
-      &.date-selector__date--selected {
-        color: crimson;
-      }
-    }
+    display: grid;
+    grid-template-columns: auto;
+    gap: 8px;
   }
 }

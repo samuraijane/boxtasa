@@ -1,0 +1,9 @@
+.code-selector {
+  padding: 0 20px;
+
+  .code-selector__codes {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+}

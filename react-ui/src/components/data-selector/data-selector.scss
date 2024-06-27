@@ -1,8 +1,22 @@
 .data-selector {
 
   .data-selector__selectors-container {
-    align-items: center;
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 3fr 6fr 1fr;
+  }
+}
+
+// TODO scope this later
+.selector-container {
+  background-color: aliceblue;
+  border: 1px solid #eee;
+  cursor: pointer;
+  flex: 0 1 80px;
+  padding: 10px 20px;
+  text-align: center;
+
+  &.selector-container--selected {
+    background-color: cornflowerblue;
+    color: white;
   }
 }

@@ -7,8 +7,8 @@ interface ActiveDataState {
   transactions: Transaction[];
 }
 
-export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctId, code, year }: {acctId: string, code: string, year: string}) => {
-  const url = `http://localhost:8080/api/transactions/?acctId=${acctId}&code=${code}&year=${year}`
+export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctId, codeId, year }: {acctId: string, codeId: string, year: string}) => {
+  const url = `http://localhost:8080/api/transactions/?acctId=${acctId}&codeId=${codeId}&year=${year}`
   const data = await fetch(url);
   const _transactions = await data.json();
   return {

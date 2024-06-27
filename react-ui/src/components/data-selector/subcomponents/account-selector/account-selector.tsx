@@ -18,7 +18,7 @@ export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Elemen
 
     return (
       <li
-        className={`account-selector__account-container${selected === account_id ? " account-selector__account-container--selected" : ""}`}
+        className={`selector-container${parseInt(selected) === account_id ? " selector-container--selected" : ""}`}
         data-id={account_id}
         data-type="acctId"
         key={acct_no}
