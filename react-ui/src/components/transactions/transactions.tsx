@@ -111,16 +111,18 @@ export const Transactions = (): JSX.Element => {
 
   return (
     <div className="transactions">
-      <div className="transactions__search">
-        <input
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Search memos"
-          type="text"
-          value={searchTerm}
-        />
-        <button onClick={handleSort}>Sort</button>
-        <div>{_transactions.length}</div>
+      <div className="transactions__subheader">
+        <div className="transactions__count"><span>Count:</span>{_transactions.length}</div>
+        <div className="transactions__search">
+          <input
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Search memos"
+            type="text"
+            value={searchTerm}
+          />
+          <button onClick={handleSort}>Sort</button>
+        </div>
       </div>
       <ul className="transactions__list">{_transactions}</ul>
       {isModalActive && activeTransaction && <Modal action={handleClick} data={activeTransaction}/>}

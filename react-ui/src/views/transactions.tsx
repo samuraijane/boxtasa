@@ -9,7 +9,7 @@ export const TransactionsPage = (): JSX.Element => {
   return (
     <>
       <DataSelector />
-      {filteredTransactions.length && <Transactions />}
+      {filteredTransactions.length > 0 && <Transactions />}
     </>
   )
 };

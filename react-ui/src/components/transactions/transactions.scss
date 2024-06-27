@@ -1,10 +1,45 @@
 .transactions {
 
-  .transactions__search {
-    margin: 14px 0;
+  .transactions__subheader {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
 
+  .transactions__count {
+    font-weight: 700;
+
+    span {
+      display: inline-block;
+      font-weight: 400;
+      margin: 0 6px 0 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .transactions__search {
+
+    button,
     input {
       padding: 6px 12px;
+    }
+
+    button {
+      background-color: crimson;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      color: white;
+      margin: 0 0 0 8px;
+      padding: 8px 16px;
+
+      &:hover {
+        background-color: cornflowerblue;
+      }
+    }
+
+    input {
+      min-width: 300px;
     }
   }
 
