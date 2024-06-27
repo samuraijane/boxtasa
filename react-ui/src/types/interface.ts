@@ -6,6 +6,11 @@ export interface Code {
   updated_at?: string;
 }
 
+export interface Vendor {
+  vendor_id: number;
+  vendor_name: string;
+}
+
 export interface Transaction {
   transaction_id: number,
   account_type_name: string,
@@ -46,6 +51,7 @@ export interface ReduxStore {
   auth: boolean;
   code: Code[];
   filteredData: FilteredData;
+  vendor: Vendor[]
 }
 
 export interface Total {

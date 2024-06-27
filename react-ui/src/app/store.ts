@@ -4,6 +4,7 @@ import authReducer from "../features/authSlice";
 import activeDataReducer from "../features/activeDataSlice";
 import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
+import vendorReducer from "../features/vendorsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     activeData: activeDataReducer,
     auth: authReducer,
     code: codeReducer,
-    filteredData: filteredDataReducer
+    filteredData: filteredDataReducer,
+    vendor: vendorReducer
   }
 });
 

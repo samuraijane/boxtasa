@@ -7,6 +7,7 @@ import App from "./app";
 import { verifyAuth } from "./features/authSlice";
 import { getAccounts } from "./features/accountsSlice";
 import { getCodes } from "./features/codesSlice";
+import { getVendors } from "./features/vendorsSlice";
 import './styles/style.scss';
 
 const container: HTMLElement | null = document.getElementById("root");
@@ -15,6 +16,7 @@ const root = container && createRoot(container);
 store.dispatch(verifyAuth());
 store.dispatch(getAccounts());
 store.dispatch(getCodes());
+store.dispatch(getVendors());
 
 root?.render(
   <StrictMode>
