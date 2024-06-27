@@ -30,31 +30,40 @@ const sqlGetTransaction = () => (`
 
 const transactionBaseQuery = `
   SELECT
-  _transactions.transaction_id,
-  _accounts.acct_no,
-  _accounts.short_name,
-  _accounts.account_type_name,
-  _transactions.date_day,
-  _transactions.date_month,
-  _transactions.date_year,
-  _transactions.amount,
-  _transaction_types.transaction_type_name,
-  _transactions.transaction_memo,
-  _codes.code_name
-  FROM
-  transactions _transactions
-  INNER JOIN (
-  SELECT
-    _accounts.account_id,
+    _transactions.transaction_id,
     _accounts.acct_no,
-    _institutions.short_name,
-    _account_types.account_type_name
-  FROM accounts _accounts
-  INNER JOIN institutions _institutions USING(institution_id)
-  INNER JOIN account_types _account_types USING(account_type_id)
-  ) as _accounts USING(account_id)
-  INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
-  INNER JOIN codes _codes USING(code_id)
+    _accounts.short_name,
+    _accounts.account_type_name,
+    _transactions.date_day,
+    _transactions.date_month,
+    _transactions.date_year,
+    _transactions.amount,
+    _transaction_types.transaction_type_name,
+    _transactions.transaction_memo,
+    _vendors.vendor_name,
+    _codes.code_name
+  FROM
+    transactions _transactions
+  INNER JOIN
+    (
+      SELECT
+        _accounts.account_id,
+        _accounts.acct_no,
+        _institutions.short_name,
+        _account_types.account_type_name
+      FROM
+        accounts _accounts
+      INNER JOIN
+        institutions _institutions USING(institution_id)
+      INNER JOIN
+        account_types _account_types USING(account_type_id)
+    ) as _accounts USING(account_id)
+  INNER JOIN
+    transaction_types _transaction_types USING(transaction_type_id)
+  INNER JOIN
+    codes _codes USING(code_id)
+  INNER JOIN
+    vendors _vendors USING(vendor_id) 
 `;
 
 const transactionOrderBy = `
