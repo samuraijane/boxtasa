@@ -24,6 +24,7 @@ export interface Transaction {
   transaction_type_name: string;
   amount: string;
   code_name: string;
+  vendor_name: string;
 }
 
 export const Transactions = (): JSX.Element => {
@@ -88,7 +89,8 @@ export const Transactions = (): JSX.Element => {
       transaction_memo: memo,
       transaction_type_name: transactionType,
       amount,
-      code_name: codeName
+      code_name: codeName,
+      vendor_name: vendor
     } = x;
 
     const _id = `${id}-${acctName}${acctNo}`;

@@ -39,7 +39,8 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
     transaction_memo: memo,
     transaction_type_name: transactionType,
     amount,
-    code_name: codeName
+    code_name: codeName,
+    vendor_name: vendor
   } = data;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +90,7 @@ export const Modal = ({ action, data }: ModalProps): JSX.Element => {
         <p><span>Month</span><span>{month}</span></p>
         <p><span>Day</span><span>{day}</span></p>
         <p className="modal__text-full"><span>Memo</span><span>{memo}</span></p>
+        <p className="modal__text-full"><span>Vendor</span><span>{vendor}</span></p>
         <p><span>Transaction Type</span><span>{transactionType}</span></p>
         <p><span>Amount</span><span>{amount}</span></p>
         <p><span>Code</span><span>{codeName}</span></p>

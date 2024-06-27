@@ -23,6 +23,7 @@ export interface Transaction {
   transaction_type_name: string;
   transaction_memo: string;
   code_name: string;
+  vendor_name: string;
 }
 
 // Redux store

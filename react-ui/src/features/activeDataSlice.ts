@@ -20,7 +20,7 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
 export interface PostTransactionCode {
   account?: string; // TODO consider an enum here
   code: string;
-  transactionId: string
+  transactionId: string;
 }
 
 export const postTransactionCode = createAsyncThunk('transactions/post', async (args: PostTransactionCode, { getState }) => {
