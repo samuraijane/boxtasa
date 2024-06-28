@@ -4,7 +4,6 @@ import { Total } from "./types/interface";
 
 export const prepBulkData = (transactions: Transaction[], codeId: string): PostTransactionCode[] => {
   return transactions.map(transaction => ({
-    account: `${transaction.short_name}${transaction.acct_no}`,
     codeId,
     transactionId: transaction.transaction_id.toString()
   }));
