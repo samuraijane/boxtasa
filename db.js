@@ -102,14 +102,11 @@ const postCodesInBulk = async (req, res) => {
 };
 
 const postCodeToTransaction = async (req, res) => {
-  const { a: account, c: code, t: transactionId } = req.query;
-
-  const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${code}';`);
-  const codeId = query.rows[0].code_id;
+  const { c: codeId, t: transactionId } = req.query;
 
   // TODO handle possible errors
-  await pool.query(`UPDATE ${account} SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
-  const updated = await pool.query(sqlGetTransaction(account), [transactionId]);
+  await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+  const updated = await pool.query(sqlGetTransaction(), [transactionId]);
   
   res.status(200).json({ message: "success", updated: updated.rows[0]});
 };
