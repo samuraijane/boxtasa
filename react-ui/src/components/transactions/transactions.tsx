@@ -40,17 +40,6 @@ export const Transactions = (): JSX.Element => {
     dispatch(setSearchTerm(value));
   };
 
-  const handleClick = async (data: PostTransactionCode | PostTransactionCode[]) => {
-    if ((data as PostTransactionCode[]).length) {
-      await dispatch(postTransactionCodesInBulk(data as PostTransactionCode[]));
-      setIsModalActive(false);
-    } else {
-      const { code, transactionId } = data as PostTransactionCode;
-      await dispatch(postTransactionCode({ code, transactionId }));
-      setIsModalActive(false);
-    }
-  };
-
   const handleKeyDown = (e: any) => {
     // handle backspace here
     if (e.keyCode === 8) {
@@ -60,21 +49,29 @@ export const Transactions = (): JSX.Element => {
   };
 
   const handleModal = (e: MouseEvent<HTMLLIElement>) => {
-    const id = (e.currentTarget.dataset.id as string);
+    const id = (e.currentTarget.dataset.id);
     if (!id) {
       console.error("There is no id, friend."); // TODO handle error gracefully
       return;
     }
     setIsModalActive(!isModalActive);
-    const _activeTransaction = matchingTransactions.find(x => {
-      const interpolatedDatabaseId = `${x.transaction_id}-${x.short_name}${x.acct_no}` // 1
-      return interpolatedDatabaseId === id; // 1
-    });
+    const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
     setActiveTransaction(_activeTransaction);
   };
 
   const handleSort = (e: MouseEvent<HTMLButtonElement>) => {
     dispatch(sortFilteredTransactions(matchingTransactions));
+  };
+
+  const handleUpdate = async (data: PostTransactionCode | PostTransactionCode[]) => {
+    if ((data as PostTransactionCode[]).length) {
+      await dispatch(postTransactionCodesInBulk(data as PostTransactionCode[]));
+      setIsModalActive(false);
+    } else {
+      const { codeId, transactionId } = data as PostTransactionCode;
+      await dispatch(postTransactionCode({ codeId, transactionId }));
+      setIsModalActive(false);
+    }
   };
 
   const _transactions = matchingTransactions.map((x) => {
@@ -93,10 +90,8 @@ export const Transactions = (): JSX.Element => {
       vendor_name: vendor
     } = x;
 
-    const _id = `${id}-${acctName}${acctNo}`;
-
     return (
-      <li key={_id}>  
+      <li key={id}>  
         <span>{acctNo}</span>
         <span>{acctName}</span>
         <span>{acctType}</span>
@@ -106,7 +101,7 @@ export const Transactions = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span className="transactions__amount" data-id={_id} onClick={handleModal}>{codeName}</span>
+        <span className="transactions__amount" data-id={id} onClick={handleModal}>{codeName}</span>
       </li>
     );
   });
@@ -127,24 +122,7 @@ export const Transactions = (): JSX.Element => {
         </div>
       </div>
       <ul className="transactions__list">{_transactions}</ul>
-      {isModalActive && activeTransaction && <Modal action={handleClick} data={activeTransaction}/>}
+      {isModalActive && activeTransaction && <Modal handleUpdate={handleUpdate} data={activeTransaction}/>}
     </div>
   );
 };
-
-/*
-NOTES
-
-[1]
-An example of an interpolated database id is "178-axos9152". We have to
-do this because in the UI, this is what the the id of each element looks
-like and this was necessary because the it's possible multiple elements
-may have the same id since the UI can show transactions from more than
-one table. To avoid bugs that this can cause, we create an id that
-concatenates the id, the bank account name, and the bank account number.
-
-TODO Because transactions are no longer separated by account, the note
-above no longer applies. We need to investigate how to best simplify
-this or even remove it, if possible.
-
-*/

@@ -2,8 +2,6 @@ export interface Code {
   code_id: number;
   code_name: string;
   code_description: string;
-  created_at?: string;
-  updated_at?: string;
 }
 
 export interface Vendor {

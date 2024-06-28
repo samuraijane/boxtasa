@@ -16,18 +16,16 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
   };
 });
 
-// TODO check that POST still works since we've changed things on the server and in the database recently
 export interface PostTransactionCode {
-  account?: string; // TODO consider an enum here
-  code: string;
+  codeId: string;
   transactionId: string;
 }
 
 export const postTransactionCode = createAsyncThunk('transactions/post', async (args: PostTransactionCode, { getState }) => {
-  const { code, transactionId } = args;
+  const { codeId, transactionId } = args;
   const rootState = getState() as ReduxStore;
 
-  const url = `http://localhost:8080/api/transactions/?a=${rootState.activeData.account}&c=${code}&t=${transactionId}`;
+  const url = `http://localhost:8080/api/transactions/?c=${codeId}&t=${transactionId}`;
   const data = await fetch(url, {
     method: "POST"
   });

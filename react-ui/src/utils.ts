@@ -2,10 +2,10 @@ import { PostTransactionCode } from "./features/activeDataSlice";
 import { Transaction } from "./components/transactions/transactions";
 import { Total } from "./types/interface";
 
-export const prepBulkData = (transactions: Transaction[], code: string): PostTransactionCode[] => {
+export const prepBulkData = (transactions: Transaction[], codeId: string): PostTransactionCode[] => {
   return transactions.map(transaction => ({
     account: `${transaction.short_name}${transaction.acct_no}`,
-    code,
+    codeId,
     transactionId: transaction.transaction_id.toString()
   }));
 };
