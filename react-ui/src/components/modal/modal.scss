@@ -38,6 +38,12 @@
     }
   }
 
+  .modal__subheader {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 20px;
+  }
+
   .modal__codes {
     flex: 1;
     overflow: hidden;
@@ -47,10 +53,9 @@
     .modal__search {
       display: flex;
       justify-content: flex-end;
-      margin: 0 0 22px;
   
       .modal__live-search {
-        width: 100%;
+        width: 140px;
       }
   
       input {
@@ -64,8 +69,14 @@
       margin: 0 0 0 14px;
   
       button {
+        background-color: crimson;
         border: 1px solid transparent;
+        color: white;
         padding: 6px 14px;
+
+        &:hover {
+          background-color: cornflowerblue;
+        }
       }
     }
 
@@ -75,29 +86,40 @@
   }
 
 
-    .modal__code-list {
-      overflow-y: scroll;
-      position: absolute;
-      height: 100%;
-      left: 40px; // Ref A
-      padding: 0 0 60px;
+  .modal__code-list {
+    overflow-y: scroll;
+    position: absolute;
+    height: 100%;
+    left: 40px; // Ref A
+    padding: 0 0 60px;
 
-      li {
-        cursor: pointer;
-        display: flex;
-        margin: 8px 0;
+    li {
+      cursor: pointer;
+      display: flex;
+      margin: 8px 0;
 
-        &:first-of-type {
-          margin-top: 0;
-        }
+      &:first-of-type {
+        margin-top: 0;
+      }
 
-        span:first-of-type {
-          color: #555;
-          font-family: monospace;
-          letter-spacing: 0.8px;
-          width: 60px;
-        }
+      span:first-of-type {
+        color: #555;
+        font-family: monospace;
+        letter-spacing: 0.8px;
+        width: 60px;
       }
     }
+  }
+
+  .modal__bulk {
+    align-items: center;
+    display: flex;
+
+    input[type="checkbox"] {
+      height: 100%;
+      margin: 0 0 0 14px;
+      width: 29.5px;
+    }
+  }
   
 }

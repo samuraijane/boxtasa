@@ -67,17 +67,19 @@ export const UpdateByCode = ({ handleUpdate, transactionId }: UpdateByCodeProps)
 
   return (
     <div className="modal__codes">
-      <div className="modal__search">
-        <div className="modal__live-search">
-          <input onChange={handleChange} type="text" value={inputValue} />
+      <div className="modal__subheader">
+        <div className="modal__search">
+          <div className="modal__live-search">
+            <input onChange={handleChange} type="text" value={inputValue} />
+          </div>
+          <div className="modal__btn-container">
+            <button onClick={handleSave}>Save</button>
+          </div>
         </div>
-        <div className="modal__btn-container">
-          <button onClick={handleSave}>Save</button>
+        <div className="modal__bulk">
+          <label>Bulk update</label>
+          <input onChange={handleCheckbox} type="checkbox" />
         </div>
-      </div>
-      <div>
-        <label>Apply code to all found records?</label>
-        <input onChange={handleCheckbox} type="checkbox" />
       </div>
       <ul className="modal__code-list">
         {_codes}
