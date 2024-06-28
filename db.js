@@ -85,14 +85,11 @@ const postCodesInBulk = async (req, res) => {
   const bulkTransactions = req.body;
 
   const updateMultipleTransactions = await bulkTransactions.map(async bulkTransaction => {
-    const { account, code, transactionId } = bulkTransaction;
-
-    const query = await pool.query(`SELECT code_id FROM codes WHERE code_name like '${code}';`);
-    const codeId = query.rows[0].code_id;
+    const { codeId, transactionId } = bulkTransaction;
   
     // TODO handle possible errors
-    await pool.query(`UPDATE ${account} SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
-    return await pool.query(sqlGetTransaction(account), [transactionId]);
+    await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+    return await pool.query(sqlGetTransaction(), [transactionId]);
   });
 
   Promise.all(updateMultipleTransactions).then((x) => {
