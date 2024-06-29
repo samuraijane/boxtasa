@@ -1,0 +1,80 @@
+.dialogue {
+  width: 100%;
+
+  .dialogue__subheader {
+    border-bottom: 1px solid #aaa;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 20px;
+  }
+
+  .dialogue__inputs-container {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    max-width: 40%;
+  }
+
+  .dialogue__body {
+    display: flex;
+    height: 88%;
+    justify-content: space-between;
+
+    .dialogue__column {
+      padding: 20px 0 0;
+      width: 50%;
+      
+      &.dialogue__column--left {
+        padding-right: 20px;
+      }
+
+      &.dialogue__column--right {
+        border-left: 1px solid #aaa;
+        max-width: 40%;
+        overflow: scroll;
+        padding-left: 20px;
+      }
+    }
+  }
+
+  .dialogue__search {
+    display: flex;
+    justify-content: flex-end;
+
+    .dialogue__live-search {
+      width: 140px;
+    }
+
+    input {
+      border: 1px solid transparent;
+      padding: 6px;
+      width: 100%;
+    }
+  }
+
+  .dialogue__btn-container {
+    margin: 0 0 0 14px;
+
+    button {
+      background-color: crimson;
+      border: 1px solid transparent;
+      color: white;
+      padding: 6px 14px;
+
+      &:hover {
+        background-color: cornflowerblue;
+      }
+    }
+  }
+
+  .dialogue__bulk {
+    align-items: center;
+    display: flex;
+  
+    input[type="checkbox"] {
+      height: 100%;
+      margin: 0 0 0 14px;
+      width: 29.5px;
+    }
+  }
+}

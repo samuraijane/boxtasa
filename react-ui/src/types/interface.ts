@@ -10,17 +10,17 @@ export interface Vendor {
 }
 
 export interface Transaction {
-  transaction_id: number,
   account_type_name: string,
-  short_name: string,
   acct_no: string,
+  amount: string;
+  code_name: string;
   date_day: number,
   date_month: number,
   date_year: number,
-  amount: string;
-  transaction_type_name: string;
+  short_name: string,
+  transaction_id: number,
   transaction_memo: string;
-  code_name: string;
+  transaction_type_name: string;
   vendor_name: string;
 }
 
@@ -47,9 +47,11 @@ export interface Account {
 export interface ReduxStore {
   account: Account[];
   activeData: ActiveData;
+  activeTransaction: Transaction;
   auth: boolean;
   code: Code[];
   filteredData: FilteredData;
+  isModal: boolean;
   vendor: Vendor[]
 }
 

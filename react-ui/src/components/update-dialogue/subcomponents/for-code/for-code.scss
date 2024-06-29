@@ -1,0 +1,26 @@
+.for-code {
+
+  .for-code__codes {
+    padding: 0 0 60px;
+  
+    li {
+      cursor: pointer;
+      display: flex;
+      margin: 8px 0;
+  
+      &:first-of-type {
+        margin-top: 0;
+      }
+  
+      span:first-of-type {
+        font-family: monospace;
+        letter-spacing: 0.8px;
+        width: 60px;
+      }
+    }
+  }
+
+  .for-code__selected-code {
+    color: crimson; // TODO use a different color to highlight which code is selected
+  }
+}

@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectFilteredTransactions,
@@ -7,33 +7,18 @@ import {
   sortFilteredTransactions
 } from "../../features/filteredDataSlice";
 import { Modal } from "../modal/modal";
-import { postTransactionCode } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
+import { handleModal, selectIsModal } from "../../features/isModalSlice";
+import { selectActiveTransaction, setActiveTransaction } from "../../features/activeTransactionSlice";
+import { TransactionUpdateDialogue } from "../update-dialogue/update-dialogue";
 import "./transactions.scss";
-import { PostTransactionCode, postTransactionCodesInBulk } from "../../features/activeDataSlice";
-
-export interface Transaction {
-  acct_no: string;
-  short_name: string;
-  account_type_name: string;
-  date_year: number;
-  date_month: number;
-  date_day: number;
-  transaction_id: number;
-  transaction_memo: string;
-  transaction_type_name: string;
-  amount: string;
-  code_name: string;
-  vendor_name: string;
-}
 
 export const Transactions = (): JSX.Element => {
+  const activeTransaction = useSelector(selectActiveTransaction);
+  const isModal = useSelector(selectIsModal);
   const matchingTransactions = useSelector(selectFilteredTransactions);
   const searchTerm = useSelector(selectSearchTerm);
   const dispatch = useDispatch<AppDispatch>();
-
-  const [activeTransaction, setActiveTransaction] = useState<Transaction>();
-  const [isModalActive, setIsModalActive] =useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
@@ -41,37 +26,27 @@ export const Transactions = (): JSX.Element => {
   };
 
   const handleKeyDown = (e: any) => {
-    // handle backspace here
-    if (e.keyCode === 8) {
+    if (e.keyCode === 8) { // 1
       const newValue = searchTerm.slice(0, searchTerm.length);
       dispatch(setSearchTerm(newValue));
     }
   };
 
-  const handleModal = (e: MouseEvent<HTMLLIElement>) => {
+  // TODO consider listening on the UL instead of each LI
+  const handleShowActiveTransaction = (e: MouseEvent<HTMLLIElement>) => {
     const id = (e.currentTarget.dataset.id);
     if (!id) {
-      console.error("There is no id, friend."); // TODO handle error gracefully
+      // TODO handle error gracefully
+      console.error("There is no id, friend.");
       return;
     }
-    setIsModalActive(!isModalActive);
+    dispatch(handleModal(!isModal));
     const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
-    setActiveTransaction(_activeTransaction);
+    dispatch(setActiveTransaction(_activeTransaction));
   };
 
-  const handleSort = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleSort = () => {
     dispatch(sortFilteredTransactions(matchingTransactions));
-  };
-
-  const handleUpdate = async (data: PostTransactionCode | PostTransactionCode[]) => {
-    if ((data as PostTransactionCode[]).length) {
-      await dispatch(postTransactionCodesInBulk(data as PostTransactionCode[]));
-      setIsModalActive(false);
-    } else {
-      const { codeId, transactionId } = data as PostTransactionCode;
-      await dispatch(postTransactionCode({ codeId, transactionId }));
-      setIsModalActive(false);
-    }
   };
 
   const _transactions = matchingTransactions.map((x) => {
@@ -87,7 +62,7 @@ export const Transactions = (): JSX.Element => {
       transaction_type_name: transactionType,
       amount,
       code_name: codeName,
-      vendor_name: vendor
+      vendor_name: vendor // TODO render vendor in the UI
     } = x;
 
     return (
@@ -101,7 +76,7 @@ export const Transactions = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span className="transactions__amount" data-id={id} onClick={handleModal}>{codeName}</span>
+        <span className="transactions__amount" data-id={id} onClick={handleShowActiveTransaction}>{codeName}</span>
       </li>
     );
   });
@@ -122,7 +97,13 @@ export const Transactions = (): JSX.Element => {
         </div>
       </div>
       <ul className="transactions__list">{_transactions}</ul>
-      {isModalActive && activeTransaction && <Modal handleUpdate={handleUpdate} data={activeTransaction}/>}
+      {isModal && activeTransaction && <Modal children={<TransactionUpdateDialogue activeTransaction={activeTransaction} />} />}
     </div>
   );
 };
+
+/*
+NOTES
+
+[1] This detects when the backspace key is pressed.
+*/

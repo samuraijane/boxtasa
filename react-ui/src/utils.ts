@@ -1,5 +1,5 @@
 import { PostTransactionCode } from "./features/activeDataSlice";
-import { Transaction } from "./components/transactions/transactions";
+import { Transaction } from "./types/interface";
 import { Total } from "./types/interface";
 
 export const prepBulkData = (transactions: Transaction[], codeId: string): PostTransactionCode[] => {

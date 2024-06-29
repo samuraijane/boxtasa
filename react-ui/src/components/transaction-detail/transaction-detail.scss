@@ -1,0 +1,26 @@
+.transaction-detail {
+
+  p {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    margin: 24px 0;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    span:first-of-type {
+      color: #555;
+      font-weight: 700;
+    }
+  }
+
+  .transaction-detail__full-text {
+    display: block;
+
+    span:first-of-type {
+      display: block;
+      margin: 0 0 6px;
+    }
+  }
+}
