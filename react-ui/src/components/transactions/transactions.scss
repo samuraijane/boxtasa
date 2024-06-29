@@ -49,6 +49,11 @@
       margin: 0 0 12px 0;
       padding: 10px 0 10px 10px;
 
+      .transactions__memo {
+        display: flex;
+        flex-direction: column;
+      }
+
       span {
         display: block;
       }

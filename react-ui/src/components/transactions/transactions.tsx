@@ -69,7 +69,7 @@ export const Transactions = (): JSX.Element => {
       transaction_type_name: transactionType,
       amount,
       code_name: codeName,
-      vendor_name: vendor // TODO render vendor in the UI
+      vendor_name: vendor
     } = x;
 
     return (
@@ -80,7 +80,10 @@ export const Transactions = (): JSX.Element => {
         <span>{year}</span>
         <span>{month}</span>
         <span>{day}</span>
-        <span>{memo}</span>
+        <div className="transactions__memo">
+          <span>{memo}</span>
+          <span>{vendor}</span>
+        </div>
         <span>{transactionType}</span>
         <span>{amount}</span>
         <span className="transactions__amount">{codeName}</span>
