@@ -4,12 +4,9 @@ import { useSelector } from "react-redux";
 import { selectFilteredTransactions } from "../features/filteredDataSlice";
 
 
-export const TransactionsPage = (): JSX.Element => {
-  const filteredTransactions = useSelector(selectFilteredTransactions);
-  return (
-    <>
-      <DataSelector />
-      {filteredTransactions.length > 0 && <Transactions />}
-    </>
-  )
-};
+export const TransactionsPage = (): JSX.Element => (
+  <>
+    <DataSelector />
+    <Transactions />
+  </>
+);

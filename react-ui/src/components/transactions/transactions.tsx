@@ -12,12 +12,14 @@ import { handleModal, selectIsModal } from "../../features/isModalSlice";
 import { selectActiveTransaction, setActiveTransaction } from "../../features/activeTransactionSlice";
 import { TransactionUpdateDialogue } from "../update-dialogue/update-dialogue";
 import "./transactions.scss";
+import { selectTransactions } from "../../features/activeDataSlice";
 
 export const Transactions = (): JSX.Element => {
   const activeTransaction = useSelector(selectActiveTransaction);
   const isModal = useSelector(selectIsModal);
   const matchingTransactions = useSelector(selectFilteredTransactions);
   const searchTerm = useSelector(selectSearchTerm);
+  const transactionsFromApi = useSelector(selectTransactions);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,20 +85,22 @@ export const Transactions = (): JSX.Element => {
 
   return (
     <div className="transactions">
-      <div className="transactions__subheader">
-        <div className="transactions__count"><span>Count:</span>{_transactions.length}</div>
-        <div className="transactions__search">
-          <input
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            placeholder="Search memos"
-            type="text"
-            value={searchTerm}
-          />
-          <button onClick={handleSort}>Sort</button>
+      {transactionsFromApi.length > 0 && (
+        <div className="transactions__subheader">
+          <div className="transactions__count"><span>Count:</span>{_transactions.length}</div>
+          <div className="transactions__search">
+            <input
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Search memos"
+              type="text"
+              value={searchTerm}
+            />
+            <button onClick={handleSort}>Sort</button>
+          </div>
         </div>
-      </div>
-      <ul className="transactions__list">{_transactions}</ul>
+      )}
+      {matchingTransactions.length > 0 &&<ul className="transactions__list">{_transactions}</ul>}
       {isModal && activeTransaction && <Modal children={<TransactionUpdateDialogue activeTransaction={activeTransaction} />} />}
     </div>
   );
