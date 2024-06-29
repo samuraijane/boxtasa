@@ -5,9 +5,26 @@
   height: 60%;
   justify-content: space-between;
   left: 50%;
-  padding: 30px;
+  padding: 60px 30px 30px;
   position: fixed;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
+
+  .modal__close {
+    color: #999;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+    &:after {
+      content: "\2715";
+    }
+
+    &:hover {
+      color: black;
+    }
+  }
 }
