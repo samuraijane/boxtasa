@@ -34,9 +34,14 @@ export const Transactions = (): JSX.Element => {
     }
   };
 
-  // TODO consider listening on the UL instead of each LI
-  const handleShowActiveTransaction = (e: MouseEvent<HTMLLIElement>) => {
-    const id = (e.currentTarget.dataset.id);
+  const handleShowActiveTransaction = (e: MouseEvent<HTMLUListElement>) => {
+    if (!(e.target instanceof HTMLElement)) {
+      // TODO handle error gracefully
+      console.error("Hmmm....");
+      return;
+    }
+  
+    const id = e.target.closest("li")?.dataset.id;
     if (!id) {
       // TODO handle error gracefully
       console.error("There is no id, friend.");
@@ -68,7 +73,7 @@ export const Transactions = (): JSX.Element => {
     } = x;
 
     return (
-      <li key={id}>  
+      <li data-id={id} key={id}>  
         <span>{acctNo}</span>
         <span>{acctName}</span>
         <span>{acctType}</span>
@@ -78,7 +83,7 @@ export const Transactions = (): JSX.Element => {
         <span>{memo}</span>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span className="transactions__amount" data-id={id} onClick={handleShowActiveTransaction}>{codeName}</span>
+        <span className="transactions__amount">{codeName}</span>
       </li>
     );
   });
@@ -100,7 +105,7 @@ export const Transactions = (): JSX.Element => {
           </div>
         </div>
       )}
-      {matchingTransactions.length > 0 &&<ul className="transactions__list">{_transactions}</ul>}
+      {matchingTransactions.length > 0 &&<ul className="transactions__list" onClick={handleShowActiveTransaction}>{_transactions}</ul>}
       {isModal && activeTransaction && <Modal children={<TransactionUpdateDialogue activeTransaction={activeTransaction} />} />}
     </div>
   );
