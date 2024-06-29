@@ -86,7 +86,7 @@ export const Transactions = (): JSX.Element => {
         </div>
         <span>{transactionType}</span>
         <span>{amount}</span>
-        <span className="transactions__amount">{codeName}</span>
+        <span>{codeName}</span>
       </li>
     );
   });

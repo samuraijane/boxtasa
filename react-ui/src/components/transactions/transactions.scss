@@ -46,6 +46,7 @@
   .transactions__list {
 
     li {
+      cursor: pointer;
       padding: 10px 0 10px 10px;
 
       .transactions__memo {
@@ -55,10 +56,6 @@
 
       span {
         display: block;
-      }
-
-      .transactions__amount {
-        cursor: pointer;
       }
 
       display: grid;
