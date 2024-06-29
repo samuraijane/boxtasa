@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { PostTransactionCode, postTransactionCodesInBulk } from "../../features/activeDataSlice";
 import { postTransactionCode } from "../../features/activeDataSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,12 @@ import "./update-dialogue.scss";
 import { Transaction } from "../../types/interface";
 import { TransactionDetail } from "../transaction-detail/transaction-detail";
 import { ForCode } from "./subcomponents/for-code/for-code";
+import { ForVendor } from "./subcomponents/for-vendor/for-vendor";
+
+enum UpdateToggle {
+  CODE = "code",
+  VENDOR = "vendor"
+}
 
 export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransaction: Transaction}) => {
   const codes = useSelector(selectCode);
@@ -18,8 +24,13 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   const [inputValue, setInputValue] = useState("");
   const [isBulkSave, setIsBulkSave] = useState(false);
   const [selectedCode, setSelectedCode] = useState("");
+  const [selectedToggle, setSelectedToggle] = useState<UpdateToggle>(UpdateToggle.CODE);
   const dispatch = useDispatch<AppDispatch>();
   const filteredTransactions = useSelector(selectFilteredTransactions);
+
+  const handleCancel = () => {
+    dispatch(handleModal(false));
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
@@ -53,10 +64,46 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
     }
   };
 
+  const handleUpdateTypeToggle = (e: MouseEvent<HTMLDivElement>) => {
+    if (!(e.target instanceof HTMLElement)) {
+      // TODO handle error gracefully
+      console.error("Hmmm....");
+      return;
+    }
+
+    const type = e.target.dataset.type as UpdateToggle;
+    if (!type) {
+      // TODO handle error gracefully
+      console.error("There is no type, amigo.");
+      return;
+    }
+
+    setSelectedToggle(type);
+
+    // reset if we toggle to a different type
+    setInputValue("");
+    setSelectedCode("");
+  };
+
   return (
     <div className="dialogue">
       <div className="dialogue__subheader">
+        <div className="dialogue__cancel" onClick={handleCancel}>&#x2715;</div>
         <div className="dialogue__inputs-container">
+          <div className="dialogue__toggles" onClick={handleUpdateTypeToggle}>
+            <div
+              className={`dialogue__toggle ${selectedToggle === UpdateToggle.CODE ? " dialogue__toggle--selected" : ""}`}
+              data-type={UpdateToggle.CODE}
+            >
+              Code
+            </div>
+            <div
+              className={`dialogue__toggle ${selectedToggle === UpdateToggle.VENDOR ? " dialogue__toggle--selected" : ""}`}
+              data-type={UpdateToggle.VENDOR}
+            >
+              Vendor
+            </div>
+          </div>
           <div className="dialogue__search">
             <div className="dialogue__live-search">
               <input onChange={handleChange} type="text" value={inputValue} />
@@ -76,12 +123,19 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
           <TransactionDetail />
         </div>
         <div className="dialogue__column dialogue__column--right">
-          <ForCode
-            filteredCodes={filteredCodes}
-            selectedCode={parseInt(selectedCode)}
-            setInputValue={setInputValue}
-            setSelectedCode={setSelectedCode}
-          />
+          {selectedToggle === UpdateToggle.CODE && (
+            <ForCode
+              filteredCodes={filteredCodes}
+              selectedCode={parseInt(selectedCode)}
+              setInputValue={setInputValue}
+              setSelectedCode={setSelectedCode}
+            />
+          )}
+          {selectedToggle === UpdateToggle.VENDOR && (
+            <ForVendor
+
+            />
+          )}
         </div>
       </div>
     </div>
