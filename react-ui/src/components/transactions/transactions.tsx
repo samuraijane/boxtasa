@@ -81,8 +81,8 @@ export const Transactions = (): JSX.Element => {
         <span>{month}</span>
         <span>{day}</span>
         <div className="transactions__memo">
-          <span>{memo}</span>
           <span>{vendor}</span>
+          <span className="transactions__smallish">{memo}</span>
         </div>
         <span>{transactionType}</span>
         <span>{amount}</span>

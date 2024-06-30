@@ -26,8 +26,8 @@ export const TransactionDetail = () => {
       <p><span>Year</span><span>{year}</span></p>
       <p><span>Month</span><span>{month}</span></p>
       <p><span>Day</span><span>{day}</span></p>
-      <p className="transaction-detail__text-full"><span>Memo</span><span>{memo}</span></p>
-      <p className="transaction-detail__text-full"><span>Vendor</span><span>{vendor}</span></p>
+      <p><span>Vendor</span><span>{vendor}</span></p>
+      <p><span>Memo</span><span>{memo}</span></p>
       <p><span>Transaction Type</span><span>{transactionType}</span></p>
       <p><span>Amount</span><span>{amount}</span></p>
       <p><span>Code</span><span>{codeName}</span></p>
