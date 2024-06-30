@@ -60,3 +60,15 @@ export interface Total {
   total: number;
   year: number;
 }
+
+export interface PostTransaction {
+  codeId?: string;
+  transactionId: string;
+  vendorId?: string;
+}
+
+export interface BulkData {
+  codeId?: string;
+  transactions: Transaction[],
+  vendorId?: string;
+}

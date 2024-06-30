@@ -1,1 +1,26 @@
-// tbd
+.for-vendor {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto-fill, 50px);
+  grid-row-gap: 0.5em;
+  grid-column-gap: 0.5em;
+
+  li {
+    align-items: center;
+    background-color: aliceblue;
+    cursor: pointer;
+    display: grid;
+    font-size: 0.75em;
+    height: 50px;
+    line-height: 1.25em;
+    list-style-type: none;
+    padding: 0 12px;
+    text-align: center;
+
+    &:hover {
+      background-color: cornflowerblue;
+      color: white;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/
 import { ReduxStore } from '../types/interface';
 import { sortByDate } from '../utils';
 import { Transaction } from '../types/interface';
+import { PostTransaction } from '../types/interface';
 
 interface ActiveDataState {
   transactions: Transaction[];
@@ -16,16 +17,11 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({ 
   };
 });
 
-export interface PostTransactionCode {
-  codeId: string;
-  transactionId: string;
-}
-
-export const postTransactionCode = createAsyncThunk('transactions/post', async (args: PostTransactionCode, { getState }) => {
-  const { codeId, transactionId } = args;
+export const postTransaction = createAsyncThunk('transactions/post', async (args: PostTransaction, { getState }) => {
+  const { codeId, transactionId, vendorId } = args;
   const rootState = getState() as ReduxStore;
 
-  const url = `http://localhost:8080/api/transactions/?c=${codeId}&t=${transactionId}`;
+  const url = `http://localhost:8080/api/transactions/?c=${codeId}&t=${transactionId}&v=${vendorId}`;
   const data = await fetch(url, {
     method: "POST"
   });
@@ -42,7 +38,7 @@ export const postTransactionCode = createAsyncThunk('transactions/post', async (
   return sortByDate(_transactions).sorted;
 });
 
-export const postTransactionCodesInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransactionCode[], { getState }) => {
+export const postTransactionInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransaction[], { getState }) => {
   const rootState = getState() as ReduxStore;
   
   const data = await fetch("http://localhost:8080/api/bulk", {
@@ -79,10 +75,10 @@ export const transactionsSlice = createSlice({
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
     });
-    builder.addCase(postTransactionCode.fulfilled, (state, action) => (
+    builder.addCase(postTransaction.fulfilled, (state, action) => (
       { ...state, transactions: action.payload }
     ));
-    builder.addCase(postTransactionCodesInBulk.fulfilled, (state, action) => {
+    builder.addCase(postTransactionInBulk.fulfilled, (state, action) => {
       return { ...state, transactions: action.payload }
     });
   }

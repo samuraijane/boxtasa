@@ -1,11 +1,16 @@
-import { PostTransactionCode } from "./features/activeDataSlice";
+import { PostTransaction } from "./types/interface";
 import { Transaction } from "./types/interface";
-import { Total } from "./types/interface";
+import { BulkData, Total } from "./types/interface";
 
-export const prepBulkData = (transactions: Transaction[], codeId: string): PostTransactionCode[] => {
+export const prepBulkData = ({
+  codeId,
+  transactions,
+  vendorId
+}: BulkData): PostTransaction[] => {
   return transactions.map(transaction => ({
     codeId,
-    transactionId: transaction.transaction_id.toString()
+    transactionId: transaction.transaction_id.toString(),
+    vendorId
   }));
 };
 
