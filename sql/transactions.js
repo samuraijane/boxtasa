@@ -10,6 +10,7 @@ const sqlGetTransaction = () => (`
     _transactions.amount,
     _transaction_types.transaction_type_name,
     _transactions.transaction_memo,
+    _vendors.vendor_name,
     _codes.code_name
   FROM
   transactions _transactions
@@ -25,6 +26,7 @@ const sqlGetTransaction = () => (`
   ) as _accounts USING(account_id)
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
+  INNER JOIN vendors _vendors USING(vendor_id)
   WHERE _transactions.transaction_id = $1;
 `);
 
@@ -63,7 +65,7 @@ const transactionBaseQuery = `
   INNER JOIN
     codes _codes USING(code_id)
   INNER JOIN
-    vendors _vendors USING(vendor_id) 
+    vendors _vendors USING(vendor_id)
 `;
 
 const transactionOrderBy = `
