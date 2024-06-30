@@ -86,8 +86,6 @@ const postBulk = async (req, res) => {
 
   const updateMultipleTransactions = await bulkTransactions.map(async bulkTransaction => {
     const { codeId, transactionId, vendorId } = bulkTransaction;
-    console.log("pota 1", codeId, transactionId, vendorId)
-    console.log("pota 2", typeof codeId, typeof transactionId, typeof vendorId)
 
     // TODO handle possible errors
 
