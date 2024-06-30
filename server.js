@@ -58,8 +58,8 @@ server.get('/api/transactions', db.getTransactions);
 
 server.get('/api/vendors', db.getVendors);
 
-server.post('/api/bulk', db.postCodesInBulk);
-server.post('/api/transactions', db.postCodeToTransaction);
+server.post('/api/bulk', db.postBulk);
+server.post('/api/transactions', db.postTransaction);
 
 // delegate client-side routing to the client
 server.get('*', (req, res) => {

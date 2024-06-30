@@ -81,15 +81,29 @@ const getVendors = (req, res) => {
   });
 };
 
-const postCodesInBulk = async (req, res) => {
+const postBulk = async (req, res) => {
   const bulkTransactions = req.body;
 
   const updateMultipleTransactions = await bulkTransactions.map(async bulkTransaction => {
-    const { codeId, transactionId } = bulkTransaction;
-  
+    const { codeId, transactionId, vendorId } = bulkTransaction;
+    console.log("pota 1", codeId, transactionId, vendorId)
+    console.log("pota 2", typeof codeId, typeof transactionId, typeof vendorId)
+
     // TODO handle possible errors
-    await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
-    return await pool.query(sqlGetTransaction(), [transactionId]);
+
+    if (codeId && vendorId) {
+      throw new error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
+    }
+
+    if (codeId) {
+      await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+      return await pool.query(sqlGetTransaction(), [transactionId]);
+    }
+  
+    if (vendorId) {
+      await pool.query(`UPDATE transactions SET vendor_id = $1 WHERE transaction_id = $2;`, [vendorId, transactionId]);
+      return await pool.query(sqlGetTransaction(), [transactionId]);
+    }
   });
 
   Promise.all(updateMultipleTransactions).then((x) => {
@@ -98,12 +112,26 @@ const postCodesInBulk = async (req, res) => {
   });
 };
 
-const postCodeToTransaction = async (req, res) => {
-  const { c: codeId, t: transactionId } = req.query;
+const postTransaction = async (req, res) => {
+  const { c: codeId, t: transactionId, v: vendorId } = req.query;
 
   // TODO handle possible errors
-  await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
-  const updated = await pool.query(sqlGetTransaction(), [transactionId]);
+
+  if (codeId && vendorId) {
+    throw new error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
+  }
+
+  let updated;
+
+  if (codeId) {
+    await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+    updated = await pool.query(sqlGetTransaction(), [transactionId]);
+  }
+
+  if (vendorId) {
+    await pool.query(`UPDATE transactions SET vendor_id = $1 WHERE transaction_id = $2;`, [vendorId, transactionId]);
+    updated = await pool.query(sqlGetTransaction(), [transactionId]);
+  }
   
   res.status(200).json({ message: "success", updated: updated.rows[0]});
 };
@@ -114,6 +142,6 @@ export default {
   getTransaction,
   getTransactions,
   getVendors,
-  postCodesInBulk,
-  postCodeToTransaction
+  postBulk,
+  postTransaction
 };
