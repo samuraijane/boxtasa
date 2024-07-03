@@ -5,6 +5,7 @@ import { LandingPage } from './landing';
 import { LoginPage } from './login';
 import { LogoutPage } from './logout';
 import { TransactionsPage } from './transactions';
+import { VendorsPage } from './vendors';
 
 export const View = (): JSX.Element => (
   <Routes>
@@ -13,5 +14,6 @@ export const View = (): JSX.Element => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="/logout" element={<LogoutPage />} />
     <Route path="/transactions" element={<TransactionsPage />} />
+    <Route path="/vendors" element={<VendorsPage />} />
   </Routes>
 );

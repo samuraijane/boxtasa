@@ -19,6 +19,12 @@
   },
   {
     "access": ["public"],
+    "href": "/vendors",
+    "id": "nav-vendors",
+    "text": "Vendors"
+  },
+  {
+    "access": ["public"],
     "href": "/login",
     "id": "nav-login",
     "text": "Login"

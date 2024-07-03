@@ -1,6 +1,10 @@
-import { PostTransaction } from "./types/interface";
-import { Transaction } from "./types/interface";
-import { BulkData, Total } from "./types/interface";
+import {
+  BulkData,
+  PostTransaction,
+  Total,
+  Transaction,
+  Vendor
+} from "./types/interface";
 
 export const prepBulkData = ({
   codeId,
@@ -34,6 +38,20 @@ const _sortByDate = (transactions: Transaction[]) => {
       return -1;
     }
     if (dateX > dateY) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
+export const _sortByVendorName = (vendors: Vendor[]) => {
+  return vendors.sort((a, b) => {
+    const nameA = a.vendor_name.toUpperCase();
+    const nameB = b.vendor_name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
       return 1;
     }
     return 0;
