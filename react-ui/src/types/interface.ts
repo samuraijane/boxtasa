@@ -5,6 +5,7 @@ export interface Code {
 }
 
 export interface Vendor {
+  count: number;
   vendor_id: number;
   vendor_name: string;
 }

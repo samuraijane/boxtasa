@@ -1,1 +1,51 @@
-// tbd
+.vendors {
+
+  .vendors__col {
+    max-width: 50%;
+  }
+
+  li {
+    align-items: center;
+    column-gap: 20px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    padding: 10px;
+    padding-left: 0;
+
+    &:nth-child(2n + 1) {
+      border: 1px solid #555;
+      border-left: none;
+      border-right: none;
+    }
+
+    .vendors__count {
+      color: #555;
+      font-family: monospace;
+      font-size: 0.8rem;
+      text-align: right;
+    }
+
+    .vendors__btns {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .vendors__btn {
+      margin: 0 0 0 24px;
+      text-align: center;
+    }
+
+    button {
+      background-color: cornflowerblue;
+      border: 1px solid transparent;
+      color: white;
+      padding: 4px 12px;
+      width: 80px;
+
+      &:hover {
+        background-color: crimson;
+      }
+    }
+  }
+}
