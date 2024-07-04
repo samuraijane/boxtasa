@@ -1,11 +1,13 @@
 import dotenv from "dotenv";
 import pg from "pg";
 import {
+  sqlDeleteVendor,
   sqlGetAccounts,
   sqlGetCodes,
   sqlGetTransaction,
   sqlGetTransactions,
-  sqlGetVendors
+  sqlGetVendors,
+  sqlPostVendor
 } from "./sql/index.js";
 import { getQueryType, prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
 
@@ -25,6 +27,17 @@ const {
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
 
 export const pool = new Pool(config);
+
+const deleteVendor = (req, res) => {
+  const { id } = req.params;
+  pool.query(sqlDeleteVendor(), [id], (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      getVendors(req, res);
+    }
+  });
+};
 
 const getAccounts = (req, res) => {
   pool.query(sqlGetAccounts(), (err, results) => {
@@ -134,12 +147,40 @@ const postTransaction = async (req, res) => {
   res.status(200).json({ message: "success", updated: updated.rows[0]});
 };
 
+const postVendor = async (req, res) => {
+  const { vendorName } = req.body;
+
+  if (!vendorName) {
+    throw new error("No value for `vendorName` is provided.")
+  }
+
+  const query = await pool.query(`SELECT vendor_id FROM vendors WHERE vendor_name = $1`, [vendorName]);
+  const match = query && query.rows[0];
+
+  if (match) {
+    res.status(200).json({
+      isSuccess: false,
+      message: "This vendor already exists."
+    });
+  } else {
+    pool.query(sqlPostVendor(), [vendorName], (err, results) => {
+      if (err) {
+        throw err;
+      }
+      // TODO investigate if there is a better way to do this; also consider returning `isSuccess` in the response; see similar in `deleteVendor`
+      getVendors(req, res);
+    });
+  }
+};
+
 export default {
+  deleteVendor,
   getAccounts,
   getCodes,
   getTransaction,
   getTransactions,
   getVendors,
   postBulk,
-  postTransaction
+  postTransaction,
+  postVendor
 };

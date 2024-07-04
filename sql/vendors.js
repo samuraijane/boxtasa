@@ -1,3 +1,8 @@
+export const sqlDeleteVendor = () => (`
+  DELETE FROM vendors
+  WHERE vendor_id = $1;
+`);
+
 export const sqlGetVendors = () => (`
   SELECT vendor_id, vendor_name, (
     SELECT count(*)
@@ -6,6 +11,12 @@ export const sqlGetVendors = () => (`
   ) as count
   FROM vendors v
   ORDER BY v.vendor_name;
+`);
+
+export const sqlPostVendor = () => (`
+  INSERT INTO vendors (vendor_name, created_at, updated_at)
+  VALUES
+    ($1, CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3));  
 `);
 
 /*

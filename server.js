@@ -50,15 +50,20 @@ server.get("/api/auth/verify", checkAuth, (req, res) => {
   res.json({ isAuth: req.isAuth });
 });
 
+// DELETE
+server.delete('/api/vendors/:id', db.deleteVendor); 
+
+// GET
 server.get('/api/accounts', db.getAccounts);
 server.get('/api/codes', db.getCodes);
 // TODO do we need both the following two lines?
 server.get('/api/transaction/:id', db.getTransaction);
 server.get('/api/transactions', db.getTransactions);
-
 server.get('/api/vendors', db.getVendors);
 
+// POST
 server.post('/api/bulk', db.postBulk);
+server.post('/api/vendors', db.postVendor);
 server.post('/api/transactions', db.postTransaction);
 
 // delegate client-side routing to the client
