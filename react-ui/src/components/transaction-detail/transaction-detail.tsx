@@ -12,6 +12,7 @@ export const TransactionDetail = () => {
     date_day: day,
     date_month: month,
     date_year: year,
+    note,
     short_name: acctName,
     transaction_memo: memo,
     transaction_type_name: transactionType,
@@ -28,6 +29,7 @@ export const TransactionDetail = () => {
       <p><span>Day</span><span>{day}</span></p>
       <p><span>Vendor</span><span>{vendor}</span></p>
       <p><span>Memo</span><span>{memo}</span></p>
+      <p><span>Note</span><span>{note}</span></p>
       <p><span>Transaction Type</span><span>{transactionType}</span></p>
       <p><span>Amount</span><span>{amount}</span></p>
       <p><span>Code</span><span>{codeName}</span></p>

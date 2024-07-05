@@ -66,6 +66,7 @@ export const Transactions = (): JSX.Element => {
       date_day: day,
       transaction_id: id,
       transaction_memo: memo,
+      note,
       transaction_type_name: transactionType,
       amount,
       code_name: codeName,
@@ -83,6 +84,7 @@ export const Transactions = (): JSX.Element => {
         <div className="transactions__memo">
           <span>{vendor}</span>
           <span className="transactions__smallish">{memo}</span>
+          <span className="transactions__smallish">{note}</span>
         </div>
         <span>{transactionType}</span>
         <span>{amount}</span>
