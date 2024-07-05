@@ -15,6 +15,7 @@ const sqlGetTransaction = () => (`
     _transactions.amount,
     _transaction_types.transaction_type_name,
     _transactions.transaction_memo,
+    _transactions.note,
     _vendors.vendor_name,
     _codes.code_name
   FROM
@@ -47,6 +48,7 @@ const transactionBaseQuery = `
     _transactions.amount,
     _transaction_types.transaction_type_name,
     _transactions.transaction_memo,
+    _transactions.note,
     _vendors.vendor_name,
     _codes.code_name
   FROM
