@@ -1,5 +1,10 @@
 .vendors {
 
+  .vendors__columns {
+    column-gap: 40px;
+    display: flex;
+  }
+
   .vendors__col {
     max-width: 50%;
   }

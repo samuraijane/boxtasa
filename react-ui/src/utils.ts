@@ -102,6 +102,10 @@ export const sortByDate = (transactions: Transaction[]) => {
   }
 };
 
+export const formatDate = ({ day, month, year } : {day: number, month: number, year: number }) => {
+  return `${year}-${month}-${day}`;
+};
+
 /*
 NOTES
 
