@@ -6,13 +6,15 @@
   }
 
   .vendors__col {
+    flex: 1;
+    height: 70vh;
     max-width: 50%;
+    overflow-y: scroll;
   }
 
   li {
     align-items: center;
     column-gap: 20px;
-    cursor: pointer;
     display: grid;
     grid-template-columns: 30px 1fr 1fr;
     padding: 10px;
