@@ -31,8 +31,8 @@ const _sortByDate = (transactions: Transaction[]) => {
     const xDay = addLeadingZeroMaybe(x.date_day);
     const yMonth = addLeadingZeroMaybe(y.date_month);
     const yDay = addLeadingZeroMaybe(y.date_day);
-    const dateX = parseInt(`${x.date_year}${xMonth}${xDay}`);
-    const dateY = parseInt(`${y.date_year}${yMonth}${yDay}`);
+    const dateX = parseInt(`${x.year_name}${xMonth}${xDay}`);
+    const dateY = parseInt(`${y.year_name}${yMonth}${yDay}`);
 
     if (dateX < dateY) {
       return -1;
@@ -75,16 +75,16 @@ const _groupDataByYear = (transactions: Transaction[]) => {
   transactions.forEach(x => {
     runningCount += 1;
     if (!currentYear) {
-      currentYear = x.date_year;
+      currentYear = x.year_name;
     }
-    if (currentYear === x.date_year) {
+    if (currentYear === x.year_name) {
       currentCount += 1;
       currentTotal += parseInt(x.amount);
     } else {
       totals.push({ count: currentCount, total: currentTotal, year: currentYear });
       currentCount = 1;
       currentTotal = parseInt(x.amount);
-      currentYear = x.date_year;
+      currentYear = x.year_name;
     }
     if (length === runningCount) { // 1
       totals.push({ count: currentCount, total: currentTotal, year: currentYear });

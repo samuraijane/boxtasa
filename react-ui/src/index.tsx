@@ -8,6 +8,7 @@ import { verifyAuth } from "./features/authSlice";
 import { getAccounts } from "./features/accountsSlice";
 import { getCodes } from "./features/codesSlice";
 import { getVendors } from "./features/vendorsSlice";
+import { getYears } from "./features/yearsSlice";
 import './styles/style.scss';
 
 const container: HTMLElement | null = document.getElementById("root");
@@ -17,6 +18,7 @@ store.dispatch(verifyAuth());
 store.dispatch(getAccounts());
 store.dispatch(getCodes());
 store.dispatch(getVendors());
+store.dispatch(getYears());
 
 root?.render(
   <StrictMode>

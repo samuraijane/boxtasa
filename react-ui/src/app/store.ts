@@ -7,6 +7,7 @@ import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
 import isModalReducer from "../features/isModalSlice";
 import vendorReducer from "../features/vendorsSlice";
+import yearsReducer from "../features/yearsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     code: codeReducer,
     filteredData: filteredDataReducer,
     isModal: isModalReducer,
-    vendor: vendorReducer
+    vendor: vendorReducer,
+    years: yearsReducer
   }
 });
 

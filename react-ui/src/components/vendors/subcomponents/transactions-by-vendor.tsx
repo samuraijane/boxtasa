@@ -15,7 +15,7 @@ export const TransactionsByVendor = ({ vendorName }: {vendorName: string}) => {
         code_name: code,
         date_day: day,
         date_month: month,
-        date_year: year
+        year_name: year
       } = y;
 
       const date = formatDate({ day, month, year });

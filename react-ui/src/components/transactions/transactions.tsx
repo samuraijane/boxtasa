@@ -61,7 +61,6 @@ export const Transactions = (): JSX.Element => {
       acct_no: acctNo,
       short_name: acctName,
       account_type_name: acctType,
-      date_year: year,
       date_month: month,
       date_day: day,
       transaction_id: id,
@@ -70,7 +69,8 @@ export const Transactions = (): JSX.Element => {
       transaction_type_name: transactionType,
       amount,
       code_name: codeName,
-      vendor_name: vendor
+      vendor_name: vendor,
+      year_name: year
     } = x;
 
     return (

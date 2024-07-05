@@ -17,13 +17,13 @@ export interface Transaction {
   code_name: string;
   date_day: number,
   date_month: number,
-  date_year: number,
+  note: string;
   short_name: string,
   transaction_id: number,
   transaction_memo: string;
   transaction_type_name: string;
   vendor_name: string;
-  note: string;
+  year_name: number;
 }
 
 // Redux store
@@ -46,6 +46,11 @@ export interface Account {
   short_name: string;
 }
 
+export interface Year {
+  year_id: number;
+  year_name: number;
+}
+
 export interface ReduxStore {
   account: Account[];
   activeData: ActiveData;
@@ -55,6 +60,7 @@ export interface ReduxStore {
   filteredData: FilteredData;
   isModal: boolean;
   vendor: Vendor[]
+  years: Year[]
 }
 
 export interface Total {

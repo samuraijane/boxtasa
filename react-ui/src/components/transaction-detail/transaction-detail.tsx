@@ -21,13 +21,13 @@ export const TransactionDetail = () => {
     code_name: codeName,
     date_day: day,
     date_month: month,
-    date_year: year,
     note,
     short_name: acctName,
     transaction_memo: memo,
     transaction_id: id,
     transaction_type_name: transactionType,
-    vendor_name: vendor
+    vendor_name: vendor,
+    year_name: yearName
   } = activeTransaction;
 
   const handleChange = (e: ChangeEvent) => {
@@ -70,7 +70,7 @@ export const TransactionDetail = () => {
       <p><span>Account No</span><span>{acctNo}</span></p>
       <p><span>Account Name</span><span>{acctName}</span></p>
       <p><span>Account Type</span><span>{acctType}</span></p>
-      <p><span>Year</span><span>{year}</span></p>
+      <p><span>Year</span><span>{yearName}</span></p>
       <p><span>Month</span><span>{month}</span></p>
       <p><span>Day</span><span>{day}</span></p>
       <p><span>Vendor</span><span>{vendor}</span></p>
