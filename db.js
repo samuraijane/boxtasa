@@ -107,6 +107,15 @@ const getVendors = (req, res) => {
   });
 };
 
+const getYears = (req, res) => {
+  pool.query(`SELECT year_id, year_name FROM years ORDER BY year_name;`, (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
+
 const updateTransaction = (req, res) => {
   const { id } = req.params;
   const { note } = req.body;
@@ -214,6 +223,7 @@ export default {
   getCodes,
   getTransaction,
   getTransactions,
+  getYears,
   getVendors,
   postBulk,
   postTransaction,

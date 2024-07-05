@@ -11,7 +11,7 @@ const sqlGetTransaction = () => (`
     _accounts.account_type_name,
     _transactions.date_day,
     _transactions.date_month,
-    _transactions.date_year,
+    _years.year_name,
     _transactions.amount,
     _transaction_types.transaction_type_name,
     _transactions.transaction_memo,
@@ -33,6 +33,7 @@ const sqlGetTransaction = () => (`
   INNER JOIN transaction_types _transaction_types USING(transaction_type_id)
   INNER JOIN codes _codes USING(code_id)
   INNER JOIN vendors _vendors USING(vendor_id)
+  INNER JOIN years _years USING(year_id)
   WHERE _transactions.transaction_id = $1;
 `);
 
@@ -44,7 +45,7 @@ const transactionBaseQuery = `
     _accounts.account_type_name,
     _transactions.date_day,
     _transactions.date_month,
-    _transactions.date_year,
+    _years.year_name,
     _transactions.amount,
     _transaction_types.transaction_type_name,
     _transactions.transaction_memo,
@@ -73,11 +74,13 @@ const transactionBaseQuery = `
     codes _codes USING(code_id)
   INNER JOIN
     vendors _vendors USING(vendor_id)
+  INNER JOIN
+    years _years USING(year_id)
 `;
 
 const transactionOrderBy = `
   ORDER BY
-  _transactions.date_year,
+  _years.year_name,
   _transactions.date_month,
   _transactions.date_day,
   _transactions.amount DESC;
@@ -94,7 +97,7 @@ const sqlGetTransactionsA = `
 const sqlGetTransactionsB = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
-  AND _transactions.date_year = $3
+  AND _years.year_name = $3
 `;
 
 // acctId, code
@@ -108,7 +111,7 @@ const sqlGetTransactionsC = `
 const sqlGetTransactionsD = `
   WHERE _accounts.account_id = $1
   AND $2::int IS NULL
-  AND _transactions.date_year = $3
+  AND _years.year_name = $3
 `;
 
 // acctId
@@ -129,14 +132,14 @@ const sqlGetTransactionsF = `
 const sqlGetTransactionsG = `
   WHERE $1::int IS NULL
   AND _codes.code_id = $2
-  AND _transactions.date_year = $3
+  AND _years.year_name = $3
 `;
 
 // year
 const sqlGetTransactionsH = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
-  AND _transactions.date_year = $3
+  AND _years.year_name = $3
 `;
 
 /**
