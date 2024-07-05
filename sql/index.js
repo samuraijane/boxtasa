@@ -1,6 +1,7 @@
 import { sqlGetAccounts } from "./accounts.js";
 import { sqlGetCodes } from "./codes.js";
 import {
+  sqlDeleteTransaction,
   sqlGetTransaction,
   sqlGetTransactions
 } from "./transactions.js";
@@ -11,6 +12,7 @@ import {
 } from "./vendors.js";
 
 export {
+  sqlDeleteTransaction,
   sqlDeleteVendor,
   sqlGetAccounts,
   sqlGetCodes,

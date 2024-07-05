@@ -1,3 +1,8 @@
+const sqlDeleteTransaction = () => (`
+  DELETE FROM transactions
+  WHERE transaction_id = $1;
+`);
+
 const sqlGetTransaction = () => (`
   SELECT
     _transactions.transaction_id,
@@ -162,6 +167,7 @@ const sqlGetTransactions = (queryType) => {
 };
 
 export {
+  sqlDeleteTransaction,
   sqlGetTransaction,
   sqlGetTransactions
 };

@@ -51,6 +51,7 @@ server.get("/api/auth/verify", checkAuth, (req, res) => {
 });
 
 // DELETE
+server.delete('/api/transactions/:id', db.deleteTransaction); 
 server.delete('/api/vendors/:id', db.deleteVendor); 
 
 // GET

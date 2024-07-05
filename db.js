@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import pg from "pg";
 import {
+  sqlDeleteTransaction,
   sqlDeleteVendor,
   sqlGetAccounts,
   sqlGetCodes,
@@ -27,6 +28,17 @@ const {
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
 
 export const pool = new Pool(config);
+
+const deleteTransaction = (req, res) => {
+  const { id } = req.params;
+  pool.query(sqlDeleteTransaction(), [id], (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      getTransactions(req, res);
+    }
+  });
+};
 
 const deleteVendor = (req, res) => {
   const { id } = req.params;
@@ -174,6 +186,7 @@ const postVendor = async (req, res) => {
 };
 
 export default {
+  deleteTransaction,
   deleteVendor,
   getAccounts,
   getCodes,
