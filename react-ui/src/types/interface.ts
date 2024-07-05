@@ -63,6 +63,11 @@ export interface Total {
   year: number;
 }
 
+export interface PatchTransaction {
+  id: number;
+  note: string;
+}
+
 export interface PostTransaction {
   codeId?: string;
   transactionId: string;
