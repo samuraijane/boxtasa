@@ -6,6 +6,7 @@ export interface Code {
 
 export interface Vendor {
   count: number;
+  total: number;
   vendor_id: number;
   vendor_name: string;
 }

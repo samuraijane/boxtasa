@@ -18,7 +18,7 @@ export const Vendors = () => {
   const [activeVendor, setActiveVendor] = useState("");
 
   const _vendors = vendors.map(vendor => {
-    const { count, vendor_id: id, vendor_name: name } = vendor;
+    const { count, total, vendor_id: id, vendor_name: name } = vendor;
 
     const handleClick = (e: MouseEvent<HTMLButtonElement | HTMLLIElement>) => {
       if (!(e.target instanceof HTMLButtonElement)) {
@@ -41,6 +41,7 @@ export const Vendors = () => {
     return (
       <li key={id} onClick={handleClick}>
         <span className="vendors__count">{count}</span>
+        <span className="vendors__count">{total}</span>
         <span>{name}</span>
         <div className="vendors__btns">
           <span className="vendors__btn">
