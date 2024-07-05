@@ -179,8 +179,16 @@ const sqlGetTransactions = (queryType) => {
   // `)
 };
 
+// Currently, user can only update `note` in a transaction
+const sqlUpdateTransaction = () => (`
+  UPDATE transactions
+  SET note = $2
+  WHERE transaction_id = $1;
+`);
+
 export {
   sqlDeleteTransaction,
   sqlGetTransaction,
-  sqlGetTransactions
+  sqlGetTransactions,
+  sqlUpdateTransaction
 };

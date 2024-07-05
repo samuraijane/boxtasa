@@ -67,6 +67,9 @@ server.post('/api/bulk', db.postBulk);
 server.post('/api/vendors', db.postVendor);
 server.post('/api/transactions', db.postTransaction);
 
+// PATCH
+server.patch('/api/transaction/:id', db.updateTransaction);
+
 // delegate client-side routing to the client
 server.get('*', (req, res) => {
   res.sendFile(resolve(`${__dirname}/react-ui/build/index.html`));

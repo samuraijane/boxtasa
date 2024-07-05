@@ -3,7 +3,8 @@ import { sqlGetCodes } from "./codes.js";
 import {
   sqlDeleteTransaction,
   sqlGetTransaction,
-  sqlGetTransactions
+  sqlGetTransactions,
+  sqlUpdateTransaction
 } from "./transactions.js";
 import {
   sqlDeleteVendor,
@@ -19,5 +20,6 @@ export {
   sqlGetTransaction,
   sqlGetTransactions,
   sqlGetVendors,
-  sqlPostVendor
+  sqlPostVendor,
+  sqlUpdateTransaction
 }

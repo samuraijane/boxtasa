@@ -8,7 +8,8 @@ import {
   sqlGetTransaction,
   sqlGetTransactions,
   sqlGetVendors,
-  sqlPostVendor
+  sqlPostVendor,
+  sqlUpdateTransaction
 } from "./sql/index.js";
 import { getQueryType, prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
 
@@ -106,6 +107,27 @@ const getVendors = (req, res) => {
   });
 };
 
+const updateTransaction = (req, res) => {
+  const { id } = req.params;
+  const { note } = req.body;
+
+  if (!id) {
+    throw new error("No value for `note` is provided.");
+  }
+
+  if (!note) {
+    throw new error("No value for `id` is provided.");
+  }
+
+  pool.query(sqlUpdateTransaction(), [id, note], (err, results) => {
+    if (err) {
+      throw err;
+    }
+    // TODO investigate if there is a better way to do this; also consider returning `isSuccess` in the response; see similar in `deleteVendor`
+    getTransactions(req, res);
+  });
+};
+
 const postBulk = async (req, res) => {
   const bulkTransactions = req.body;
 
@@ -195,5 +217,6 @@ export default {
   getVendors,
   postBulk,
   postTransaction,
-  postVendor
+  postVendor,
+  updateTransaction
 };
