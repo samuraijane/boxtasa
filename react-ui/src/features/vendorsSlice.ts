@@ -15,7 +15,7 @@ export const getVendors = createAsyncThunk('vendors/get', async (): Promise<Vend
   return await response.json();
 });
 
-export const postVendor = createAsyncThunk('transactions/post', async (vendorName: string): Promise<Vendor[]> => {
+export const postVendor = createAsyncThunk('transaction/vendor/post', async (vendorName: string): Promise<Vendor[]> => {
   const url = `http://localhost:8080/api/vendors`;
   const data = await fetch(url, {
     body: JSON.stringify({ vendorName }),

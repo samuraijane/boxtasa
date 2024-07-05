@@ -26,7 +26,8 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   const [inputValue, setInputValue] = useState("");
   const [isBulkSave, setIsBulkSave] = useState(false);
   const [selectedCode, setSelectedCode] = useState("");
-  const [filteredData, setFilteredData] = useState<Code[] | Vendor[] | null>();
+  const [filteredCodeData, setFilteredCodeData] = useState<Code[] | null>();
+  const [filteredVendorData, setFilteredVendorData] = useState<Vendor[] | null>();
   const filteredTransactions = useSelector(selectFilteredTransactions);
   const [selectedVendor, setSelectedVendor] = useState("");
   const [selectedToggle, setSelectedToggle] = useState<UpdateToggle>(UpdateToggle.CODE);
@@ -35,10 +36,10 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
 
   useEffect(() => {
     if (selectedToggle === UpdateToggle.CODE) {
-      setFilteredData(codes);
+      setFilteredCodeData(codes);
     }
     if (selectedToggle === UpdateToggle.VENDOR) {
-      setFilteredData(vendors);
+      setFilteredVendorData(vendors);
     }
   }, [selectedToggle]);
 
@@ -53,12 +54,13 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
 
     if (selectedToggle === UpdateToggle.CODE) {
       _filteredData = codes?.filter(x => x.code_name.toLowerCase().search(value) !== -1 || x.code_description.toLowerCase().search(value) !== -1);
+      setFilteredCodeData(_filteredData);
     }
 
     if (selectedToggle === UpdateToggle.VENDOR) {
       _filteredData = vendors?.filter(x => x.vendor_name.toLowerCase().search(value) !== -1);
+      setFilteredVendorData(_filteredData);
     }
-    setFilteredData(_filteredData);
   };
 
   const handleCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +157,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
         <div className="dialogue__column dialogue__column--right">
           {selectedToggle === UpdateToggle.CODE && (
             <ForCode
-              filteredCodes={filteredData as Code[]}
+              filteredCodes={filteredCodeData as Code[]}
               selectedCode={parseInt(selectedCode)}
               setInputValue={setInputValue}
               setSelectedCode={setSelectedCode}
@@ -163,7 +165,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
           )}
           {selectedToggle === UpdateToggle.VENDOR && (
             <ForVendor
-              filteredVendors={filteredData as Vendor[]}
+              filteredVendors={filteredVendorData as Vendor[]}
               selectedVendor={parseInt(selectedVendor)}
               setInputValue={setInputValue}
               setSelectedVendor={setSelectedVendor}
