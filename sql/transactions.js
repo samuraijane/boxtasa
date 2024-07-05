@@ -164,6 +164,17 @@ const sqlGetTransactions = (queryType) => {
     ${dict[queryType]}
     ${transactionOrderBy}
   `)
+
+  // use below to get only transactions whose vendor field is undefined
+  // return (`
+  //   ${transactionBaseQuery}
+  //   WHERE $1::int IS NULL
+  //   AND $2::int IS NULL
+  //   AND $3::int IS NULL
+  //   AND vendor_id = 1
+  //   ORDER BY
+  //     _transactions.transaction_memo;
+  // `)
 };
 
 export {
