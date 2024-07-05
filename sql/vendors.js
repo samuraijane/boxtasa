@@ -3,14 +3,21 @@ export const sqlDeleteVendor = () => (`
   WHERE vendor_id = $1;
 `);
 
+// TODO find a more efficient query
 export const sqlGetVendors = () => (`
-  SELECT vendor_id, vendor_name, (
+SELECT vendor_id, vendor_name,
+  (
     SELECT count(*)
     FROM transactions t
     WHERE t.vendor_id = v.vendor_id
-  ) as count
-  FROM vendors v
-  ORDER BY v.vendor_name;
+  ) as count,
+  (
+    SELECT sum(t.amount)
+    FROM transactions t
+    WHERE t.vendor_id = v.vendor_id
+  ) as total
+FROM vendors v
+ORDER BY v.vendor_name;
 `);
 
 export const sqlPostVendor = () => (`
