@@ -1,0 +1,16 @@
+.month-selector {
+  padding: 0 20px;
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  .month-selector__months {
+    columns: 2;
+    gap: 8px;
+
+    li {
+      margin: 0 0 8px;
+    }
+  }
+}

@@ -5,7 +5,8 @@ import { SelectorState } from '../types/interface';
 const _initialState: SelectorState = {
   acctId: 2,
   codeId: 0,
-  year: 2024
+  month: 0, // TODO make this to be the current month
+  year: 2024 // TODO make this to be the current year
 };
 
 export const selectorSlice = createSlice({

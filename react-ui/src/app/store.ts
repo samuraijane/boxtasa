@@ -6,6 +6,7 @@ import activeDataReducer from "../features/activeDataSlice";
 import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
 import isModalReducer from "../features/isModalSlice";
+import monthsReducer from "../features/monthsSlice";
 import selectorReducer from "../features/selectorSlice";
 import tabsReducer from "../features/tabsSlice";
 import vendorReducer from "../features/vendorsSlice";
@@ -20,6 +21,7 @@ export const store = configureStore({
     code: codeReducer,
     filteredData: filteredDataReducer,
     isModal: isModalReducer,
+    months: monthsReducer,
     selector: selectorReducer,
     tabs: tabsReducer,
     vendor: vendorReducer,

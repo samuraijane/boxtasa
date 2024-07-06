@@ -60,6 +60,13 @@ export interface Year {
   year_name: number;
 }
 
+export interface Month {
+  abbr: string;
+  id: string;
+  name: string;
+  number: number;
+}
+
 export interface TabState {
   activeTab: ViewTabs;
 }
@@ -72,6 +79,7 @@ export interface ReduxStore {
   code: Code[];
   filteredData: FilteredData;
   isModal: boolean;
+  months: Month[];
   selector: SelectorState;
   tabs: TabState;
   vendor: Vendor[];
@@ -81,6 +89,7 @@ export interface ReduxStore {
 export interface SelectorState {
   acctId: number;
   codeId: number;
+  month: number;
   year: number;
 }
 
