@@ -84,11 +84,11 @@ const getTransaction = (req, res) => {
 const getTransactions = (req, res) => {
   const { acctId, codeId, year } = req.query;
 
-  const _acctId = (typeof acctId === "undefined" || !acctId) ? null : parseInt(acctId);
-  const _codeId = (typeof codeId === "undefined" || !codeId) ? null : parseInt(codeId);
-  const _year = (typeof year === "undefined" || !year) ? null : parseInt(year);
+  const _acctId = acctId === "0" ? null : parseInt(acctId);
+  const _codeId = codeId === "0" ? null : parseInt(codeId);
+  const _year = year === "0" ? null : parseInt(year);
 
-  const queryType = getQueryType([!!acctId, !!codeId, !!year]);
+  const queryType = getQueryType([!!_acctId, !!_codeId, !!_year]);
 
   pool.query(sqlGetTransactions(queryType), [_acctId, _codeId, _year], (err, results) => {
     if (err) {
