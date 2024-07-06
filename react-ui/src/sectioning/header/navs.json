@@ -13,18 +13,6 @@
   },
   {
     "access": ["public"],
-    "href": "/codes",
-    "id": "nav-codes",
-    "text": "Codes"
-  },
-  {
-    "access": ["public"],
-    "href": "/vendors",
-    "id": "nav-vendors",
-    "text": "Vendors"
-  },
-  {
-    "access": ["public"],
     "href": "/login",
     "id": "nav-login",
     "text": "Login"
