@@ -8,7 +8,7 @@ import { AppDispatch } from "../app/store";
 
 enum SearchTypes {
   CODE = "code",
-  MEMO = "memo",
+  MEMO = "memo"
 }
 
 export const Search = (): JSX.Element => {
