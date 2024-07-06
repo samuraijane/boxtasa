@@ -2,7 +2,7 @@ import { MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AccountSelector } from "./subcomponents/account-selector/account-selector";
 import { CodeSelector } from "./subcomponents/code-selector/code-selector";
-import { DateSelector } from "./subcomponents/date-selector/date-selector";
+import { YearSelector } from "./subcomponents/year-selector/year-selector";
 import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";
 import { selectSelector, setSelector } from "../../features/selectorSlice";
@@ -31,7 +31,7 @@ export const DataSelector = () => {
       <div className="data-selector__selectors-container">
         <AccountSelector action={handleSelection} selected={acctId} />
         <CodeSelector action={handleSelection} selected={codeId} />
-        <DateSelector action={handleSelection} selected={year} />
+        <YearSelector action={handleSelection} selected={year} />
       </div>
     </div>
   );

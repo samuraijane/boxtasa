@@ -1,4 +1,4 @@
-import { SelectorProps } from "../date-selector/types";
+import { SelectorProps } from "../../../../types/interface";
 import "./account-selector.scss";
 import { useSelector } from "react-redux";
 import { selectAccounts } from "../../../../features/accountsSlice";

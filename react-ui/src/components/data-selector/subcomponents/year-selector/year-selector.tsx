@@ -1,9 +1,10 @@
-import { SelectorProps } from "./types";
+
+import { SelectorProps } from "../../../../types/interface";
 import { useSelector } from "react-redux";
 import { selectYears } from "../../../../features/yearsSlice";
-import "./date-selector.scss"
+import "./year-selector.scss"
 
-export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element => {
+export const YearSelector = ({ action, selected }: SelectorProps): JSX.Element => {
   const years = useSelector(selectYears);
 
   // TODO at some point far in the future, implement a really nice way to select dates
@@ -24,8 +25,8 @@ export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element =
   });
 
   return (
-    <div className="date-selector">
-      <ul className="date-selector__dates">{_years}</ul>
+    <div className="year-selector">
+      <ul className="year-selector__years">{_years}</ul>
     </div>
   );
 };

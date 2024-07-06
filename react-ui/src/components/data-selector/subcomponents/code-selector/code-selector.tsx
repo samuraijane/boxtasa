@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectCode } from "../../../../features/codesSlice";
-import { SelectorProps } from "../date-selector/types";
+import { SelectorProps } from "../../../../types/interface";
 import "./code-selector.scss";
 
 export const CodeSelector = ({ action, selected }: SelectorProps): JSX.Element => {

@@ -1,4 +1,10 @@
+import { MouseEventHandler } from "react"
 import { ViewTabs } from "./enum";
+
+export interface SelectorProps {
+  action: MouseEventHandler<HTMLLIElement>,
+  selected: number
+}
 
 export interface Code {
   code_id: number;
