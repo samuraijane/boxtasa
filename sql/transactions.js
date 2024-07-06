@@ -86,60 +86,110 @@ const transactionOrderBy = `
   _transactions.amount DESC;
 `;
 
-// all transactions
+// acctId, codeId, month, year
 const sqlGetTransactionsA = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
   AND $3::int IS NULL
+  AND $4::int IS NULL
 `;
 
-// acctId, code, year
+// acctId
 const sqlGetTransactionsB = `
   WHERE _accounts.account_id = $1
-  AND _codes.code_id = $2
-  AND _years.year_name = $3
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND $4::int IS NULL
 `;
 
-// acctId, code
+// acctId, codeId
 const sqlGetTransactionsC = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
   AND $3::int IS NULL
+  AND $4::int IS NULL
 `;
 
-// acctId, year
+// acctId, codeId, month
 const sqlGetTransactionsD = `
   WHERE _accounts.account_id = $1
-  AND $2::int IS NULL
-  AND _years.year_name = $3
+  AND _codes.code_id = $2
+  AND _transactions.date_month = $3
+  AND $4::int IS NULL
 `;
 
 // acctId
 const sqlGetTransactionsE = `
-  WHERE _accounts.account_id = $1
-  AND $2::int IS NULL
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
   AND $3::int IS NULL
+  AND $4::int IS NULL
 `;
 
 // code
 const sqlGetTransactionsF = `
   WHERE $1::int IS NULL
   AND _codes.code_id = $2
-  AND $3::int IS NULL
+  AND _transactions.date_month = $3
+  AND $4::int IS NULL
 `;
 
 // code, year
 const sqlGetTransactionsG = `
   WHERE $1::int IS NULL
   AND _codes.code_id = $2
-  AND _years.year_name = $3
+  AND _transactions.date_month = $3
+  AND _years.year_name = $4
 `;
 
 // year
 const sqlGetTransactionsH = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
-  AND _years.year_name = $3
+  AND _transactions.date_month = $3
+  AND $4::int IS NULL
+`;
+
+const sqlGetTransactionsI = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND _transactions.date_month = $3
+  AND _years.year_name = $4
+`;
+
+const sqlGetTransactionsJ = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND _transactions.date_month = $3
+  AND _years.year_name = $4
+`;
+
+const sqlGetTransactionsK = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND _years.year_name = $4
+`;
+
+const sqlGetTransactionsL = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND _years.year_name = $4
+`;
+
+const sqlGetTransactionsM = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND _years.year_name = $4
+`;
+
+const sqlGetTransactionsN = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND _transactions.date_month = $3
+  AND _years.year_name = $4
 `;
 
 /**
@@ -162,6 +212,12 @@ const sqlGetTransactions = (queryType) => {
     F: sqlGetTransactionsF,
     G: sqlGetTransactionsG,
     H: sqlGetTransactionsH,
+    I: sqlGetTransactionsI,
+    J: sqlGetTransactionsJ,
+    K: sqlGetTransactionsK,
+    L: sqlGetTransactionsL,
+    M: sqlGetTransactionsM,
+    N: sqlGetTransactionsN
   };
 
   return (`
@@ -170,12 +226,13 @@ const sqlGetTransactions = (queryType) => {
     ${transactionOrderBy}
   `)
 
-  // use below to get only transactions whose vendor field is undefined
+  // use below to get all transactions whose vendor field is undefined
   // return (`
   //   ${transactionBaseQuery}
   //   WHERE $1::int IS NULL
   //   AND $2::int IS NULL
   //   AND $3::int IS NULL
+  //   AND $4::int IS NULL
   //   AND vendor_id = 1
   //   ORDER BY
   //     _transactions.transaction_memo;

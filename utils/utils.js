@@ -31,7 +31,9 @@ export const prepResponseDataAfterBulkUpdate = (data) => {
 };
 
 /**
- * Finds the query type that matches the values of the given array.
+ * Finds the query type that matches the values of the given array. The
+ *   order of the values in `pattern` is `acctId`, `codeId`, `month` and
+ *   `year`.
  * @param {boolean[]} currentPattern 
  * @returns {string}
  */
@@ -39,35 +41,59 @@ export const getQueryType = (currentPattern) => {
   const patterns = [
     {
       name: "A",
-      pattern: [false, false, false]
+      pattern: [false, false, false, false]
     },
     {
       name: "B",
-      pattern: [true, true, true]
+      pattern: [true, false, false, false]
     },
     {
       name: "C",
-      pattern: [true, true, false]
+      pattern: [true, true, false, false]
     },
     {
       name: "D",
-      pattern: [true, false, true]
+      pattern: [true, true, true, false]
     },
     {
       name: "E",
-      pattern: [true, false, false]
+      pattern: [false, true, false, false]
     },
     {
       name: "F",
-      pattern: [false, true, false]
+      pattern: [false, true, true, false]
     },
     {
       name: "G",
-      pattern: [false, true, true]
+      pattern: [false, true, true, true]
     },
     {
       name: "H",
-      pattern: [false, false, true]
+      pattern: [false, false, true, false]
+    },
+    {
+      name: "I",
+      pattern: [false, false, true, true]
+    },
+    {
+      name: "J",
+      pattern: [true, false, true, true]
+    },
+    {
+      name: "K",
+      pattern: [false, false, false, true]
+    },
+    {
+      name: "L",
+      pattern: [true, false, false, true]
+    },
+    {
+      name: "M",
+      pattern: [true, true, false, true]
+    },
+    {
+      name: "N",
+      pattern: [true, true, true, true]
     }
   ];
 
