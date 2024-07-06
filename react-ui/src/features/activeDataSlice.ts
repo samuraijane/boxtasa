@@ -2,22 +2,20 @@ import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/
 import { ReduxStore } from '../types/interface';
 import { sortByDate } from '../utils';
 import { Transaction } from '../types/interface';
-import { PatchTransaction, PostTransaction } from '../types/interface';
+import { PatchTransaction, PostTransaction, SelectorState } from '../types/interface';
 
 interface ActiveDataState {
   transactions: Transaction[];
 }
 
-// TODO maybe come up with a better name for this
-interface QueryProps {
-  acctId: number;
-  codeId: number;
-  month: number;
-  year: number;
-}
-
-export const getTransactionData = createAsyncThunk('transactions/get', async ({ acctId, codeId, month, year }: QueryProps) => {
-  const url = `http://localhost:8080/api/transactions/?acctId=${acctId}&codeId=${codeId}&month=${month}&year=${year}`;
+export const getTransactionData = createAsyncThunk('transactions/get', async ({
+  acctId,
+  codeId,
+  month,
+  year
+}: SelectorState) => {
+  const queryParams = `${acctId}&codeId=${codeId}&month=${month}&year=${year}`;
+  const url = `http://localhost:8080/api/transactions/?acctId=${queryParams}`;
   const data = await fetch(url);
   const _transactions = await data.json();
   return {
