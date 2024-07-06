@@ -1,4 +1,5 @@
 import {
+  Account,
   BulkData,
   PostTransaction,
   Total,
@@ -48,6 +49,20 @@ export const _sortByVendorName = (vendors: Vendor[]) => {
   return vendors.sort((a, b) => {
     const nameA = a.vendor_name.toUpperCase();
     const nameB = b.vendor_name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
+export const sortByAccountNumber = (accounts: Account[]) => {
+  return accounts.sort((a, b) => {
+    const nameA = a.acct_no.toUpperCase();
+    const nameB = b.acct_no.toUpperCase();
     if (nameA < nameB) {
       return -1;
     }

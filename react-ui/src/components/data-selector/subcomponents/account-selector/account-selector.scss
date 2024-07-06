@@ -1,19 +1,28 @@
-.account-selector {
+// `acct-s` stands for "account-selector"
+
+.acct-s {
+  display: grid;
+  grid-template-columns: repeat(2, 60px);
+  gap: 8px;
   padding: 0 20px;
 
-  .account-selector__account-names {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(176px, 1fr));
-    gap: 8px;
+  .acct-s__accounts {
+
+    &.acct-s__accounts--inactive {
+      color: #aaa;
+    }
+
+    li {
+      margin: 0 0 8px;
+    }
 
     p {
       font-size: 1.2rem;
     }
   }
 
-  .account-selector__account {
+  .acct-s__account {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
+    justify-content: center;
   }
 }

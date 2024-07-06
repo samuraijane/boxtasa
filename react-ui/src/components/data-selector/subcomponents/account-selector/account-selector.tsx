@@ -3,15 +3,26 @@ import "./account-selector.scss";
 import { useSelector } from "react-redux";
 import { selectAccounts } from "../../../../features/accountsSlice";
 import { Account } from "../../../../types/interface";
+import { sortByAccountNumber } from "../../../../utils";
 
 export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Element => {
   const accounts = useSelector(selectAccounts);
 
-  const accountNames = (accounts as Account[]).map((account) => {
+  let activeAccounts: Account[] = [];
+  let inactiveAccounts: Account[] = [];
+
+  accounts.forEach(x => {
+    if (x.is_active) {
+      activeAccounts.push(x);
+    } else {
+      inactiveAccounts.push(x);
+    }
+  });
+
+  const renderAccount = (account: Account) => {
     const {
       account_id,
       account_type_name,
-      is_active,
       acct_no,
       short_name,
     } = account;
@@ -24,18 +35,21 @@ export const AccountSelector = ({ action, selected }: SelectorProps): JSX.Elemen
         key={acct_no}
         onClick={action}
       >
-        <div className="account-selector__account">
+        <div className="acct-s__account" title={`${short_name} (${account_type_name})`}>
           <span>{acct_no}</span>
-          <span>{short_name}</span>
-          <span>{account_type_name}</span>
         </div>
       </li>
     )
-  });
+  };
+
+  const _activeAccounts = sortByAccountNumber(activeAccounts).map(y => renderAccount(y));
+  const _inactiveAccounts = sortByAccountNumber(inactiveAccounts).map(z => renderAccount(z));
+
 
   return (
-    <div className="account-selector">
-      <ul className="account-selector__account-names">{accountNames}</ul>
+    <div className="acct-s">
+      <ul className="acct-s__accounts acct-s__accounts--inactive">{_inactiveAccounts}</ul>
+      <ul className="acct-s__accounts acct-s__accounts--active">{_activeAccounts}</ul>
     </div>
   );
 };
