@@ -1,0 +1,16 @@
+.btn {
+  background-color: aliceblue;
+  border: 1px solid transparent;
+  padding: 12px 24px;
+  text-transform: capitalize;
+
+  &:hover {
+    background-color: cornflowerblue;
+    color: white;
+  }
+
+  &.btn--active {
+    background-color: slategray;
+    color: white;
+  }
+}

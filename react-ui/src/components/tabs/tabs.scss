@@ -1,0 +1,12 @@
+.tabs {
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 40px;
+  padding: 20px;
+
+  .tabs__group {
+    display: flex;
+    column-gap: 14px;
+  }
+}

@@ -12,7 +12,7 @@ export const DateSelector = ({ action, selected }: SelectorProps): JSX.Element =
 
     return (
       <li
-        className={`selector-container${selected === year.toString() ? " selector-container--selected" : ""}`}
+        className={`selector-container${selected === year ? " selector-container--selected" : ""}`}
         data-id={year}
         data-type="year"
         key={`${id}-${year}`}

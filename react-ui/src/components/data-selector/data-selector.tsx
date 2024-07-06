@@ -1,26 +1,16 @@
-import { MouseEvent, useState } from "react";
-import { useDispatch } from "react-redux";
+import { MouseEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AccountSelector } from "./subcomponents/account-selector/account-selector";
 import { CodeSelector } from "./subcomponents/code-selector/code-selector";
 import { DateSelector } from "./subcomponents/date-selector/date-selector";
-import { getTransactionData } from "../../features/activeDataSlice";
 import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";
-
-interface DataSelectorSelections {
-  acctId: string;
-  codeId: string;
-  year: string; // TODO for now we only care about the year but we'll get more granular later
-}
+import { selectSelector, setSelector } from "../../features/selectorSlice";
 
 export const DataSelector = () => {
   const dispatch = useDispatch<AppDispatch>();
-
-  const [selections, setSelections] = useState<DataSelectorSelections>({
-    acctId: "",
-    codeId: "",
-    year: ""
-  });;
+  const selectors = useSelector(selectSelector);
+  const { acctId, codeId, year } = selectors;
 
   const handleSelection = (e: MouseEvent<HTMLLIElement>) => {
     const { id, type } =( e.currentTarget as HTMLElement).dataset;
@@ -28,29 +18,20 @@ export const DataSelector = () => {
     if (!id) return; // TODO handle this error gracefully
     if (!type) return; // TODO handle this error gracefully
 
-    setSelections({
-      ...selections,
-      [type]: id
-    });
-  };
+    const isAlreadyActive = selectors[type as keyof typeof selectors] === parseInt(id);
 
-  const handleClick = () => {
-    dispatch(getTransactionData({
-      acctId: selections.acctId,
-      codeId: selections.codeId,
-      year: selections.year
+    dispatch(setSelector({
+      ...selectors,
+      [type]: isAlreadyActive ? 0 : parseInt(id)
     }));
   };
 
   return (
     <div className="data-selector">
       <div className="data-selector__selectors-container">
-        <AccountSelector action={handleSelection} selected={selections.acctId} />
-        <CodeSelector action={handleSelection} selected={selections.codeId} />
-        <DateSelector action={handleSelection} selected={selections.year} />
-      </div>
-      <div className="btn-container">
-        <button onClick={handleClick}>Get Transactions</button>
+        <AccountSelector action={handleSelection} selected={acctId} />
+        <CodeSelector action={handleSelection} selected={codeId} />
+        <DateSelector action={handleSelection} selected={year} />
       </div>
     </div>
   );

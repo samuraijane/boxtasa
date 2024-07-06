@@ -1,3 +1,5 @@
+import { ViewTabs } from "./enum";
+
 export interface Code {
   code_id: number;
   code_name: string;
@@ -52,6 +54,10 @@ export interface Year {
   year_name: number;
 }
 
+export interface TabState {
+  activeTab: ViewTabs;
+}
+
 export interface ReduxStore {
   account: Account[];
   activeData: ActiveData;
@@ -60,8 +66,16 @@ export interface ReduxStore {
   code: Code[];
   filteredData: FilteredData;
   isModal: boolean;
-  vendor: Vendor[]
-  years: Year[]
+  selector: SelectorState;
+  tabs: TabState;
+  vendor: Vendor[];
+  years: Year[];
+}
+
+export interface SelectorState {
+  acctId: number;
+  codeId: number;
+  year: number;
 }
 
 export interface Total {

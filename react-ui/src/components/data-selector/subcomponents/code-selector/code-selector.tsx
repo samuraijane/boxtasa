@@ -11,7 +11,7 @@ export const CodeSelector = ({ action, selected }: SelectorProps): JSX.Element =
 
     return (
       <li
-        className={`selector-container${parseInt(selected) === code_id ? " selector-container--selected" : ""}`}
+        className={`selector-container${selected === code_id ? " selector-container--selected" : ""}`}
         data-id={code_id}
         data-type="codeId"
         key={code.code_id}
