@@ -36,6 +36,8 @@ export const prepResponseDataAfterBulkUpdate = (data) => {
  *   `month` and `year`. This is fragile solution and must perfectly
  *   match the WHERE queries executed by the server in order to work as
  *   expected.
+ * @todo Finish defining all the possible patterns– maybe. Doing so may
+ *   be impractical
  * @param {boolean[]} currentPattern 
  * @returns {string}
  */
