@@ -128,11 +128,7 @@ const updateTransaction = (req, res) => {
   const { note } = req.body;
 
   if (!id) {
-    throw new error("No value for `note` is provided.");
-  }
-
-  if (!note) {
-    throw new error("No value for `id` is provided.");
+    throw new Error("No value for `id` is provided.");
   }
 
   pool.query(sqlUpdateTransaction(), [id, note], (err, results) => {
@@ -153,7 +149,7 @@ const postBulk = async (req, res) => {
     // TODO handle possible errors
 
     if (codeId && vendorId) {
-      throw new error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
+      throw new Error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
     }
 
     if (codeId) {
@@ -179,7 +175,7 @@ const postTransaction = async (req, res) => {
   // TODO handle possible errors
 
   if (codeId && vendorId) {
-    throw new error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
+    throw new Error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
   }
 
   let updated;
@@ -201,7 +197,7 @@ const postVendor = async (req, res) => {
   const { vendorName } = req.body;
 
   if (!vendorName) {
-    throw new error("No value for `vendorName` is provided.")
+    throw new Error("No value for `vendorName` is provided.")
   }
 
   const query = await pool.query(`SELECT vendor_id FROM vendors WHERE vendor_name = $1`, [vendorName]);
