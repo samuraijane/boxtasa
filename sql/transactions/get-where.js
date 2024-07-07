@@ -25,7 +25,7 @@ const sqlGetTransactionsC = `
   AND $5::int IS NULL
 `;
 
-// acctId, codeId, fix
+// acctId, codeId, fixId
 const sqlGetTransactionsD = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
@@ -34,7 +34,7 @@ const sqlGetTransactionsD = `
   AND $5::int IS NULL
 `;
 
-// acctId, codeId, fix, month
+// acctId, codeId, fixId, month
 const sqlGetTransactionsE = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
@@ -52,7 +52,7 @@ const sqlGetTransactionsF = `
   AND $5::int IS NULL
 `;
 
-// code, fix
+// code, fixId
 const sqlGetTransactionsG = `
   WHERE $1::int IS NULL
   AND _codes.code_id = $2
@@ -61,7 +61,7 @@ const sqlGetTransactionsG = `
   AND $5::int IS NULL
 `;
 
-// code, fix, month
+// code, fixId, month
 const sqlGetTransactionsH = `
   WHERE $1::int IS NULL
   AND _codes.code_id = $2
@@ -70,7 +70,7 @@ const sqlGetTransactionsH = `
   AND $5::int IS NULL
 `;
 
-// code, fix, month, year
+// code, fixId, month, year
 const sqlGetTransactionsI = `
   WHERE $1::int IS NULL
   AND _codes.code_id = $2
@@ -79,7 +79,7 @@ const sqlGetTransactionsI = `
   AND _years.year_name = $5
 `;
 
-// fix
+// fixId
 const sqlGetTransactionsJ = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
@@ -88,7 +88,7 @@ const sqlGetTransactionsJ = `
   AND $5::int IS NULL
 `;
 
-// fix, month
+// fixId, month
 const sqlGetTransactionsK = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
@@ -97,7 +97,7 @@ const sqlGetTransactionsK = `
   AND $5::int IS NULL
 `;
 
-// fix, month, year
+// fixId, month, year
 const sqlGetTransactionsL = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
@@ -106,7 +106,7 @@ const sqlGetTransactionsL = `
   AND _years.year_name = $5
 `;
 
-// acctId, fix, month, year
+// acctId, fixId, month, year
 const sqlGetTransactionsM = `
   WHERE _accounts.account_id = $1
   AND $2::int IS NULL
@@ -178,7 +178,7 @@ const sqlGetTransactionsT = `
   AND _years.year_name = $5
 `;
 
-// acctId, codeId, fix, year
+// acctId, codeId, fixId, year
 const sqlGetTransactionsU = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
@@ -187,7 +187,7 @@ const sqlGetTransactionsU = `
   AND _years.year_name = $5
 `;
 
-// acctId, codeId, fix, month, year
+// acctId, codeId, fixId, month, year
 const sqlGetTransactionsV = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2

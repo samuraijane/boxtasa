@@ -90,7 +90,7 @@ const transactionOrderBy = `
 
 /**
  * Transactions can be searched with the following optional parameters:
- *   `acctId`, `codeId`, `fix`, `month`, and/or `year`. If no parameters
+ *   `acctId`, `codeId`, `fixId`, `month`, and/or `year`. If no parameters
  *   are supplied, all transactions in the database will be returned.
  *   Currently, the query is determined by the value of a query type.
  *   While arguably verbose and not entirely DRY, it's what we're going

@@ -86,18 +86,18 @@ const getTransaction = (req, res) => {
 };
 
 const getTransactions = (req, res) => {
-  const { acctId, codeId, fix, month, year } = req.query;
+  const { acctId, codeId, fixId, month, year } = req.query;
 
   // TODO consider refactoring to allow an array of values and get all values in one call
   const _acctId = getQueryParamValue(acctId);
   const _codeId = getQueryParamValue(codeId);
-  const _fix = getQueryParamValue(fix);
+  const _fixId = getQueryParamValue(fixId);
   const _month = getQueryParamValue(month);
   const _year = getQueryParamValue(year);
 
-  const queryType = getQueryType([!!_acctId, !!_codeId, !!_fix, !!_month, !!_year]);
+  const queryType = getQueryType([!!_acctId, !!_codeId, !!_fixId, !!_month, !!_year]);
 
-  pool.query(sqlGetTransactions(queryType), [_acctId, _codeId, _fix, _month, _year], (err, results) => {
+  pool.query(sqlGetTransactions(queryType), [_acctId, _codeId, _fixId, _month, _year], (err, results) => {
     if (err) {
       throw err;
     }
