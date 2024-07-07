@@ -67,25 +67,27 @@ export const TransactionDetail = () => {
 
   return (
     <div className="transaction-detail">
-      <p><span>Account No</span><span>{acctNo}</span></p>
-      <p><span>Account Name</span><span>{acctName}</span></p>
-      <p><span>Account Type</span><span>{acctType}</span></p>
-      <p><span>Year</span><span>{yearName}</span></p>
-      <p><span>Month</span><span>{month}</span></p>
-      <p><span>Day</span><span>{day}</span></p>
-      <p><span>Vendor</span><span>{vendor}</span></p>
-      <p><span>Memo</span><span>{memo}</span></p>
-      <div>
-        <span onClick={handleClick}>Note</span>
-        {
-          !isEditNote
-          ? <span>{note}</span>
-          : <NoteInput handleChange={handleChange} handleInput={handleInput} value={noteValue} />
-        }
+      <p className="transaction-detail__field transaction-detail__field--first"><span>Account No</span><span>{acctNo}</span></p>
+      <p className="transaction-detail__field"><span>Account Name</span><span>{acctName}</span></p>
+      <p className="transaction-detail__field"><span>Account Type</span><span>{acctType}</span></p>
+      <p className="transaction-detail__field"><span>Year</span><span>{yearName}</span></p>
+      <p className="transaction-detail__field"><span>Month</span><span>{month}</span></p>
+      <p className="transaction-detail__field"><span>Day</span><span>{day}</span></p>
+      <p className="transaction-detail__field"><span>Vendor</span><span>{vendor}</span></p>
+      <p className="transaction-detail__field"><span>Memo</span><span>{memo}</span></p>
+      <div className="transaction-detail__input-outer">
+        <div className="transaction-detail__input-inner">
+          <span onClick={handleClick}>Note</span>
+          {
+            !isEditNote
+            ? <span className="transaction-detail__input-read-only">{note}</span>
+            : <NoteInput handleChange={handleChange} handleInput={handleInput} value={noteValue} />
+          }
+        </div>
       </div>
-      <p><span>Transaction Type</span><span>{transactionType}</span></p>
-      <p><span>Amount</span><span>{amount}</span></p>
-      <p><span>Code</span><span>{codeName}</span></p>
+      <p className="transaction-detail__field"><span>Transaction Type</span><span>{transactionType}</span></p>
+      <p className="transaction-detail__field"><span>Amount</span><span>{amount}</span></p>
+      <p className="transaction-detail__field"><span>Code</span><span>{codeName}</span></p>
     </div>
   );
 };

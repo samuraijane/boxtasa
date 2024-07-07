@@ -1,17 +1,41 @@
 .transaction-detail {
 
-  p {
+  .transaction-detail__field {
     display: grid;
     grid-template-columns: 35% 65%;
     margin: 24px 0;
 
-    &:first-of-type {
+    &.transaction-detail__field--first {
       margin-top: 0;
     }
 
     span:first-of-type {
       color: #555;
       font-weight: 700;
+    }
+  }
+
+  .transaction-detail__input-outer {
+    height: 30px;
+    margin: 24px 0;
+    position: relative;
+
+    .transaction-detail__input-inner {
+      display: grid;
+      grid-template-columns: 35% 65%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+
+      span:first-of-type {
+        color: #555;
+        font-weight: 700;
+      }
+
+      .transaction-detail__input-read-only {
+        padding: 4px 0;
+      }
     }
   }
 }
