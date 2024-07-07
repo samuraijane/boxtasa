@@ -97,9 +97,32 @@ export const transactionsSlice = createSlice({
     builder.addCase(getTransactionData.rejected, (state, action) => {
       return _initialState; // TODO make this more informative when there is an error
     });
-    builder.addCase(patchTransaction.fulfilled, (state, action) => (
-      { ...state, transactions: action.payload }
-    ));
+
+    // TODO
+    // Need to investigate this further. The commented out code leaves
+    // the active transaction in redux untouched but the commented in
+    // code immediately beneath it updates the active transaction.
+    // However, because we close the modal after an update, it doesn't
+    // really matter. Redux still has the old data but when opening the
+    // modal again to see the details, it shows the latest data which is
+    // up-to-date because it's pulling it from `filteredTransactions`
+    // which has the update thanks to an extra reducer in filteredDataSlice.
+    // TL;DR -> we're repeating ourselves and can make things more efficent.
+
+    // builder.addCase(patchTransaction.fulfilled, (state, action) => (
+    //   { ...state, transactions: action.payload }
+    // ));
+    builder.addCase(patchTransaction.fulfilled, (state, action) => {
+      const targetIndex = state.transactions.findIndex(x => x.transaction_id === (action.payload as unknown as Transaction).transaction_id);
+      const _transactions = [
+        ...state.transactions.slice(0, targetIndex),
+        action.payload,
+        ...state.transactions.slice(targetIndex + 1)
+      ];
+      return (
+        { transactions: _transactions }
+      );
+    });
     builder.addCase(postTransaction.fulfilled, (state, action) => (
       { ...state, transactions: action.payload }
     ));

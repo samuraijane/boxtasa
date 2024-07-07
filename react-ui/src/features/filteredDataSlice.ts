@@ -77,11 +77,16 @@ export const filteredTransactionsSlice = createSlice({
           filteredTransactions: getMatchingTransactions(state.searchTerm)
         }
       }
-      
-      return {
-        ...state,
-        filteredTransactions: API_DATA
-      };
+
+      const targetIndex = state.filteredTransactions.findIndex(x => x.transaction_id === ((action as any).payload as unknown as Transaction).transaction_id);
+      const _transactions = [
+        ...state.filteredTransactions.slice(0, targetIndex),
+        (action as any).payload,
+        ...state.filteredTransactions.slice(targetIndex + 1)
+      ];
+      return (
+        { ...state, filteredTransactions: _transactions }
+      );
     });
     builder.addCase("transactions/post/fulfilled", (state, action) => {
       API_DATA = (action as any).payload;
