@@ -31,9 +31,11 @@ export const prepResponseDataAfterBulkUpdate = (data) => {
 };
 
 /**
- * Finds the query type that matches the values of the given array. The
+ * Finds the query type that matches values of the given array. The
  *   order of the values in `pattern` is `acctId`, `codeId`, `fix`,
- *   `month` and `year`.
+ *   `month` and `year`. This is fragile solution and must perfectly
+ *   match the WHERE queries executed by the server in order to work as
+ *   expected.
  * @param {boolean[]} currentPattern 
  * @returns {string}
  */
