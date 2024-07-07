@@ -127,16 +127,22 @@ const updateTransaction = (req, res) => {
   const { id } = req.params;
   const { note } = req.body;
 
+  let _note = note;
+
   if (!id) {
     throw new Error("No value for `id` is provided.");
   }
 
-  pool.query(sqlUpdateTransaction(), [id, note], (err, results) => {
+  if (!note) {
+    _note = null; // ensures that queries where note is null does not return a false positive (an empty string is not null)
+  }
+
+  pool.query(sqlUpdateTransaction(), [id, _note], async (err, results) => {
     if (err) {
       throw err;
     }
-    // TODO investigate if there is a better way to do this; also consider returning `isSuccess` in the response; see similar in `deleteVendor`
-    getTransactions(req, res);
+    const updated = await pool.query(sqlGetTransaction(), [id]);
+    await res.status(200).json(updated.rows[0]);
   });
 };
 
