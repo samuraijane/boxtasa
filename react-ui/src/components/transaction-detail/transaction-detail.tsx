@@ -76,10 +76,10 @@ export const TransactionDetail = () => {
       <p><span>Vendor</span><span>{vendor}</span></p>
       <p><span>Memo</span><span>{memo}</span></p>
       <div>
-        <span>Note</span>
+        <span onClick={handleClick}>Note</span>
         {
           !isEditNote
-          ? <span onClick={handleClick}>{note}</span>
+          ? <span>{note}</span>
           : <NoteInput handleChange={handleChange} handleInput={handleInput} value={noteValue} />
         }
       </div>
