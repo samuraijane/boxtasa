@@ -11,7 +11,11 @@ import {
   sqlPostVendor,
   sqlUpdateTransaction
 } from "./sql/index.js";
-import { getQueryType, prepResponseDataAfterBulkUpdate } from "./utils/utils.js";
+import {
+  getQueryParamValue,
+  getQueryType,
+  prepResponseDataAfterBulkUpdate
+} from "./utils/utils.js";
 
 dotenv.config();
 
@@ -82,16 +86,18 @@ const getTransaction = (req, res) => {
 };
 
 const getTransactions = (req, res) => {
-  const { acctId, codeId, month, year } = req.query;
+  const { acctId, codeId, fix, month, year } = req.query;
 
-  const _acctId = acctId === "0" ? null : parseInt(acctId);
-  const _codeId = codeId === "0" ? null : parseInt(codeId);
-  const _month = month === "0" ? null : parseInt(month);
-  const _year = year === "0" ? null : parseInt(year);
+  // TODO consider refactoring to allow an array of values and get all values in one call
+  const _acctId = getQueryParamValue(acctId);
+  const _codeId = getQueryParamValue(codeId);
+  const _fix = getQueryParamValue(fix);
+  const _month = getQueryParamValue(month);
+  const _year = getQueryParamValue(year);
 
-  const queryType = getQueryType([!!_acctId, !!_codeId, !!_month, !!_year]);
+  const queryType = getQueryType([!!_acctId, !!_codeId, !!_fix, !!_month, !!_year]);
 
-  pool.query(sqlGetTransactions(queryType), [_acctId, _codeId, _month, _year], (err, results) => {
+  pool.query(sqlGetTransactions(queryType), [_acctId, _codeId, _fix, _month, _year], (err, results) => {
     if (err) {
       throw err;
     }
