@@ -7,11 +7,12 @@ import { YearSelector } from "./subcomponents/year-selector/year-selector";
 import { AppDispatch } from "../../app/store";
 import "./data-selector.scss";
 import { selectSelector, setSelector } from "../../features/selectorSlice";
+import { FixSelector } from "./subcomponents/fix-selector/fix-selector";
 
 export const DataSelector = () => {
   const dispatch = useDispatch<AppDispatch>();
   const selectors = useSelector(selectSelector);
-  const { acctId, codeId, month, year } = selectors;
+  const { acctId, codeId, fixId, month, year } = selectors;
 
   const handleSelection = (e: MouseEvent<HTMLLIElement>) => {
     const { id, type } =( e.currentTarget as HTMLElement).dataset;
@@ -32,6 +33,7 @@ export const DataSelector = () => {
       <div className="data-selector__selectors-container">
         <AccountSelector action={handleSelection} selected={acctId} />
         <CodeSelector action={handleSelection} selected={codeId} />
+        <FixSelector action={handleSelection} selected={fixId} />
         <YearSelector action={handleSelection} selected={year} />
         <MonthSelector action={handleSelection} selected={month} />
       </div>

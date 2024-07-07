@@ -36,6 +36,7 @@ export const Tabs = () => {
       dispatch(getTransactionData({
         acctId: selectors.acctId,
         codeId: selectors.codeId,
+        fixId: selectors.fixId,
         month: selectors.month,
         year: selectors.year
       }));

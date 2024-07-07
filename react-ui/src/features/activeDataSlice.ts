@@ -11,10 +11,11 @@ interface ActiveDataState {
 export const getTransactionData = createAsyncThunk('transactions/get', async ({
   acctId,
   codeId,
+  fixId,
   month,
   year
 }: SelectorState) => {
-  const queryParams = `${acctId}&codeId=${codeId}&month=${month}&year=${year}`;
+  const queryParams = `${acctId}&codeId=${codeId}&fix=${fixId}&month=${month}&year=${year}`;
   const url = `http://localhost:8080/api/transactions/?acctId=${queryParams}`;
   const data = await fetch(url);
   const _transactions = await data.json();

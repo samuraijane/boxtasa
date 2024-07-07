@@ -78,6 +78,7 @@ export interface ReduxStore {
   auth: boolean;
   code: Code[];
   filteredData: FilteredData;
+  fixes: number; // this is plural even though for now, it's only for a number; in the future, it's likely it will be array of numbers
   isModal: boolean;
   months: Month[];
   selector: SelectorState;
@@ -89,6 +90,7 @@ export interface ReduxStore {
 export interface SelectorState {
   acctId: number;
   codeId: number;
+  fixId: number;
   month: number;
   year: number;
 }
