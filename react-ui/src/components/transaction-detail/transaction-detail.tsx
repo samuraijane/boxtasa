@@ -61,7 +61,6 @@ export const TransactionDetail = () => {
 
     if (type === NotePatchOptions.SAVE) {
       dispatch(patchTransaction({ id, note: noteValue }));
-      dispatch(handleModal(false));
     }
   };
 
