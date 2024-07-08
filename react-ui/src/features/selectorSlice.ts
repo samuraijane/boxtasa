@@ -3,11 +3,11 @@ import { ReduxStore } from '../types/interface';
 import { SelectorState } from '../types/interface';
 
 const _initialState: SelectorState = {
-  acctId: 2,
+  acctId: 0,
   codeId: 0,
-  fixId: 0,
+  fixId: 975, // hardcoding the id for UNST for now
   month: 0, // TODO make this to be the current month
-  year: 2024 // TODO make this to be the current year
+  year: 0 // TODO make this to be the current year
 };
 
 export const selectorSlice = createSlice({
