@@ -4,8 +4,8 @@ import { SelectorState } from '../types/interface';
 
 const _initialState: SelectorState = {
   acctId: 0,
-  codeId: 0,
-  fixId: 975, // hardcoding the id for UNST for now
+  codeId: 11, //hardcode the id for UNST for now
+  fixId: 0,
   month: 0, // TODO make this to be the current month
   year: 0 // TODO make this to be the current year
 };
