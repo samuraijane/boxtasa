@@ -69,7 +69,7 @@ export const filteredTransactionsSlice = createSlice({
       };
     });
     builder.addCase("transactions/patch/fulfilled", (state, action) => {
-      API_DATA = (action as any).payload;
+      API_DATA = [(action as any).payload];
 
       if (state.searchTerm) {
         return {
