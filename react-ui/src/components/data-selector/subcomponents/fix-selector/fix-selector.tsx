@@ -6,8 +6,8 @@ export const FixSelector = ({ action, selected }: SelectorProps): JSX.Element =>
   <div className="fix-selector">
     <ul className="fix-selector__fixes">
       <li
-        className={`selector-container${selected === 1 ? " selector-container--selected" : ""}`}
-        data-id={1}
+        className={`selector-container${selected === 975 ? " selector-container--selected" : ""}`}
+        data-id={975}
         data-type="fixId"
         onClick={action}
       >
