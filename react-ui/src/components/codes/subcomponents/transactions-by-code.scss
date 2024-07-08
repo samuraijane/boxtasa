@@ -1,0 +1,12 @@
+// `tbc` stands for "transactions by code"
+
+.tbc {
+  
+  .tbc__list {
+
+    li {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}

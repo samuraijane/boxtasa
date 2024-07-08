@@ -1,79 +1,62 @@
 import { MouseEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectCode } from "../../features/codesSlice";
-import { AppDispatch } from "../../app/store";
+import { TransactionsByCode } from "./subcomponents/transactions-by-code";
 import "./codes.scss";
-import { Code } from "../../types/interface";
-import { Totals } from "../totals/totals";
-import { clearTotals } from "../../features/filteredDataSlice";
 
+enum CodeCtas {
+  VIEW = "view",
+}
 
 export const Codes = () => {
   const codes = useSelector(selectCode);
-  const dispatch = useDispatch<AppDispatch>();
-  const [selectedCode, setSelectedCode] = useState("");
 
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    dispatch(clearTotals());
-    if (!(e.currentTarget instanceof HTMLLIElement)) {
-      return;
-    }
-    const { id } = e.currentTarget.dataset;
-    if (!id) {
-      console.error("No ID found on clicked element.");
-      return;
-    }
-    if (id === selectedCode) {
-      setSelectedCode("");
-    } else {
-      setSelectedCode(id);
-    }
-  };
+  const [activeCode, setActiveCode] = useState("");
 
-  const renderClickedCode = () => {
-    const clickedCode = codes.find(x => x.code_id.toString() === selectedCode);
-    if (!clickedCode) {
-      console.error("The clicked code is not in the database.");
-      return;
-    }
-    return renderCode({
-      code_description: clickedCode.code_description,
-      code_id: clickedCode.code_id,
-      code_name: clickedCode.code_name
-    });
-  };
+  const _codes = codes.map(code => {
+    const { count, total, code_id: id, code_name: name } = code;
 
-  const renderCode = ({
-    code_description: description,
-    code_id: id,
-    code_name: name
-  }: Code) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement | HTMLLIElement>) => {
+      if (!(e.target instanceof HTMLButtonElement)) {
+        return;
+      }
+      const { id, name, type } = e.target.dataset;
+      if (!id) {
+        console.error("`id` is undefined");
+        return;
+      }
+      if (type === CodeCtas.VIEW) {
+        setActiveCode(name ? name : "")
+      }
+    }
+
     return (
-      <li data-id={id} key={id} onClick={handleClick}>
-        <div>{name}</div>
-        <p>{description}</p>
+      <li key={id} onClick={handleClick}>
+        <span className="codes__count">{count}</span>
+        <span className="codes__count">{total}</span>
+        <span>{name}</span>
+        <div className="codes__btns">
+          <span className="codes__btn">
+            <button data-id={id} data-name={name} data-type={CodeCtas.VIEW}>View</button>
+          </span>
+        </div>
       </li>
     );
-  };
-
-  const _codes = codes.map(code => renderCode({
-    code_description: code.code_description,
-    code_id: code.code_id,
-    code_name: code.code_name
-  }));
+  });
 
   return (
-    <div className={`codes${selectedCode ? " codes--single" : ""}`}>
-      <ul>
-        {
-          !selectedCode
-          ? _codes
-          : renderClickedCode()
-        }
-      </ul>
-      {
-        selectedCode && <Totals />
-      }
+    <div className="codes">
+      <h1>Vendors</h1>
+      <div className="codes__columns">
+        <div className="codes__col">
+          <ul>{_codes}</ul>
+        </div>
+        {activeCode && (
+          <div className="codes__col">
+            <TransactionsByCode codeName={activeCode} />
+          </div>
+        )}
+      </div>
     </div>
-  )
-}
+  );
+};

@@ -7,9 +7,11 @@ export interface SelectorProps {
 }
 
 export interface Code {
+  count: number;
   code_id: number;
   code_name: string;
   code_description: string;
+  total: number;
 }
 
 export interface Vendor {
