@@ -26,7 +26,7 @@ const initialState: FilteredDataState = {
 let API_DATA = [] as Transaction[];
 
 const getMatchingTransactions = (searchStr: string) => (
-  API_DATA.filter(transactions => transactions.transaction_memo.toLowerCase().search(searchStr) !== -1)
+  API_DATA.filter(transactions => transactions.vendor_name.toLowerCase().search(searchStr) !== -1)
 );
 
 export const filteredTransactionsSlice = createSlice({

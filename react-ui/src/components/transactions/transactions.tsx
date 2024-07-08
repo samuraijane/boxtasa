@@ -102,7 +102,7 @@ export const Transactions = (): JSX.Element => {
             <input
               onChange={handleChange}
               onKeyDown={handleKeyDown}
-              placeholder="Search memos"
+              placeholder="Search vendors"
               type="text"
               value={searchTerm}
             />
