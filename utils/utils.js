@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { DATA_FOR } from '../const/const.js';
 
 const {
   ACCESS_SECRET: as,
@@ -44,91 +45,131 @@ export const prepResponseDataAfterBulkUpdate = (data) => {
 export const getQueryType = (currentPattern) => {
   const patterns = [
     {
-      name: "A",
+      name: DATA_FOR.NO_FILTERS,
       pattern: [false, false, false, false, false]
     },
     {
-      name: "B",
-      pattern: [true, false, false, false, false]
-    },
-    {
-      name: "C",
-      pattern: [true, true, false, false, false]
-    },
-    {
-      name: "D",
-      pattern: [true, true, true, false, false]
-    },
-    {
-      name: "E",
-      pattern: [true, true, true, true, false]
-    },
-    {
-      name: "F",
-      pattern: [false, true, false, false, false]
-    },
-    {
-      name: "G",
-      pattern: [false, true, true, false, false]
-    },
-    {
-      name: "H",
-      pattern: [false, true, true, true, false]
-    },
-    {
-      name: "I",
-      pattern: [false, true, true, true, true]
-    },
-    {
-      name: "J",
-      pattern: [false, false, true, false, false]
-    },
-    {
-      name: "K",
-      pattern: [false, false, true, true, false]
-    },
-    {
-      name: "L",
-      pattern: [false, false, true, true, true]
-    },
-    {
-      name: "M",
-      pattern: [true, false, true, true, true]
-    },
-    {
-      name: "N",
-      pattern: [false, false, false, true, false]
-    },
-    {
-      name: "O",
-      pattern: [false, false, false, true, true]
-    },
-    {
-      name: "P",
-      pattern: [true, false, false, true, true]
-    },
-    {
-      name: "Q",
-      pattern: [true, true, false, true, true]
-    },
-    {
-      name: "R",
+      name: DATA_FOR.YEAR,
       pattern: [false, false, false, false, true]
     },
     {
-      name: "S",
+      name: DATA_FOR.MONTH,
+      pattern: [false, false, false, true, false]
+    },
+    {
+      name: DATA_FOR.MONTH_YEAR,
+      pattern: [false, false, false, true, true]
+    },
+    {
+      name: DATA_FOR.FIX,
+      pattern: [false, false, true, false, false]
+    },
+    {
+      name: DATA_FOR.FIX_YEAR,
+      pattern: [false, false, true, false, true]
+    },
+    {
+      name: DATA_FOR.FIX_MONTH,
+      pattern: [false, false, true, true, false]
+    },
+    {
+      name: DATA_FOR.FIX_MONTH_YEAR,
+      pattern: [false, false, true, true, true]
+    },
+    {
+      name: DATA_FOR.CODE,
+      pattern: [false, true, false, false, false]
+    },
+    {
+      name: DATA_FOR.CODE_YEAR,
+      pattern: [false, true, false, false, true]
+    },
+    {
+      name: DATA_FOR.CODE_MONTH,
+      pattern: [false, true, false, true, false]
+    },
+    {
+      name: DATA_FOR.CODE_MONTH_YEAR,
+      pattern: [false, true, false, true, true]
+    },
+    {
+      name: DATA_FOR.CODE_FIX,
+      pattern: [false, true, true, false, false]
+    },
+    {
+      name: DATA_FOR.CODE_FIX_YEAR,
+      pattern: [false, true, true, false, true]
+    },
+    {
+      name: DATA_FOR.CODE_FIX_MONTH,
+      pattern: [false, true, true, true, false]
+    },
+    {
+      name: DATA_FOR.CODE_FIX_MONTH_YEAR,
+      pattern: [false, true, true, true, true]
+    },
+    {
+      name: DATA_FOR.ACCT,
+      pattern: [true, false, false, false, false]
+    },
+    {
+      name: DATA_FOR.ACCT_YEAR,
       pattern: [true, false, false, false, true]
     },
     {
-      name: "T",
+      name: DATA_FOR.ACCT_MONTH,
+      pattern: [true, false, false, true, false]
+    },
+    {
+      name: DATA_FOR.ACCT_MONTH_YEAR,
+      pattern: [true, false, false, true, true]
+    },
+    {
+      name: DATA_FOR.ACCT_FIX,
+      pattern: [true, false, true, false, false]
+    },
+    {
+      name: DATA_FOR.ACCT_FIX_YEAR,
+      pattern: [true, false, true, false, true]
+    },
+    {
+      name: DATA_FOR.ACCT_FIX_MONTH,
+      pattern: [true, false, true, true, false]
+    },
+    {
+      name: DATA_FOR.ACCT_FIX_MONTH_YEAR,
+      pattern: [true, false, true, true, true]
+    },
+    {
+      name: DATA_FOR.ACCT_CODE,
+      pattern: [true, true, false, false, false]
+    },
+    {
+      name: DATA_FOR.ACCT_CODE_YEAR,
       pattern: [true, true, false, false, true]
     },
     {
-      name: "U",
+      name: DATA_FOR.ACCT_CODE_MONTH,
+      pattern: [true, true, false, true, false]
+    },
+    {
+      name: DATA_FOR.ACCT_CODE_MONTH_YEAR,
+      pattern: [true, true, false, true, true]
+    },
+    {
+      name: DATA_FOR.ACCT_CODE_FIX,
+      pattern: [true, true, true, false, false]
+    },
+    {
+      name: DATA_FOR.ACCT_CODE_FIX_YEAR,
       pattern: [true, true, true, false, true]
     },
     {
-      name: "V",
+      name: DATA_FOR.ACCT_CODE_FIX_MONTH,
+      pattern: [true, true, true, true, false]
+    },
+    {
+      name: DATA_FOR.ALL_FILTERS,
       pattern: [true, true, true, true, true]
     }
   ];

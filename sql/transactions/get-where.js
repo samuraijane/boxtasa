@@ -1,194 +1,221 @@
-// do not filter (e.g. return all transactions in the database)
-const sqlGetTransactionsA = `
+const sqlWhereForNoFilters = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
   AND $3::int IS NULL
   AND $4::int IS NULL
   AND $5::int IS NULL
 `;
-
-// acctId
-const sqlGetTransactionsB = `
-  WHERE _accounts.account_id = $1
-  AND $2::int IS NULL
-  AND $3::int IS NULL
-  AND $4::int IS NULL
-  AND $5::int IS NULL
-`;
-
-// acctId, codeId
-const sqlGetTransactionsC = `
-  WHERE _accounts.account_id = $1
-  AND _codes.code_id = $2
-  AND $3::int IS NULL
-  AND $4::int IS NULL
-  AND $5::int IS NULL
-`;
-
-// acctId, codeId, fixId
-const sqlGetTransactionsD = `
-  WHERE _accounts.account_id = $1
-  AND _codes.code_id = $2
-  AND _transactions.vendor_id = $3
-  AND $4::int IS NULL
-  AND $5::int IS NULL
-`;
-
-// acctId, codeId, fixId, month
-const sqlGetTransactionsE = `
-  WHERE _accounts.account_id = $1
-  AND _codes.code_id = $2
-  AND _transactions.vendor_id = $3
-  AND _transactions.date_month = $4
-  AND $5::int IS NULL
-`;
-
-// code
-const sqlGetTransactionsF = `
-  WHERE $1::int IS NULL
-  AND _codes.code_id = $2
-  AND $3::int IS NULL
-  AND $4::int IS NULL
-  AND $5::int IS NULL
-`;
-
-// code, fixId
-const sqlGetTransactionsG = `
-  WHERE $1::int IS NULL
-  AND _codes.code_id = $2
-  AND _transactions.vendor_id = $3
-  AND $4::int IS NULL
-  AND $5::int IS NULL
-`;
-
-// code, fixId, month
-const sqlGetTransactionsH = `
-  WHERE $1::int IS NULL
-  AND _codes.code_id = $2
-  AND _transactions.vendor_id = $3
-  AND _transactions.date_month = $4
-  AND $5::int IS NULL
-`;
-
-// code, fixId, month, year
-const sqlGetTransactionsI = `
-  WHERE $1::int IS NULL
-  AND _codes.code_id = $2
-  AND _transactions.vendor_id = $3
-  AND _transactions.date_month = $4
-  AND _years.year_name = $5
-`;
-
-// fixId
-const sqlGetTransactionsJ = `
-  WHERE $1::int IS NULL
-  AND $2::int IS NULL
-  AND _transactions.vendor_id = $3
-  AND $4::int IS NULL
-  AND $5::int IS NULL
-`;
-
-// fixId, month
-const sqlGetTransactionsK = `
-  WHERE $1::int IS NULL
-  AND $2::int IS NULL
-  AND _transactions.vendor_id = $3
-  AND _transactions.date_month = $4
-  AND $5::int IS NULL
-`;
-
-// fixId, month, year
-const sqlGetTransactionsL = `
-  WHERE $1::int IS NULL
-  AND $2::int IS NULL
-  AND _transactions.vendor_id = $3
-  AND _transactions.date_month = $4
-  AND _years.year_name = $5
-`;
-
-// acctId, fixId, month, year
-const sqlGetTransactionsM = `
-  WHERE _accounts.account_id = $1
-  AND $2::int IS NULL
-  AND _transactions.vendor_id = $3
-  AND _transactions.date_month = $4
-  AND _years.year_name = $5
-`;
-
-// month
-const sqlGetTransactionsN = `
-  WHERE $1::int IS NULL
-  AND $2::int IS NULL
-  AND $3::int IS NULL
-  AND _transactions.date_month = $4
-  AND $5::int IS NULL
-`;
-
-// month, year
-const sqlGetTransactionsO = `
-  WHERE $1::int IS NULL
-  AND $2::int IS NULL
-  AND $3::int IS NULL
-  AND _transactions.date_month = $4
-  AND _years.year_name = $5
-`;
-
-// acctId, month, year
-const sqlGetTransactionsP = `
-  WHERE _accounts.account_id = $1
-  AND $2::int IS NULL
-  AND $3::int IS NULL
-  AND _transactions.date_month = $4
-  AND _years.year_name = $5
-`;
-
-// acctId, codeId, month, year
-const sqlGetTransactionsQ = `
-  WHERE _accounts.account_id = $1
-  AND _codes.code_id = $2
-  AND $3::int IS NULL
-  AND _transactions.date_month = $4
-  AND _years.year_name = $5
-`;
-
-// year
-const sqlGetTransactionsR = `
+const sqlWhereForYear = `
   WHERE $1::int IS NULL
   AND $2::int IS NULL
   AND $3::int IS NULL
   AND $4::int IS NULL
   AND _years.year_name = $5
 `;
-
-// acctId, year
-const sqlGetTransactionsS = `
+const sqlWhereForMonth = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForMonthYear = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForFix = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForFixYear = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND _years.year_name = $5
+`;
+const sqlWhereForFixMonth = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForFixMonthYear = `
+  WHERE $1::int IS NULL
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForCode = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForCodeYear = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND $4::int IS NULL
+  AND _years.year_name = $5
+`;
+const sqlWhereForCodeMonth = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForCodeMonthYear = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForCodeFix = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForCodeFixYear = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND _years.year_name = $5
+`;
+const sqlWhereForCodeFixMonth = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForCodeFixMonthYear = `
+  WHERE $1::int IS NULL
+  AND _codes.code_id = $2
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForAcct = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctYear = `
   WHERE _accounts.account_id = $1
   AND $2::int IS NULL
   AND $3::int IS NULL
   AND $4::int IS NULL
   AND _years.year_name = $5
 `;
-
-// acctId, codeId, year
-const sqlGetTransactionsT = `
+const sqlWhereForAcctMonth = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctMonthYear = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForAcctFix = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctFixYear = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND _years.year_name = $5
+`;
+const sqlWhereForAcctFixMonth = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctFixMonthYear = `
+  WHERE _accounts.account_id = $1
+  AND $2::int IS NULL
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForAcctCode = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctCodeYear = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
   AND $3::int IS NULL
   AND $4::int IS NULL
   AND _years.year_name = $5
 `;
-
-// acctId, codeId, fixId, year
-const sqlGetTransactionsU = `
+const sqlWhereForAcctCodeMonth = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctCodeMonthYear = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND $3::int IS NULL
+  AND _transactions.date_month = $4
+  AND _years.year_name = $5
+`;
+const sqlWhereForAcctCodeFix = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND _transactions.vendor_id = $3
+  AND $4::int IS NULL
+  AND $5::int IS NULL
+`;
+const sqlWhereForAcctCodeFixYear = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
   AND _transactions.vendor_id = $3
   AND $4::int IS NULL
   AND _years.year_name = $5
 `;
-
-// acctId, codeId, fixId, month, year
-const sqlGetTransactionsV = `
+const sqlWhereForAcctCodeFixMonth = `
+  WHERE _accounts.account_id = $1
+  AND _codes.code_id = $2
+  AND _transactions.vendor_id = $3
+  AND _transactions.date_month = $4
+  AND $5::int IS NULL
+`;
+const sqlWhereForAllFilters = `
   WHERE _accounts.account_id = $1
   AND _codes.code_id = $2
   AND _transactions.vendor_id = $3
@@ -197,28 +224,38 @@ const sqlGetTransactionsV = `
 `;
 
 const dict = {
-  A: sqlGetTransactionsA,
-  B: sqlGetTransactionsB,
-  C: sqlGetTransactionsC,
-  D: sqlGetTransactionsD,
-  E: sqlGetTransactionsE,
-  F: sqlGetTransactionsF,
-  G: sqlGetTransactionsG,
-  H: sqlGetTransactionsH,
-  I: sqlGetTransactionsI,
-  J: sqlGetTransactionsJ,
-  K: sqlGetTransactionsK,
-  L: sqlGetTransactionsL,
-  M: sqlGetTransactionsM,
-  N: sqlGetTransactionsN,
-  O: sqlGetTransactionsO,
-  P: sqlGetTransactionsP,
-  Q: sqlGetTransactionsQ,
-  R: sqlGetTransactionsR,
-  S: sqlGetTransactionsS,
-  T: sqlGetTransactionsT,
-  U: sqlGetTransactionsU,
-  V: sqlGetTransactionsV
+  noFilters: sqlWhereForNoFilters,
+  year: sqlWhereForYear,
+  month: sqlWhereForMonth,
+  monthYear: sqlWhereForMonthYear,
+  fix: sqlWhereForFix,
+  fixYear: sqlWhereForFixYear,
+  fixMonth: sqlWhereForFixMonth,
+  fixMonthYear: sqlWhereForFixMonthYear,
+  code: sqlWhereForCode,
+  codeYear: sqlWhereForCodeYear,
+  codeMonth: sqlWhereForCodeMonth,
+  codeMonthYear: sqlWhereForCodeMonthYear,
+  codeFix: sqlWhereForCodeFix,
+  codeFixYear: sqlWhereForCodeFixYear,
+  codeFixMonth: sqlWhereForCodeFixMonth,
+  codeFixMonthYear: sqlWhereForCodeFixMonthYear,
+  acct: sqlWhereForAcct,
+  acctYear: sqlWhereForAcctYear,
+  acctMonth: sqlWhereForAcctMonth,
+  acctMonthYear: sqlWhereForAcctMonthYear,
+  acctFix: sqlWhereForAcctFix,
+  acctFixYear: sqlWhereForAcctFixYear,
+  acctFixMonth: sqlWhereForAcctFixMonth,
+  acctFixMonthYear: sqlWhereForAcctFixMonthYear,
+  acctCode: sqlWhereForAcctCode,
+  acctCodeYear: sqlWhereForAcctCodeYear,
+  acctCodeMonth: sqlWhereForAcctCodeMonth,
+  acctCodeMonthYear: sqlWhereForAcctCodeMonthYear,
+  acctCodeFix: sqlWhereForAcctCodeFix,
+  acctCodeFixYear: sqlWhereForAcctCodeFixYear,
+  acctCodeFixMonth: sqlWhereForAcctCodeFixMonth,
+  allFilters: sqlWhereForAllFilters
 };
 
 export const getWhere = (whereQuery) => dict[whereQuery];
