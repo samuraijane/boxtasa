@@ -23,4 +23,7 @@ NOTE
 We hardcode `1` as this corresponds to vendors name that are undefined.
 In the future, it is likely this will become more dynamic and take into
 account other areas.
+
+1 is for vendor undefined
+975 is for unknown vendor - tbd
 */
