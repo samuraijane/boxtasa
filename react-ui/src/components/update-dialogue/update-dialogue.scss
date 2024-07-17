@@ -24,12 +24,14 @@
   .dialogue__toggle {
     background-color: aliceblue;
     cursor: pointer;
+    margin: 0 6px 0 0;
     padding: 6px 0;
     text-align: center;
-    width: 80px;
+    width: 50px;
 
     &:last-child {
       border: none;
+      margin-right: 0;
     }
 
     &.dialogue__toggle--selected {

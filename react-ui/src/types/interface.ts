@@ -70,7 +70,7 @@ export interface Month {
 }
 
 export interface Label {
-  id: string;
+  id: number;
   name: string;
 }
 

@@ -3,7 +3,6 @@ import { postTransactionInBulk } from "../../features/activeDataSlice";
 import { postTransaction } from "../../features/activeDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFilteredTransactions } from "../../features/filteredDataSlice";
-import { selectCode } from "../../features/codesSlice";
 import { AppDispatch } from "../../app/store";
 import { prepBulkData } from "../../utils";
 import { handleModal } from "../../features/isModalSlice";
@@ -11,25 +10,33 @@ import "./update-dialogue.scss";
 import { Code, PostTransaction, Transaction, Vendor } from "../../types/interface";
 import { TransactionDetail } from "../transaction-detail/transaction-detail";
 import { ForCode } from "./subcomponents/for-code/for-code";
+import { ForLabel } from "./subcomponents/for-label/for-label";
 import { ForVendor } from "./subcomponents/for-vendor/for-vendor";
+import { selectCode } from "../../features/codesSlice";
+import { selectLabels } from "../../features/labelsSlice";
 import { selectVendor } from "../../features/vendorsSlice";
+import { Label } from "../../types/interface";
 
 enum UpdateToggle {
   CODE = "code",
+  LABEL = "label",
   VENDOR = "vendor"
 }
 
 export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransaction: Transaction}) => {
   const codes = useSelector(selectCode);
+  const labels = useSelector(selectLabels);
   const vendors = useSelector(selectVendor);
 
   const [inputValue, setInputValue] = useState("");
   const [isBulkSave, setIsBulkSave] = useState(false);
   const [selectedCode, setSelectedCode] = useState("");
   const [filteredCodeData, setFilteredCodeData] = useState<Code[] | null>();
+  const [filteredLabelData, setFilteredLabelData] = useState<Label[] | null>();
   const [filteredVendorData, setFilteredVendorData] = useState<Vendor[] | null>();
   const filteredTransactions = useSelector(selectFilteredTransactions);
   const [selectedVendor, setSelectedVendor] = useState("");
+  const [selectedLabel, setSelectedLabel] = useState("");
   const [selectedToggle, setSelectedToggle] = useState<UpdateToggle>(UpdateToggle.CODE);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +44,9 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   useEffect(() => {
     if (selectedToggle === UpdateToggle.CODE) {
       setFilteredCodeData(codes);
+    }
+    if (selectedToggle === UpdateToggle.LABEL) {
+      setFilteredLabelData(labels);
     }
     if (selectedToggle === UpdateToggle.VENDOR) {
       setFilteredVendorData(vendors);
@@ -50,11 +60,16 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setInputValue(value);
-    let _filteredData: Code[] | Vendor[] = [];
+    let _filteredData: Code[] | Label[] | Vendor[] = [];
 
     if (selectedToggle === UpdateToggle.CODE) {
       _filteredData = codes?.filter(x => x.code_name.toLowerCase().search(value) !== -1 || x.code_description.toLowerCase().search(value) !== -1);
       setFilteredCodeData(_filteredData);
+    }
+
+    if (selectedToggle === UpdateToggle.LABEL) {
+      _filteredData = labels?.filter(x => x.name.toLowerCase().search(value) !== -1);
+      setFilteredLabelData(_filteredData);
     }
 
     if (selectedToggle === UpdateToggle.VENDOR) {
@@ -127,13 +142,19 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
               className={`dialogue__toggle ${selectedToggle === UpdateToggle.CODE ? " dialogue__toggle--selected" : ""}`}
               data-type={UpdateToggle.CODE}
             >
-              Code
+              C
+            </div>
+            <div
+              className={`dialogue__toggle ${selectedToggle === UpdateToggle.LABEL ? " dialogue__toggle--selected" : ""}`}
+              data-type={UpdateToggle.LABEL}
+            >
+              L
             </div>
             <div
               className={`dialogue__toggle ${selectedToggle === UpdateToggle.VENDOR ? " dialogue__toggle--selected" : ""}`}
               data-type={UpdateToggle.VENDOR}
             >
-              Vendor
+              V
             </div>
           </div>
           <div className="dialogue__search">
@@ -169,6 +190,14 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
               selectedVendor={parseInt(selectedVendor)}
               setInputValue={setInputValue}
               setSelectedVendor={setSelectedVendor}
+            />
+          )}
+          {selectedToggle === UpdateToggle.LABEL && (
+            <ForLabel
+              filteredLabels={filteredLabelData as Label[]}
+              selectedLabel={parseInt(selectedLabel)}
+              setInputValue={setInputValue}
+              setSelectedLabel={setSelectedLabel}
             />
           )}
         </div>
