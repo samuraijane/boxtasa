@@ -69,6 +69,11 @@ export interface Month {
   number: number;
 }
 
+export interface Label {
+  id: string;
+  name: string;
+}
+
 export interface TabState {
   activeTab: ViewTabs;
 }
@@ -82,6 +87,7 @@ export interface ReduxStore {
   filteredData: FilteredData;
   fixes: number; // this is plural even though for now, it's only for a number; in the future, it's likely it will be array of numbers
   isModal: boolean;
+  labels: Label[];
   months: Month[];
   selector: SelectorState;
   tabs: TabState;

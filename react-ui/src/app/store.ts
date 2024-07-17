@@ -6,6 +6,7 @@ import authReducer from "../features/authSlice";
 import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
 import isModalReducer from "../features/isModalSlice";
+import labelsReducer from "../features/labelsSlice";
 import monthsReducer from "../features/monthsSlice";
 import selectorReducer from "../features/selectorSlice";
 import tabsReducer from "../features/tabsSlice";
@@ -21,6 +22,7 @@ export const store = configureStore({
     code: codeReducer,
     filteredData: filteredDataReducer,
     isModal: isModalReducer,
+    labels: labelsReducer,
     months: monthsReducer,
     selector: selectorReducer,
     tabs: tabsReducer,
