@@ -2,4 +2,4 @@
 node_modules
 build
 .DS_Store
-sql/import.sql
+sql-temp
