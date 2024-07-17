@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "../features/accountsSlice";
+import activeDataReducer from "../features/activeDataSlice";
 import activeTransactionReducer from "../features/activeTransactionSlice";
 import authReducer from "../features/authSlice";
-import activeDataReducer from "../features/activeDataSlice";
 import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
 import isModalReducer from "../features/isModalSlice";
