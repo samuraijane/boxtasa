@@ -57,6 +57,7 @@ server.delete('/api/vendors/:id', db.deleteVendor);
 // GET
 server.get('/api/accounts', db.getAccounts);
 server.get('/api/codes', db.getCodes);
+server.get('/api/labels', db.getLabels);
 // TODO do we need both the following two lines?
 server.get('/api/transaction/:id', db.getTransaction);
 server.get('/api/transactions', db.getTransactions);

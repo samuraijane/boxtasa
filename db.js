@@ -5,6 +5,7 @@ import {
   sqlDeleteVendor,
   sqlGetAccounts,
   sqlGetCodes,
+  sqlGetLabels,
   sqlGetTransaction,
   sqlGetTransactions,
   sqlGetVendors,
@@ -67,6 +68,15 @@ const getAccounts = (req, res) => {
 
 const getCodes = (req, res) => {
   pool.query(sqlGetCodes(), (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
+
+const getLabels = (req, res) => {
+  pool.query(sqlGetLabels(), (err, results) => {
     if (err) {
       throw err;
     }
@@ -230,6 +240,7 @@ export default {
   deleteVendor,
   getAccounts,
   getCodes,
+  getLabels,
   getTransaction,
   getTransactions,
   getYears,
