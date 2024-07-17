@@ -66,8 +66,8 @@ server.get('/api/years', db.getYears);
 
 // POST
 server.post('/api/bulk', db.postBulk);
-server.post('/api/vendors', db.postVendor);
 server.post('/api/transactions', db.postTransaction);
+server.post('/api/vendors', db.postVendor);
 
 // PATCH
 server.patch('/api/transaction/:id', db.updateTransaction);
