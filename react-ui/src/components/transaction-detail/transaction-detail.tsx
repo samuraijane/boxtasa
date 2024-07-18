@@ -21,6 +21,7 @@ export const TransactionDetail = () => {
     code_name: codeName,
     date_day: day,
     date_month: month,
+    labels,
     note,
     short_name: acctName,
     transaction_memo: memo,
@@ -39,7 +40,7 @@ export const TransactionDetail = () => {
   }
 
   const handleClick = (e: MouseEvent<HTMLSpanElement>) => {
-    if (!(e.target instanceof HTMLSpanElement)) {
+    if (!(e.target instanceof HTMLHeadingElement)) {
       return;
     }
     setIsEditNote(!isEditNote);
@@ -66,27 +67,64 @@ export const TransactionDetail = () => {
 
   return (
     <div className="transaction-detail">
-      <p className="transaction-detail__field transaction-detail__field--first"><span>Account No</span><span>{acctNo}</span></p>
-      <p className="transaction-detail__field"><span>Account Name</span><span>{acctName}</span></p>
-      <p className="transaction-detail__field"><span>Account Type</span><span>{acctType}</span></p>
-      <p className="transaction-detail__field"><span>Year</span><span>{yearName}</span></p>
-      <p className="transaction-detail__field"><span>Month</span><span>{month}</span></p>
-      <p className="transaction-detail__field"><span>Day</span><span>{day}</span></p>
-      <p className="transaction-detail__field"><span>Vendor</span><span>{vendor}</span></p>
-      <p className="transaction-detail__field"><span>Memo</span><span>{memo}</span></p>
+      <div className="transaction-detail__field transaction-detail__field--first">
+        <h3>Account No</h3>
+        <div>{acctNo}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Account Name</h3>
+        <div>{acctName}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Account Type</h3>
+        <div>{acctType}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Year</h3>
+        <div>{yearName}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Month</h3>
+        <div>{month}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Day</h3>
+        <div>{day}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Vendor</h3>
+        <div>{vendor}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Memo</h3>
+        <div>{memo}</div>
+      </div>
       <div className="transaction-detail__input-outer">
         <div className="transaction-detail__input-inner">
-          <span onClick={handleClick}>Note</span>
+          <h3 onClick={handleClick}>Note</h3>
           {
             !isEditNote
-            ? <span className="transaction-detail__input-read-only">{note}</span>
+            ? <h3 className="transaction-detail__input-read-only">{note}</h3>
             : <NoteInput handleChange={handleChange} handleInput={handleInput} value={noteValue} />
           }
         </div>
       </div>
-      <p className="transaction-detail__field"><span>Transaction Type</span><span>{transactionType}</span></p>
-      <p className="transaction-detail__field"><span>Amount</span><span>{amount}</span></p>
-      <p className="transaction-detail__field"><span>Code</span><span>{codeName}</span></p>
+      <div className="transaction-detail__field">
+        <h3>Transaction Type</h3>
+        <div>{transactionType}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Amount</h3>
+        <div>{amount}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Code</h3>
+        <div>{codeName}</div>
+      </div>
+      <div className="transaction-detail__field">
+        <h3>Labels</h3>
+        <div>{labels.join(", ")}</div>
+      </div>
     </div>
   );
 };

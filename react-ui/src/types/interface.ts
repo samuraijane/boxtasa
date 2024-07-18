@@ -22,15 +22,16 @@ export interface Vendor {
 }
 
 export interface Transaction {
-  account_type_name: string,
-  acct_no: string,
+  account_type_name: string;
+  acct_no: string;
   amount: string;
   code_name: string;
-  date_day: number,
-  date_month: number,
+  date_day: number;
+  date_month: number;
+  labels: string[];
   note: string;
-  short_name: string,
-  transaction_id: number,
+  short_name: string;
+  transaction_id: number;
   transaction_memo: string;
   transaction_type_name: string;
   vendor_name: string;
