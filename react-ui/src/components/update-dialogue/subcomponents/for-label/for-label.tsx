@@ -1,38 +1,28 @@
-import { MouseEvent } from "react";
+import { MouseEventHandler } from "react";
 import { Label } from "../../../../types/interface";
 import "./for-label.scss";
+import { UpdateToggles } from "../../../../types/enum";
 
 interface UpdateByLabelProps {
   filteredLabels: Label[];
-  selectedLabel: number;
-  setInputValue: Function;
-  setSelectedLabel: Function;
+  selectedLabels: string[];
+  handleClick: MouseEventHandler;
 }
 
 export const ForLabel = ({
   filteredLabels,
-  selectedLabel,
-  setInputValue,
-  setSelectedLabel
+  selectedLabels,
+  handleClick,
 }: UpdateByLabelProps) => {
-
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    const { id, value } = e.currentTarget.dataset;
-    if (!id || !value) {
-      console.error("A value is missing.") // TODO handle error gracefully
-      return;
-    }
-    setSelectedLabel(id);
-    setInputValue(value);
-  };
 
   const _labels = filteredLabels?.map(label => {
     const {id, name} = label;
 
     return (
       <li
-        className={`${selectedLabel === id ? "for-label__selected-label": ""}`}
+        className={`${selectedLabels.find(x => parseInt(x) === id) ? "for-label__selected-label": ""}`}
         data-id={id}
+        data-type={UpdateToggles.LABEL}
         data-value={name}
         key={id}
         onClick={handleClick}
@@ -43,9 +33,9 @@ export const ForLabel = ({
   });
 
   return (
-    <div className="for-label">
+    <ul className="for-label">
       {_labels}
-    </div>
+    </ul>
   );
 
 };

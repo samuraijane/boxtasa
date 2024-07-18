@@ -117,12 +117,14 @@ export interface PatchTransaction {
 
 export interface PostTransaction {
   codeId?: string;
+  labelIds?: string[];
   transactionId: string;
   vendorId?: string;
 }
 
 export interface BulkData {
   codeId?: string;
+  labelIds?: string[];
   transactions: Transaction[],
   vendorId?: string;
 }

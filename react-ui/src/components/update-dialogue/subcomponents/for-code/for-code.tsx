@@ -1,26 +1,19 @@
-import { MouseEvent, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import "./for-code.scss";
 import { Code } from "../../../../types/interface";
+import { UpdateToggles } from "../../../../types/enum";
 
 interface UpdateByCodeProps {
   filteredCodes: Code[];
   selectedCode: number;
-  setInputValue: Function;
-  setSelectedCode: Function;
+  handleClick: MouseEventHandler;
 }
 
-export const ForCode = ({ filteredCodes, selectedCode, setInputValue, setSelectedCode }: UpdateByCodeProps) => {
-
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    const { id, value } = e.currentTarget.dataset;
-    if (!id || !value) {
-      console.error("A value is missing.") // TODO handle error gracefully
-      return;
-    }
-    setSelectedCode(id);
-    setInputValue(value);
-  };
-
+export const ForCode = ({
+  filteredCodes,
+  selectedCode,
+  handleClick
+}: UpdateByCodeProps) => {
   const _codes = filteredCodes?.map(code => {
     const {code_description, code_id, code_name} = code;
 
@@ -28,6 +21,7 @@ export const ForCode = ({ filteredCodes, selectedCode, setInputValue, setSelecte
       <li
         className={`${selectedCode === code_id ? "for-code__selected-code": ""}`}
         data-id={code_id}
+        data-type={UpdateToggles.CODE}
         data-value={code_name}
         key={code_id}
         onClick={handleClick}

@@ -13,3 +13,9 @@ export enum ViewTabs {
   TRANSACTIONS = "transactions",
   VENDORS = "vendors"
 }
+
+export enum UpdateToggles {
+  CODE = "code",
+  LABEL = "label",
+  VENDOR = "vendor"
+}

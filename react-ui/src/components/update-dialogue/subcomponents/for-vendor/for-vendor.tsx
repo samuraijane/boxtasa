@@ -1,30 +1,19 @@
-import { MouseEvent } from "react";
+import { MouseEventHandler } from "react";
 import { Vendor } from "../../../../types/interface";
 import "./for-vendor.scss";
+import { UpdateToggles } from "../../../../types/enum";
 
 interface UpdateByVendorProps {
   filteredVendors: Vendor[];
   selectedVendor: number;
-  setInputValue: Function;
-  setSelectedVendor: Function;
+  handleClick: MouseEventHandler;
 }
 
 export const ForVendor = ({
   filteredVendors,
   selectedVendor,
-  setInputValue,
-  setSelectedVendor
+  handleClick,
 }: UpdateByVendorProps) => {
-
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    const { id, value } = e.currentTarget.dataset;
-    if (!id || !value) {
-      console.error("A value is missing.") // TODO handle error gracefully
-      return;
-    }
-    setSelectedVendor(id);
-    setInputValue(value);
-  };
 
   const _vendors = filteredVendors?.map(vendor => {
     const {vendor_id, vendor_name} = vendor;
@@ -33,6 +22,7 @@ export const ForVendor = ({
       <li
         className={`${selectedVendor === vendor_id ? "for-code__selected-code": ""}`}
         data-id={vendor_id}
+        data-type={UpdateToggles.VENDOR}
         data-value={vendor_name}
         key={vendor_id}
         onClick={handleClick}

@@ -16,12 +16,7 @@ import { selectCode } from "../../features/codesSlice";
 import { selectLabels } from "../../features/labelsSlice";
 import { selectVendor } from "../../features/vendorsSlice";
 import { Label } from "../../types/interface";
-
-enum UpdateToggle {
-  CODE = "code",
-  LABEL = "label",
-  VENDOR = "vendor"
-}
+import { UpdateToggles } from "../../types/enum";
 
 export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransaction: Transaction}) => {
   const codes = useSelector(selectCode);
@@ -36,19 +31,19 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   const [filteredVendorData, setFilteredVendorData] = useState<Vendor[] | null>();
   const filteredTransactions = useSelector(selectFilteredTransactions);
   const [selectedVendor, setSelectedVendor] = useState("");
-  const [selectedLabel, setSelectedLabel] = useState("");
-  const [selectedToggle, setSelectedToggle] = useState<UpdateToggle>(UpdateToggle.CODE);
+  const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+  const [selectedToggle, setSelectedToggle] = useState<UpdateToggles>(UpdateToggles.CODE);
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (selectedToggle === UpdateToggle.CODE) {
+    if (selectedToggle === UpdateToggles.CODE) {
       setFilteredCodeData(codes);
     }
-    if (selectedToggle === UpdateToggle.LABEL) {
+    if (selectedToggle === UpdateToggles.LABEL) {
       setFilteredLabelData(labels);
     }
-    if (selectedToggle === UpdateToggle.VENDOR) {
+    if (selectedToggle === UpdateToggles.VENDOR) {
       setFilteredVendorData(vendors);
     }
   }, [selectedToggle]);
@@ -57,22 +52,29 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
     dispatch(handleModal(false));
   }
 
+  const resetInput = () => {
+    setSelectedCode("");
+    setSelectedLabels([]);
+    setSelectedVendor("");
+    setInputValue("");
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setInputValue(value);
     let _filteredData: Code[] | Label[] | Vendor[] = [];
 
-    if (selectedToggle === UpdateToggle.CODE) {
+    if (selectedToggle === UpdateToggles.CODE) {
       _filteredData = codes?.filter(x => x.code_name.toLowerCase().search(value) !== -1 || x.code_description.toLowerCase().search(value) !== -1);
       setFilteredCodeData(_filteredData);
     }
 
-    if (selectedToggle === UpdateToggle.LABEL) {
+    if (selectedToggle === UpdateToggles.LABEL) {
       _filteredData = labels?.filter(x => x.name.toLowerCase().search(value) !== -1);
       setFilteredLabelData(_filteredData);
     }
 
-    if (selectedToggle === UpdateToggle.VENDOR) {
+    if (selectedToggle === UpdateToggles.VENDOR) {
       _filteredData = vendors?.filter(x => x.vendor_name.toLowerCase().search(value) !== -1);
       setFilteredVendorData(_filteredData);
     }
@@ -87,6 +89,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
     if (isBulkSave) {
       const bulkData = prepBulkData({
         codeId: selectedCode,
+        labelIds: selectedLabels,
         transactions: filteredTransactions,
         vendorId: selectedVendor
       });
@@ -96,6 +99,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
     handleTransactionUpdate({
       transactionId: `${activeTransaction.transaction_id}`,
       codeId: selectedCode,
+      labelIds: selectedLabels,
       vendorId: selectedVendor
     });
   };
@@ -112,13 +116,14 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   };
 
   const handleUpdateTypeToggle = (e: MouseEvent<HTMLDivElement>) => {
+    resetInput();
     if (!(e.target instanceof HTMLElement)) {
       // TODO handle error gracefully
       console.error("Hmmm....");
       return;
     }
 
-    const type = e.target.dataset.type as UpdateToggle;
+    const type = e.target.dataset.type as UpdateToggles;
     if (!type) {
       // TODO handle error gracefully
       console.error("There is no type, amigo.");
@@ -126,11 +131,38 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
     }
 
     setSelectedToggle(type);
-
-    // reset if we toggle to a different type
-    setInputValue("");
-    setSelectedCode("");
   };
+
+  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+    if (!(e.currentTarget instanceof HTMLLIElement)) {
+      // TODO handle error gracefully
+      console.error("Nope");
+      return;
+    }
+
+    const { id, type, value } = e.currentTarget.dataset;
+    if (!id || !type || !value ) {
+      // TODO handle error gracefully
+      console.error("Some attribute values are missing, bruv.");
+      return;
+    }
+
+    if (type === UpdateToggles.CODE) {
+      setSelectedCode(id);
+      setInputValue(value);
+    }
+    if (type === UpdateToggles.LABEL) {
+      if (selectedLabels.find(x => x === id)) {
+        setSelectedLabels(selectedLabels.filter(y => y !== id));
+      } else {
+        setSelectedLabels([...selectedLabels, id]);
+      }
+    }
+    if (type == UpdateToggles.VENDOR) {
+      setSelectedVendor(id);
+      setInputValue(value);
+    }
+  }
 
   return (
     <div className="dialogue">
@@ -139,27 +171,32 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
         <div className="dialogue__inputs-container">
           <div className="dialogue__toggles" onClick={handleUpdateTypeToggle}>
             <div
-              className={`dialogue__toggle ${selectedToggle === UpdateToggle.CODE ? " dialogue__toggle--selected" : ""}`}
-              data-type={UpdateToggle.CODE}
+              className={`dialogue__toggle ${selectedToggle === UpdateToggles.CODE ? " dialogue__toggle--selected" : ""}`}
+              data-type={UpdateToggles.CODE}
             >
               C
             </div>
             <div
-              className={`dialogue__toggle ${selectedToggle === UpdateToggle.LABEL ? " dialogue__toggle--selected" : ""}`}
-              data-type={UpdateToggle.LABEL}
+              className={`dialogue__toggle ${selectedToggle === UpdateToggles.LABEL ? " dialogue__toggle--selected" : ""}`}
+              data-type={UpdateToggles.LABEL}
             >
               L
             </div>
             <div
-              className={`dialogue__toggle ${selectedToggle === UpdateToggle.VENDOR ? " dialogue__toggle--selected" : ""}`}
-              data-type={UpdateToggle.VENDOR}
+              className={`dialogue__toggle ${selectedToggle === UpdateToggles.VENDOR ? " dialogue__toggle--selected" : ""}`}
+              data-type={UpdateToggles.VENDOR}
             >
               V
             </div>
           </div>
           <div className="dialogue__search">
             <div className="dialogue__live-search">
-              <input onChange={handleChange} type="text" value={inputValue} />
+              <input
+                {...(selectedLabels.length ? { disabled: true, placeholder: "Select from the labels below."} : {})}
+                onChange={handleChange}
+                type="text"
+                value={inputValue}
+              />
             </div>
             <div className="dialogue__btn-container">
               <button onClick={handleSave}>Save</button>
@@ -176,28 +213,25 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
           <TransactionDetail />
         </div>
         <div className="dialogue__column dialogue__column--right">
-          {selectedToggle === UpdateToggle.CODE && (
+          {selectedToggle === UpdateToggles.CODE && (
             <ForCode
               filteredCodes={filteredCodeData as Code[]}
               selectedCode={parseInt(selectedCode)}
-              setInputValue={setInputValue}
-              setSelectedCode={setSelectedCode}
+              handleClick={handleClick}
             />
           )}
-          {selectedToggle === UpdateToggle.VENDOR && (
+          {selectedToggle === UpdateToggles.VENDOR && (
             <ForVendor
               filteredVendors={filteredVendorData as Vendor[]}
               selectedVendor={parseInt(selectedVendor)}
-              setInputValue={setInputValue}
-              setSelectedVendor={setSelectedVendor}
+              handleClick={handleClick}
             />
           )}
-          {selectedToggle === UpdateToggle.LABEL && (
+          {selectedToggle === UpdateToggles.LABEL && (
             <ForLabel
               filteredLabels={filteredLabelData as Label[]}
-              selectedLabel={parseInt(selectedLabel)}
-              setInputValue={setInputValue}
-              setSelectedLabel={setSelectedLabel}
+              selectedLabels={selectedLabels || []}
+              handleClick={handleClick}
             />
           )}
         </div>

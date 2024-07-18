@@ -1,1 +1,11 @@
-// tbd
+.for-label {
+
+  li {
+    cursor: pointer;
+    margin: 12px 0;
+
+    &.for-label__selected-label {
+      color: crimson;
+    }
+  }
+}
