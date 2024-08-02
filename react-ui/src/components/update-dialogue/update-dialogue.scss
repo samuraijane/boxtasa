@@ -2,7 +2,6 @@
   width: 100%;
 
   .dialogue__subheader {
-    border-bottom: 1px solid #aaa;
     display: flex;
     justify-content: space-between;
     padding: 0 0 20px;
@@ -52,12 +51,14 @@
   }
 
   .dialogue__body {
+    border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;
     display: flex;
     height: 88%;
     justify-content: space-between;
+    padding: 20px 0;
 
     .dialogue__column {
-      padding: 20px 0 0;
       flex: 1;
       
       &.dialogue__column--left {
@@ -68,7 +69,7 @@
       &.dialogue__column--right {
         border-left: 1px solid #aaa;
         max-width: 60%; // ref A
-        overflow: scroll;
+        overflow-y: scroll;
         padding-left: 20px;
       }
     }
