@@ -187,17 +187,33 @@ const postBulk = async (req, res) => {
 
 const postTransaction = async (req, res) => {
   const { c: codeId, t: transactionId, v: vendorId } = req.query;
+  const { labelIds } = req.body;
 
-  // TODO handle possible errors
+  if (!transactionId) {
+    throw new Error("The id for the transaction to be updated is missing.");
+  }
 
-  if (codeId && vendorId) {
-    throw new Error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
+  let numberOfValues = [codeId, labelIds, vendorId].filter(x => !!x).length;
+  if (!!labelIds && labelIds.length < 1) {
+    numberOfValues -= 1;
+  }
+  if (numberOfValues > 1) {
+    throw new Error("Only one value for `codeId`, labelIds, or `vendorId` is allowed but more than one was provided in the request.");
   }
 
   let updated;
 
   if (codeId) {
     await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
+    updated = await pool.query(sqlGetTransaction(), [transactionId]);
+  }
+
+  if (labelIds.length) {
+    await pool.query(`DELETE FROM transactions_x_labels WHERE transaction_id = $1;`, [transactionId]);
+    for (const labelId of labelIds) {
+      await pool.query(`INSERT INTO transactions_x_labels (transaction_id, label_id, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP(3));`, [transactionId, labelId]);
+    }
+
     updated = await pool.query(sqlGetTransaction(), [transactionId]);
   }
 
