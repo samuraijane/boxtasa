@@ -29,7 +29,7 @@ export const patchTransaction = createAsyncThunk('transactions/patch', async (ar
 
   const url = `http://localhost:8080/api/transaction/${id}`;
   const data = await fetch(url, {
-    body: JSON.stringify({note}),
+    body: JSON.stringify({ note }),
     headers: {
       "Content-Type": "application/json"
     },
@@ -40,11 +40,15 @@ export const patchTransaction = createAsyncThunk('transactions/patch', async (ar
 });
 
 export const postTransaction = createAsyncThunk('transactions/post', async (args: PostTransaction, { getState }) => {
-  const { codeId, transactionId, vendorId } = args;
+  const { codeId, labelIds, transactionId, vendorId } = args;
   const rootState = getState() as ReduxStore;
 
   const url = `http://localhost:8080/api/transactions/?c=${codeId}&t=${transactionId}&v=${vendorId}`;
   const data = await fetch(url, {
+    body: JSON.stringify({ labelIds }),
+    headers: {
+      "Content-Type": "Application/json"
+    },
     method: "POST"
   });
 

@@ -12,6 +12,7 @@ import { TransactionDetail } from "../transaction-detail/transaction-detail";
 import { ForCode } from "./subcomponents/for-code/for-code";
 import { ForLabel } from "./subcomponents/for-label/for-label";
 import { ForVendor } from "./subcomponents/for-vendor/for-vendor";
+import { selectActiveTransaction } from "../../features/activeTransactionSlice";
 import { selectCode } from "../../features/codesSlice";
 import { selectLabels } from "../../features/labelsSlice";
 import { selectVendor } from "../../features/vendorsSlice";
@@ -21,6 +22,7 @@ import { UpdateToggles } from "../../types/enum";
 export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransaction: Transaction}) => {
   const codes = useSelector(selectCode);
   const labels = useSelector(selectLabels);
+  const activeLabelIds = useSelector(selectActiveTransaction).label_ids;
   const vendors = useSelector(selectVendor);
 
   const [inputValue, setInputValue] = useState("");
@@ -31,7 +33,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   const [filteredVendorData, setFilteredVendorData] = useState<Vendor[] | null>();
   const filteredTransactions = useSelector(selectFilteredTransactions);
   const [selectedVendor, setSelectedVendor] = useState("");
-  const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+  const [selectedLabels, setSelectedLabels] = useState<number[]>([]);
   const [selectedToggle, setSelectedToggle] = useState<UpdateToggles>(UpdateToggles.CODE);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -46,6 +48,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
     if (selectedToggle === UpdateToggles.VENDOR) {
       setFilteredVendorData(vendors);
     }
+    setSelectedLabels(activeLabelIds);
   }, [selectedToggle]);
 
   const handleCancel = () => {
@@ -54,7 +57,6 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
 
   const resetInput = () => {
     setSelectedCode("");
-    setSelectedLabels([]);
     setSelectedVendor("");
     setInputValue("");
   };
@@ -109,8 +111,8 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
       await dispatch(postTransactionInBulk(data as PostTransaction[]));
       dispatch(handleModal(false));
     } else {
-      const { codeId, transactionId, vendorId } = data as PostTransaction; // TODO refactor, no need to destructure, replaced with spread syntax below
-      await dispatch(postTransaction({ codeId, transactionId, vendorId }));
+      const { codeId, labelIds, transactionId, vendorId } = data as PostTransaction; // TODO refactor, no need to destructure, replaced with spread syntax below
+      await dispatch(postTransaction({ codeId, labelIds, transactionId, vendorId }));
       dispatch(handleModal(false));
     }
   };
@@ -152,10 +154,11 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
       setInputValue(value);
     }
     if (type === UpdateToggles.LABEL) {
-      if (selectedLabels.find(x => x === id)) {
-        setSelectedLabels(selectedLabels.filter(y => y !== id));
+      const _id = parseInt(id);
+      if (selectedLabels.find(x => x === _id)) {
+        setSelectedLabels(selectedLabels.filter(y => y !== _id));
       } else {
-        setSelectedLabels([...selectedLabels, id]);
+        setSelectedLabels([...selectedLabels, _id]);
       }
     }
     if (type == UpdateToggles.VENDOR) {
@@ -192,7 +195,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
           <div className="dialogue__search">
             <div className="dialogue__live-search">
               <input
-                {...(selectedLabels.length ? { disabled: true, placeholder: "Select from the labels below."} : {})}
+                {...(selectedToggle === UpdateToggles.LABEL ? { disabled: true, placeholder: "Select from the labels below."} : {})}
                 onChange={handleChange}
                 type="text"
                 value={inputValue}

@@ -5,7 +5,7 @@ import { UpdateToggles } from "../../../../types/enum";
 
 interface UpdateByLabelProps {
   filteredLabels: Label[];
-  selectedLabels: string[];
+  selectedLabels: number[];
   handleClick: MouseEventHandler;
 }
 
@@ -20,7 +20,7 @@ export const ForLabel = ({
 
     return (
       <li
-        className={`${selectedLabels.find(x => parseInt(x) === id) ? "for-label__selected-label": ""}`}
+        className={`${selectedLabels.find(x => x === id) ? "for-label__selected-label": ""}`}
         data-id={id}
         data-type={UpdateToggles.LABEL}
         data-value={name}

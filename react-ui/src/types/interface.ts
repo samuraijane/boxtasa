@@ -28,7 +28,7 @@ export interface Transaction {
   code_name: string;
   date_day: number;
   date_month: number;
-  labels: string[];
+  label_ids: number[];
   note: string;
   short_name: string;
   transaction_id: number;
@@ -117,14 +117,16 @@ export interface PatchTransaction {
 
 export interface PostTransaction {
   codeId?: string;
-  labelIds?: string[];
+  labelIds?: number[];
   transactionId: string;
   vendorId?: string;
 }
 
 export interface BulkData {
   codeId?: string;
-  labelIds?: string[];
+  labelIds?: number[];
   transactions: Transaction[],
   vendorId?: string;
 }
+
+// TODO maybe combine PostTransaction and BulkData above
