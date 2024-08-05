@@ -20,7 +20,7 @@ const transactionBaseQuery = `
     _transactions.note,
     _vendors.vendor_name,
     _codes.code_name,
-    COALESCE(ARRAY_AGG(l.label_id) FILTER (WHERE l.label_id IS NOT NULL), '{}') labels
+    COALESCE(ARRAY_AGG(l.label_id) FILTER (WHERE l.label_id IS NOT NULL), '{}') label_ids
   FROM
     transactions _transactions
   INNER JOIN
