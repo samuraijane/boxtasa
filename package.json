@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "cd react-ui/ && npm install && npm run build",
-    "db:export": "pg_dump -U sj -h localhost playground >> ~/boxtasa-20240713b.sql",
+    "db:export": "sh export.sh",
     "db:run": "psql -U sj -d playground -f ./sql-temp/run.sql",
     "dev": "export NODE_ENV=dev && nodemon .",
     "start": "export NODE_ENV=prod && node .",
