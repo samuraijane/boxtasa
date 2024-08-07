@@ -28,7 +28,7 @@ const {
   DB_NAME: database,
   DB_PORT: port,
   DB_USER: user,
-  NODE_ENV: env,
+  NODE_ENV: env
 } = process.env;
 
 const config = env === "prod" ? { connectionString: cs } : { database, host, port, user };
@@ -41,7 +41,10 @@ const deleteTransaction = (req, res) => {
     if (err) {
       throw err;
     } else {
-      getTransactions(req, res);
+      // TODO consider returning the previously found set of
+      // transactions rather than just the ID of the one that was
+      // deleted
+      res.status(200).json({ action: "delete", id, isSuccess: true });
     }
   });
 };
