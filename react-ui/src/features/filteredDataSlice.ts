@@ -59,6 +59,12 @@ export const filteredTransactionsSlice = createSlice({
     }
   },
   extraReducers(builder) {
+    builder.addCase("transaction/delete/fulfilled", (state, action) => {
+      const _transactions = current(state).filteredTransactions;
+      return {
+      ...state,
+      filteredTransactions: _transactions.filter(x => x.transaction_id !== (action as any).payload)
+    }});
     builder.addCase("transactions/get/fulfilled", (state, action) => {
       // TODO no clue how to type this
       const filteredTransactions = (action as any).payload.transactions;

@@ -8,6 +8,23 @@ interface ActiveDataState {
   transactions: Transaction[];
 }
 
+export const deleteTransaction = createAsyncThunk('transaction/delete', async (id: string): Promise<number> => {
+  const url = `http://localhost:8080/api/transaction/${id}`;
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "DELETE"
+  });
+  // TODO type the response
+  const { action, id: _id, isSuccess } = await response.json();
+  if (isSuccess) {
+    return parseInt(_id);
+  } else {
+    throw new Error("There was a problem deleting the transaction.");
+  }
+});
+
 export const getTransactionData = createAsyncThunk('transactions/get', async ({
   acctId,
   codeId,
@@ -133,6 +150,12 @@ export const transactionsSlice = createSlice({
     builder.addCase(postTransactionInBulk.fulfilled, (state, action) => {
       return { ...state, transactions: action.payload }
     });
+    builder.addCase(deleteTransaction.fulfilled, (state, action) => {
+      const _transactions = current(state).transactions;
+      return {
+      ...state,
+      transactions: _transactions.filter(x => x.transaction_id !== action.payload)
+    }});
   }
 });
 

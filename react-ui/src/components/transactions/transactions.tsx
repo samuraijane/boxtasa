@@ -12,7 +12,7 @@ import { handleModal, selectIsModal } from "../../features/isModalSlice";
 import { selectActiveTransaction, setActiveTransaction } from "../../features/activeTransactionSlice";
 import { TransactionUpdateDialogue } from "../update-dialogue/update-dialogue";
 import "./transactions.scss";
-import { selectTransactions } from "../../features/activeDataSlice";
+import { deleteTransaction, selectTransactions } from "../../features/activeDataSlice";
 
 export const Transactions = (): JSX.Element => {
   const activeTransaction = useSelector(selectActiveTransaction);
@@ -40,16 +40,20 @@ export const Transactions = (): JSX.Element => {
       console.error("Hmmm....");
       return;
     }
-  
     const id = e.target.closest("li")?.dataset.id;
     if (!id) {
       // TODO handle error gracefully
       console.error("There is no id, friend.");
       return;
     }
-    dispatch(handleModal(!isModal));
-    const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
-    dispatch(setActiveTransaction(_activeTransaction));
+
+    if (e.target instanceof HTMLButtonElement && e.target.dataset.type === "delete") {
+      dispatch(deleteTransaction(id));
+    } else {
+      dispatch(handleModal(!isModal));
+      const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
+      dispatch(setActiveTransaction(_activeTransaction));
+    }
   };
 
   const handleSort = () => {
@@ -76,12 +80,11 @@ export const Transactions = (): JSX.Element => {
     return (
       <li data-id={id} key={id}>  
         <span>{acctNo}</span>
-        <span>{acctName}</span>
-        <span>{acctType}</span>
-        <span>{year}</span>
-        <span>{month}</span>
-        <span>{day}</span>
-        <div className="transactions__memo">
+        <div className="transactions__multiline">
+          <span>{year}</span>
+          <span>{month}/{day}</span>
+        </div>
+        <div className="transactions__multiline">
           <span>{vendor}</span>
           <span className="transactions__smallish">{memo}</span>
           <span className="transactions__smallish">{note}</span>
@@ -89,6 +92,7 @@ export const Transactions = (): JSX.Element => {
         <span>{transactionType}</span>
         <span>{amount}</span>
         <span>{codeName}</span>
+        <button data-type="delete">Delete</button>
       </li>
     );
   });
