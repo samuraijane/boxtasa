@@ -46,8 +46,11 @@
   .transactions__list {
 
     li {
+      display: grid;
+      grid-template-columns: 4% 5% 49% 4% 20% 7% 5% 6%;
+
       cursor: pointer;
-      padding: 10px 0 10px 10px;
+      padding: 10px;
 
       .transactions__multiline {
         display: flex;
@@ -59,22 +62,21 @@
         font-size: 0.75rem;
       }
 
-      span {
-        display: block;
+      .transactions__labels {
+        color: #aaa;
       }
 
       button {
+        align-self: center;
         background: aliceblue;
         border: none;
+        height: 34px;
 
         &:hover {
           background: crimson;
           color: white;
         }
       }
-
-      display: grid;
-      grid-template-columns: 5% 5% 8% 5% 4% 4% 43% 6% 10% 10%;
 
       &:nth-child(2n + 1) {
         background-color: #ddd;

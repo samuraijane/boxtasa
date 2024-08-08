@@ -78,7 +78,7 @@ export const Transactions = (): JSX.Element => {
     } = x;
 
     return (
-      <li data-id={id} key={id}>  
+      <li data-id={id} key={id}>
         <span>{acctNo}</span>
         <div className="transactions__multiline">
           <span>{year}</span>
@@ -90,6 +90,7 @@ export const Transactions = (): JSX.Element => {
           <span className="transactions__smallish">{note}</span>
         </div>
         <span>{transactionType}</span>
+        <div className="transactions__labels">labels here...</div>
         <span>{amount}</span>
         <span>{codeName}</span>
         <button data-type="delete">Delete</button>
