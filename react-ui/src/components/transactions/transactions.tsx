@@ -41,6 +41,8 @@ export const Transactions = (): JSX.Element => {
       console.error("Hmmm....");
       return;
     }
+
+    // TODO clicking on a label does not open the transaction detail because it's a nested <li>, so we need to address that
     const id = e.target.closest("li")?.dataset.id;
     if (!id) {
       // TODO handle error gracefully
