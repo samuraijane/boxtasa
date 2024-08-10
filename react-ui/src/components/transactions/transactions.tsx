@@ -51,7 +51,8 @@ export const Transactions = (): JSX.Element => {
     }
 
     if (e.target instanceof HTMLButtonElement && e.target.dataset.type === "delete") {
-      dispatch(deleteTransaction(id));
+      // dispatch(deleteTransaction(id));
+      alert("Deleting a transaction is disabled until further notice.")
     } else {
       dispatch(handleModal(!isModal));
       const _activeTransaction = matchingTransactions.find(x => x.transaction_id === parseInt(id));
