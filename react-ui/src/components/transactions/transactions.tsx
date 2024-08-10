@@ -13,6 +13,7 @@ import { selectActiveTransaction, setActiveTransaction } from "../../features/ac
 import { TransactionUpdateDialogue } from "../update-dialogue/update-dialogue";
 import "./transactions.scss";
 import { deleteTransaction, selectTransactions } from "../../features/activeDataSlice";
+import { Labels } from "../subcomponents/labels";
 
 export const Transactions = (): JSX.Element => {
   const activeTransaction = useSelector(selectActiveTransaction);
@@ -67,6 +68,7 @@ export const Transactions = (): JSX.Element => {
       account_type_name: acctType,
       date_month: month,
       date_day: day,
+      labels,
       transaction_id: id,
       transaction_memo: memo,
       note,
@@ -90,7 +92,7 @@ export const Transactions = (): JSX.Element => {
           <span className="transactions__smallish">{note}</span>
         </div>
         <span>{transactionType}</span>
-        <div className="transactions__labels">labels here...</div>
+        <Labels labels={labels} />
         <span>{amount}</span>
         <span>{codeName}</span>
         <button data-type="delete">Delete</button>

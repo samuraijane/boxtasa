@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { NoteInput } from "./subcomponents/noteInput";
 import { AppDispatch } from "../../app/store";
 import { patchTransaction } from "../../features/activeDataSlice";
-import { selectLabels } from "../../features/labelsSlice";
 import { NotePatchOptions } from "../../types/enum";
+import { Labels } from "../subcomponents/labels";
 
 export const TransactionDetail = () => {
   const activeTransaction = useSelector(selectActiveTransaction);
   const dispatch = useDispatch<AppDispatch>();
-  const labels = useSelector(selectLabels);
   const [isEditNote, setIsEditNote] = useState(false);
   const [noteValue, setNoteValue] = useState(activeTransaction.note);
 
@@ -22,7 +21,7 @@ export const TransactionDetail = () => {
     code_name: codeName,
     date_day: day,
     date_month: month,
-    label_ids,
+    labels,
     note,
     short_name: acctName,
     transaction_memo: memo,
@@ -65,8 +64,6 @@ export const TransactionDetail = () => {
       dispatch(patchTransaction({ id, note: noteValue }));
     }
   };
-
-  const labelsByName = labels.filter(x => label_ids.includes(x.id)).map(y => y.name);
 
   return (
     <div className="transaction-detail">
@@ -126,7 +123,7 @@ export const TransactionDetail = () => {
       </div>
       <div className="transaction-detail__field">
         <h3>Labels</h3>
-        <div>{labelsByName.join(", ")}</div>
+        <Labels labels={labels} />
       </div>
     </div>
   );

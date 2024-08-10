@@ -45,7 +45,7 @@
 
   .transactions__list {
 
-    li {
+    >li {
       display: grid;
       grid-template-columns: 4% 5% 49% 4% 20% 7% 5% 6%;
 
@@ -60,10 +60,6 @@
       .transactions__smallish {
         color: #999;
         font-size: 0.75rem;
-      }
-
-      .transactions__labels {
-        color: #aaa;
       }
 
       button {

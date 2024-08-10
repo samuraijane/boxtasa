@@ -22,7 +22,7 @@ import { UpdateToggles } from "../../types/enum";
 export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransaction: Transaction}) => {
   const codes = useSelector(selectCode);
   const labels = useSelector(selectLabels);
-  const activeLabelIds = useSelector(selectActiveTransaction).label_ids;
+  const activeLabelIds = useSelector(selectActiveTransaction).labels.map(label => label.id);
   const vendors = useSelector(selectVendor);
 
   const [inputValue, setInputValue] = useState("");

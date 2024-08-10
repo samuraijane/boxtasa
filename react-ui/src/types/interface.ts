@@ -28,7 +28,7 @@ export interface Transaction {
   code_name: string;
   date_day: number;
   date_month: number;
-  label_ids: number[];
+  labels: Label[];
   note: string;
   short_name: string;
   transaction_id: number;
