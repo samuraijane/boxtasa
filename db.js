@@ -147,7 +147,7 @@ const updateTransaction = (req, res) => {
   }
 
   if (!note) {
-    _note = null; // ensures that queries where note is null does not return a false positive (an empty string is not null)
+    _note = null; // 1
   }
 
   pool.query(sqlUpdateTransaction(), [id, _note], async (err, results) => {
@@ -159,23 +159,44 @@ const updateTransaction = (req, res) => {
   });
 };
 
+// TODO make `postBulk` and `postTransaction` DRY, there are multiple
+// areas where code is repeated
+
 const postBulk = async (req, res) => {
   const bulkTransactions = req.body;
 
   const updateMultipleTransactions = await bulkTransactions.map(async bulkTransaction => {
-    const { codeId, transactionId, vendorId } = bulkTransaction;
+    const { codeId, labelIds, transactionId, vendorId } = bulkTransaction;
 
-    // TODO handle possible errors
+    // TODO handle possible errors- only`codeId`, labelIds, or
+    // `vendorId` may be sent
 
     if (codeId && vendorId) {
       throw new Error("Only `codeId` or `vendorId` is allowed but both were provided in the request.")
     }
 
+    // 4
     if (codeId) {
       await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
       return await pool.query(sqlGetTransaction(), [transactionId]);
     }
+
+    // 2
+    if (!!labelIds && labelIds.length < 1) {
+      await pool.query(`DELETE FROM transactions_x_labels WHERE transaction_id = $1;`, [transactionId]);
+      return await pool.query(sqlGetTransaction(), [transactionId]);
+    }
+
+    // 3
+    if (!!labelIds && labelIds.length) {
+      await pool.query(`DELETE FROM transactions_x_labels WHERE transaction_id = $1;`, [transactionId]);
+      for (const labelId of labelIds) {
+        await pool.query(`INSERT INTO transactions_x_labels (transaction_id, label_id, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP(3));`, [transactionId, labelId]);
+      }
+      return await pool.query(sqlGetTransaction(), [transactionId]);
+    }
   
+    // 5
     if (vendorId) {
       await pool.query(`UPDATE transactions SET vendor_id = $1 WHERE transaction_id = $2;`, [vendorId, transactionId]);
       return await pool.query(sqlGetTransaction(), [transactionId]);
@@ -192,7 +213,8 @@ const postTransaction = async (req, res) => {
   const { c: codeId, t: transactionId, v: vendorId } = req.query;
   const { labelIds } = req.body;
 
-  // TODO consider also checking the DB to see if `transactionId` is actually valid
+  // TODO consider also checking the DB to see if `transactionId` is
+  // actually valid
   if (!transactionId) {
     throw new Error("The id for the transaction to be updated is missing.");
   }
@@ -203,19 +225,19 @@ const postTransaction = async (req, res) => {
 
   let updated;
 
-  // remove labelIds
+  // 2
   if (!!labelIds && labelIds.length < 1) {
     await pool.query(`DELETE FROM transactions_x_labels WHERE transaction_id = $1;`, [transactionId]);
     updated = await pool.query(sqlGetTransaction(), [transactionId]);
   }
 
-  // update codeId
+  // 4
   if (codeId) {
     await pool.query(`UPDATE transactions SET code_id = $1 WHERE transaction_id = $2;`, [codeId, transactionId]);
     updated = await pool.query(sqlGetTransaction(), [transactionId]);
   }
 
-  // update labelIds
+  // 3
   if (labelIds.length) {
     await pool.query(`DELETE FROM transactions_x_labels WHERE transaction_id = $1;`, [transactionId]);
     for (const labelId of labelIds) {
@@ -224,7 +246,7 @@ const postTransaction = async (req, res) => {
     updated = await pool.query(sqlGetTransaction(), [transactionId]);
   }
 
-  // update vendorId
+  // 5
   if (vendorId) {
     await pool.query(`UPDATE transactions SET vendor_id = $1 WHERE transaction_id = $2;`, [vendorId, transactionId]);
     updated = await pool.query(sqlGetTransaction(), [transactionId]);
@@ -257,7 +279,8 @@ const postVendor = async (req, res) => {
       if (err) {
         throw err;
       }
-      // TODO investigate if there is a better way to do this; also consider returning `isSuccess` in the response; see similar in `deleteVendor`
+      // TODO investigate if there is a better way to do this; also
+      // consider returning `isSuccess` in the response; see similar in `deleteVendor`
       getVendors(req, res);
     });
   }
@@ -278,3 +301,29 @@ export default {
   postVendor,
   updateTransaction
 };
+
+/*
+NOTES
+
+[1]
+This ensures that queries where note is null does not return a false
+positive (an empty string is not null).
+
+[2]
+Removes all of the label ids associated with the transaction.
+
+[3]
+Adds label ids associated with the transaction but first removes all
+those that are currently tied to the transaction. We do this because the
+request may include labels ids that are already associated with the
+transaction and since a transaction's label ids are stored in a cross
+reference table, this ensures that we do not add the same label more
+than once to the same transaction.
+
+[4]
+Updates the code id.
+
+[5]
+Updates the vendor id.
+
+*/
