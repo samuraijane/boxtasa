@@ -9,11 +9,13 @@ import {
 
 export const prepBulkData = ({
   codeId,
+  labelIds,
   transactions,
   vendorId
 }: BulkData): PostTransaction[] => {
   return transactions.map(transaction => ({
     codeId,
+    labelIds,
     transactionId: transaction.transaction_id.toString(),
     vendorId
   }));

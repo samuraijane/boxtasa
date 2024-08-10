@@ -107,7 +107,7 @@ export const TransactionUpdateDialogue = ({ activeTransaction }: {activeTransact
   };
 
   const handleTransactionUpdate = async (data: PostTransaction | PostTransaction[]) => {
-    if ((data as PostTransaction[]).length) {
+    if ((data as PostTransaction[]).length && isBulkSave) {
       await dispatch(postTransactionInBulk(data as PostTransaction[]));
       dispatch(handleModal(false));
     } else {
