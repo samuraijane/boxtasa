@@ -1,6 +1,8 @@
 .for-code {
 
   .for-code__codes {
+    columns: 3;
+    gap: 8px;
     padding: 0 0 60px;
   
     // TODO make this two columns to save space
