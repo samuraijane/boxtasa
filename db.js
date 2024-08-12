@@ -12,6 +12,7 @@ import {
   sqlPostVendor,
   sqlUpdateTransaction
 } from "./sql/index.js";
+import { sqlGetTransactionsByLabel } from "./sql/tax/tax.js";
 import {
   getQueryParamValue,
   getQueryType,
@@ -111,6 +112,16 @@ const getTransactions = (req, res) => {
   const queryType = getQueryType([!!_acctId, !!_codeId, !!_fixId, !!_month, !!_year]);
 
   pool.query(sqlGetTransactions(queryType), [_acctId, _codeId, _fixId, _month, _year], (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(results.rows);
+  });
+};
+
+// TODO pass in values received from the client
+const getTransactionsByLabel = (req, res) => {
+  pool.query(sqlGetTransactionsByLabel(), (err, results) => {
     if (err) {
       throw err;
     }
@@ -294,6 +305,7 @@ export default {
   getLabels,
   getTransaction,
   getTransactions,
+  getTransactionsByLabel,
   getYears,
   getVendors,
   postBulk,

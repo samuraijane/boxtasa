@@ -61,6 +61,7 @@ server.get('/api/labels', db.getLabels);
 // TODO do we need both the following two lines?
 server.get('/api/transaction/:id', db.getTransaction);
 server.get('/api/transactions', db.getTransactions);
+server.get('/api/transactions-by-label', db.getTransactionsByLabel); // TODO maybe come up with a better name
 server.get('/api/vendors', db.getVendors);
 server.get('/api/years', db.getYears);
 
