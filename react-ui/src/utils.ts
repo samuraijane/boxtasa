@@ -123,6 +123,28 @@ export const formatDate = ({ day, month, year } : {day: number, month: number, y
   return `${year}-${month}-${day}`;
 };
 
+/**
+ * Creates a string with a minimum of six and up to a maximum of twenty
+ *   random characters.
+ */
+export const createId = (length: number): string => {
+  if (length > 20) {
+    console.warn(`The maximum number of characters allowed is 20. Using '20' instead of ${length} to calcuate an ID.`)
+    length = 20;
+  }
+  if (length < 6) {
+    console.warn(`The minimum number of characters required is 6. Using '6' instead of ${length} to calcuate an ID.`)
+    length = 6;
+  }
+  const numA = Math.floor(length/2);
+  const numB = length - numA;
+  
+  return (
+    Math.random().toString(36).substring(2, numA) +
+    Math.random().toString(36).substring(2, numB)
+  );
+};
+
 /*
 NOTES
 

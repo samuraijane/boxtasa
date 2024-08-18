@@ -10,6 +10,7 @@ import labelsReducer from "../features/labelsSlice";
 import monthsReducer from "../features/monthsSlice";
 import selectorReducer from "../features/selectorSlice";
 import tabsReducer from "../features/tabsSlice";
+import taxesReducer from "../features/taxesSlice";
 import vendorReducer from "../features/vendorsSlice";
 import yearsReducer from "../features/yearsSlice";
 
@@ -26,6 +27,7 @@ export const store = configureStore({
     months: monthsReducer,
     selector: selectorReducer,
     tabs: tabsReducer,
+    taxes: taxesReducer,
     vendor: vendorReducer,
     years: yearsReducer
   }

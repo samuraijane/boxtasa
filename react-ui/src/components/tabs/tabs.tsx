@@ -16,6 +16,7 @@ export const Tabs = () => {
   const viewTabs = [
     ViewTabs.CODES,
     ViewTabs.TRANSACTIONS,
+    ViewTabs.TAXES,
     ViewTabs.VENDORS
   ].map(tab => <TabButton isActive={activeTab === tab} key={tab} text={tab} />);
 

@@ -79,6 +79,16 @@ export interface TabState {
   activeTab: ViewTabs;
 }
 
+export interface TaxesState {
+  name: string;
+  subcategories: Subcategory[];
+}
+
+interface Subcategory {
+  amount: number;
+  name: string;
+}
+
 export interface ReduxStore {
   account: Account[];
   activeData: ActiveData;
@@ -92,6 +102,7 @@ export interface ReduxStore {
   months: Month[];
   selector: SelectorState;
   tabs: TabState;
+  taxes: TaxesState[];
   vendor: Vendor[];
   years: Year[];
 }

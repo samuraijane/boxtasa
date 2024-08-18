@@ -1,0 +1,46 @@
+.taxes {
+  
+  .taxes__reports {
+    grid-gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: 1fr;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  h2 {
+    border-bottom: 1px solid #aaa;
+    margin: 0 0 14px 0;
+    padding: 0 0 14px 0;
+    text-align: center;
+  }
+
+  .taxes__report {
+    background-color: #eee;
+    border: 1px solid #aaa;
+    padding: 20px;
+  }
+
+  .taxes__line-items {
+
+    li {
+      border-bottom: 1px solid #ccc;
+      display: grid;
+      grid-template-columns: 60% 40%;
+      padding: 4px 0;
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+
+      span {
+        display: block;
+
+        &:last-of-type {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

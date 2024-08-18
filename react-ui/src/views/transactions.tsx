@@ -5,6 +5,7 @@ import { selectTabs } from "../features/tabsSlice";
 import { Tabs } from "../components/tabs/tabs";
 import { ViewTabs } from "../types/enum";
 import { Codes } from "../components/codes/codes";
+import { Taxes } from "../components/taxes/taxes";
 import { Vendors } from "../components/vendors/vendors";
 
 export const TransactionsPage = (): JSX.Element => {
@@ -16,6 +17,7 @@ export const TransactionsPage = (): JSX.Element => {
       <Tabs />
       {activeTab === ViewTabs.CODES && <Codes />}
       {activeTab === ViewTabs.TRANSACTIONS && <Transactions />}
+      {activeTab === ViewTabs.TAXES && <Taxes />}
       {activeTab === ViewTabs.VENDORS && <Vendors />}
     </>
   );
