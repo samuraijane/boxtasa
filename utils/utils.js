@@ -194,3 +194,48 @@ export const getQueryParamValue = (rawValue) => {
   }
   return valueAsNumber;
 };
+
+/**
+ * @typedef {object} TaxReport
+ * @property {string} name
+ * @property {Subcategory[]} subcategories
+ */
+
+/**
+ * @typedef {object} Subcategory
+ * @property {TaxAmount[]} amount
+ * @property {string} name
+ */
+
+/**
+ * @typedef {object} TaxAmount
+ * @property {number} label_id
+ * @property {string} subtotal
+ */
+
+/**
+ * Preps the data that is returned from `getTaxSubtotals`. Because the
+ *   database query groups amounts by `label_id`, it may include
+ *   duplicate values which we remove here. Once duplicates are removed,
+ *   all the values are combined into one total.
+ * @param {TaxReport[]} reports
+ */
+export const prepTaxSubtotalsResponse = (reports) => {
+  return reports.map(report => {
+    return {
+      name: report.name,
+      subcategories: report.subcategories.map(subcategory => {
+        const taxAmount = {...subcategory};
+        if (subcategory.amount.length < 1) {
+          taxAmount.amount = 0;
+        }
+        if (subcategory.amount.length) {
+          const amounts = subcategory.amount.map(x => Number(x.subtotal));
+          const uniqueAmounts = [...new Set(amounts)];
+          taxAmount.amount = uniqueAmounts.reduce((a, b) => a + b, 0);
+        }
+        return taxAmount;
+      })
+    }
+  })
+};

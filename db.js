@@ -12,11 +12,16 @@ import {
   sqlPostVendor,
   sqlUpdateTransaction
 } from "./sql/index.js";
-import { sqlGetTransactionsByLabel } from "./sql/tax/tax.js";
+import {
+  sqlGetTaxDetails,
+  sqlGetTaxSubtotals
+} from "./sql/tax/tax.js";
+import { getReport } from "./sql/tax/categories.js";
 import {
   getQueryParamValue,
   getQueryType,
-  prepResponseDataAfterBulkUpdate
+  prepResponseDataAfterBulkUpdate,
+  prepTaxSubtotalsResponse
 } from "./utils/utils.js";
 
 dotenv.config();
@@ -119,14 +124,41 @@ const getTransactions = (req, res) => {
   });
 };
 
-// TODO pass in values received from the client
-const getTransactionsByLabel = (req, res) => {
-  pool.query(sqlGetTransactionsByLabel(), (err, results) => {
+const getTaxDetails = (req, res) => {
+  const { year } = req.query;
+  const { labelIds } = req.body;
+  pool.query(sqlGetTaxDetails(), [labelIds, labelIds.length - 1, year], (err, results) => {
     if (err) {
       throw err;
     }
     res.status(200).json(results.rows);
   });
+};
+
+const getTaxSubtotals = async (req, res) => { // 7
+  const { year } = req.query;
+  const reports = getReport();
+
+  return await Promise.all(
+    reports.map(async report => {
+      const { name, subcategories } = report;
+      return {
+        name,
+        subcategories: await Promise.all(subcategories.map(async subcategory => {
+          const _amount =  await pool.query(sqlGetTaxSubtotals(), [subcategory.ids, subcategory.ids.length - 1, year]);
+    
+          return {
+            amount: _amount.rows,
+            name: subcategory.name
+          }
+        }))
+      }
+    })
+  ).then(data => {
+    const response = prepTaxSubtotalsResponse(data);
+    // res.status(200).json({message: data}) // 6
+    res.status(200).json(response)
+  })
 };
 
 const getVendors = (req, res) => {
@@ -305,7 +337,8 @@ export default {
   getLabels,
   getTransaction,
   getTransactions,
-  getTransactionsByLabel,
+  getTaxDetails,
+  getTaxSubtotals,
   getYears,
   getVendors,
   postBulk,
@@ -337,5 +370,13 @@ Updates the code id.
 
 [5]
 Updates the vendor id.
+
+[6]
+We're leaving this for now as a handy reference to see what the raw data
+returned from the database query looks like.
+
+[7]
+TODO
+There may be some `async` and `await` keywords here that we can delete.
 
 */
