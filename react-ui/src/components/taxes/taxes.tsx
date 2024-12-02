@@ -5,7 +5,7 @@ import { selectSelector } from "../../features/selectorSlice";
 import { AppDispatch } from "../../app/store";
 import { getTaxSubtotals } from "../../features/taxesSlice";
 import { selectTaxes } from "../../features/taxesSlice";
-import { createId } from "../../utils";
+import { createId, formatCurrency } from "../../utils";
 
 export const Taxes = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +31,7 @@ export const Taxes = () => {
               {tax.subcategories.map(subcategory => (
                 <li key={createId(10)}>
                   <span>{subcategory.name}</span>
-                  <span>{subcategory.amount}</span>
+                  <span>{formatCurrency(subcategory.amount)}</span>
                 </li>
               ))}
             </ul>

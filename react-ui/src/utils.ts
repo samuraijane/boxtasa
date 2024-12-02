@@ -145,6 +145,16 @@ export const createId = (length: number): string => {
   );
 };
 
+// const amount = 123444;
+// console.log(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol'}).format(amount));
+
+export const formatCurrency = (value: number) => (
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(value)
+);
+
 /*
 NOTES
 
