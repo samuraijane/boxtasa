@@ -25,9 +25,12 @@ const initialState: FilteredDataState = {
  */
 let API_DATA = [] as Transaction[];
 
-const getMatchingTransactions = (searchStr: string) => (
-  API_DATA.filter(transactions => transactions.vendor_name.toLowerCase().search(searchStr) !== -1)
-);
+const getMatchingTransactions = (searchStr: string, isSearchVendor = true) => {
+  if (isSearchVendor) {
+    return API_DATA.filter(transactions => transactions.vendor_name.toLowerCase().search(searchStr) !== -1)
+  }
+  return API_DATA.filter(transactions => transactions.transaction_memo.toLowerCase().search(searchStr) !== -1)
+};
 
 export const filteredTransactionsSlice = createSlice({
   name: 'filteredData',
@@ -40,8 +43,8 @@ export const filteredTransactionsSlice = createSlice({
       };
     },
     setSearchTerm: (_, action) => {
-      const searchTerm = action.payload;
-      const filteredTransactions = getMatchingTransactions(searchTerm);
+      const {value: searchTerm, isSearchVendor} = action.payload;
+      const filteredTransactions = getMatchingTransactions(searchTerm, isSearchVendor);
 
       return {
         filteredTransactions,
@@ -80,7 +83,7 @@ export const filteredTransactionsSlice = createSlice({
       if (state.searchTerm) {
         return {
           ...state,
-          filteredTransactions: getMatchingTransactions(state.searchTerm)
+          filteredTransactions: getMatchingTransactions(state.searchTerm) // L1
         }
       }
 
@@ -100,7 +103,7 @@ export const filteredTransactionsSlice = createSlice({
       if (state.searchTerm) {
         return {
           ...state,
-          filteredTransactions: getMatchingTransactions(state.searchTerm)
+          filteredTransactions: getMatchingTransactions(state.searchTerm) // L1
         }
       }
       
@@ -115,7 +118,7 @@ export const filteredTransactionsSlice = createSlice({
       if (state.searchTerm) {
         return {
           ...state,
-          filteredTransactions: getMatchingTransactions(state.searchTerm)
+          filteredTransactions: getMatchingTransactions(state.searchTerm) // L1
         }
       }
       
@@ -132,3 +135,13 @@ export const selectFilteredTransactions = (state: ReduxStore) => state.filteredD
 export const selectSearchTerm = (state: ReduxStore) => state.filteredData.searchTerm;
 export const selectTotals = (state: ReduxStore) => state.filteredData.totals;
 export default filteredTransactionsSlice.reducer;
+
+/*
+
+NOTES
+
+[L1]
+FRAGILE
+This may break in the future since we are default to a vendor search.
+Not a big deal but it may need to be addressed later.
+*/

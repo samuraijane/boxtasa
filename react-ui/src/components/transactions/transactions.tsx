@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectFilteredTransactions,
@@ -23,15 +23,17 @@ export const Transactions = (): JSX.Element => {
   const transactionsFromApi = useSelector(selectTransactions);
   const dispatch = useDispatch<AppDispatch>();
 
+  const [isSearchVendor, setIsSearchVendor] = useState(true);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
-    dispatch(setSearchTerm(value));
+    dispatch(setSearchTerm({value, isSearchVendor}));
   };
 
   const handleKeyDown = (e: any) => {
     if (e.keyCode === 8) { // 1
       const newValue = searchTerm.slice(0, searchTerm.length);
-      dispatch(setSearchTerm(newValue));
+      dispatch(setSearchTerm({value: newValue, isSearchVendor}));
     }
   };
 
@@ -61,6 +63,10 @@ export const Transactions = (): JSX.Element => {
   };
 
   const handleSort = () => {
+    if (!searchTerm) {
+      setIsSearchVendor(!isSearchVendor);
+      return;
+    }
     dispatch(sortFilteredTransactions(matchingTransactions));
   };
 
@@ -113,7 +119,7 @@ export const Transactions = (): JSX.Element => {
             <input
               onChange={handleChange}
               onKeyDown={handleKeyDown}
-              placeholder="Search vendors"
+              placeholder={`Search ${isSearchVendor ? "vendors" : "memos"}`}
               type="text"
               value={searchTerm}
             />
