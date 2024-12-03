@@ -203,7 +203,10 @@ const updateTransaction = (req, res) => {
 };
 
 // TODO make `postBulk` and `postTransaction` DRY, there are multiple
-// areas where code is repeated
+// areas where code is repeated. We also need to take a thorough look at
+// the flow behind this logic. As this has expanded in scale, it has
+// become more complex and higher IF blocks are catching things that, in
+// some cases, lower IF blocks should be handling.
 
 const postBulk = async (req, res) => {
   const bulkTransactions = req.body;
@@ -224,6 +227,12 @@ const postBulk = async (req, res) => {
       return await pool.query(sqlGetTransaction(), [transactionId]);
     }
 
+    // 5
+    if (vendorId) {
+      await pool.query(`UPDATE transactions SET vendor_id = $1 WHERE transaction_id = $2;`, [vendorId, transactionId]);
+      return await pool.query(sqlGetTransaction(), [transactionId]);
+    }
+
     // 2
     if (!!labelIds && labelIds.length < 1) {
       await pool.query(`DELETE FROM transactions_x_labels WHERE transaction_id = $1;`, [transactionId]);
@@ -236,12 +245,6 @@ const postBulk = async (req, res) => {
       for (const labelId of labelIds) {
         await pool.query(`INSERT INTO transactions_x_labels (transaction_id, label_id, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP(3));`, [transactionId, labelId]);
       }
-      return await pool.query(sqlGetTransaction(), [transactionId]);
-    }
-  
-    // 5
-    if (vendorId) {
-      await pool.query(`UPDATE transactions SET vendor_id = $1 WHERE transaction_id = $2;`, [vendorId, transactionId]);
       return await pool.query(sqlGetTransaction(), [transactionId]);
     }
   });
