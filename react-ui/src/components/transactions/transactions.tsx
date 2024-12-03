@@ -113,8 +113,12 @@ export const Transactions = (): JSX.Element => {
     <div className="transactions">
       {transactionsFromApi.length > 0 && (
         <div className="transactions__subheader">
-          <div className="transactions__count"><span>Count:</span>{_transactions.length}</div>
-          <div className="transactions__count"><span>Total:</span>{matchingTransactions.reduce((a, b: any) => a + parseInt(b.amount), 0)}</div>
+          <div className="transactions__count">
+            <span>Count:</span>{_transactions.length}
+          </div>
+          <div className="transactions__count">
+            <span>Total:</span>{matchingTransactions.reduce((a, b: any) => a + Math.round(b.amount * 100) / 100, 0).toFixed(2)}
+          </div>
           <div className="transactions__search">
             <input
               onChange={handleChange}
