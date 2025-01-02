@@ -31,6 +31,7 @@ export const Tabs = () => {
     }
     const { type } = e.target.dataset;
     if (!type) {
+      console.warn("The type for the button you have clicked is unknown.");
       return;
     }
     if (type === DbTabs.LOAD) {
@@ -41,6 +42,10 @@ export const Tabs = () => {
         month: selectors.month,
         year: selectors.year
       }));
+      return;
+    }
+    if (type === DbTabs.ADD) {
+      console.warn("The functionality for this button has not yet been configured.");
       return;
     }
     dispatch(setTab(type as ViewTabs));
