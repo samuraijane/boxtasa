@@ -1,9 +1,24 @@
 .code-selector {
+  display: flex;
   padding: 0 20px;
 
   .code-selector__codes {
-    display: grid;
-    gap: 8px;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+
+    .selector-container {
+      margin-bottom: 0;
+    }
+
+
+    &.code-selector__codes--2digits,
+    &.code-selector__codes--4digits {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(6, minmax(80px, 1fr));
+    }
+
+    &.code-selector__codes--4digits {
+      grid-template-columns: minmax(80px, 1fr);
+      margin: 0 0 0 40px;
+    }
   }
 }
