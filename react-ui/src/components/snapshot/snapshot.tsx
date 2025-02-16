@@ -1,68 +1,15 @@
 import { useSelector } from "react-redux";
-import {
-  selectFilteredTransactions
-} from "../../features/filteredDataSlice";
-import { sortByKeys } from "../../utils";
-import { GenericObjectStr, Transaction } from "../../types/interface";
+import { selectFilteredTransactions } from "../../features/filteredDataSlice";
+import { SnapshotAccounts } from "./subcomponents/accounts";
 import "./snapshot.scss";
 
 export const Snapshot = () => {
   const matchingTransactions = useSelector(selectFilteredTransactions);
 
-  /**
-   * Renders account data that is sorted by account type and then
-   *   further sorted by account number.
-   * @param data 
-   * @returns 
-   */
-  const renderDataFor = (data: Transaction[]) => {
-    let subitems: JSX.Element[] = [];
-    let items: JSX.Element[] = [];
-    let type = "";
-
-    const accountData = [...new Map(data.map(item => [item.acct_no, item])).values()] as unknown as GenericObjectStr[]; // L1
-    const sorted = sortByKeys(accountData, ["account_type_name", "acct_no"]) as Transaction[];
-
-    sorted.forEach((account) => {
-      const {
-        acct_no: acctNo,
-        account_type_name: acctType,
-        short_name: acctName
-      } = account;
-
-      if (type !== acctType) {
-        type = acctType;
-        subitems = [];
-      }
-
-      if (!subitems.length) {
-        items.push(
-          <li className="snapshot__accounts" key={type}>
-            <h2>{type}</h2>
-            <ul>{subitems}</ul>
-          </li>
-        )
-      }
-
-      if (type === acctType) {
-        subitems.push(
-          <li key={acctNo}>
-            <span>{acctNo}</span>
-            <span>{acctName}</span>
-          </li>
-        );
-      }
-    });
-
-    return items;
-  };
-
-
-
   return (
-    <ul className="snapshot">
-      {renderDataFor(matchingTransactions)}
-    </ul>
+    <div className="snapshot">
+      <SnapshotAccounts transactions={matchingTransactions} />
+    </div>
   )
 };
 
