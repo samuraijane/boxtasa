@@ -140,4 +140,8 @@ export interface BulkData {
   vendorId?: string;
 }
 
+export interface GenericObjectStr {
+  [key: string]: string;
+}
+
 // TODO maybe combine PostTransaction and BulkData above

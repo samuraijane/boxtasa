@@ -1,0 +1,22 @@
+.snapshot {
+
+  .snapshot__accounts {
+    margin: 14px 0;
+
+    h2 {
+      text-transform: uppercase;
+    }
+
+    li {
+      margin: 4px 0;
+
+      span {
+        display: inline-block;
+
+        &:nth-of-type(2) {
+          margin: 0 0 0 10px;
+        }
+      }
+    }
+  }
+}

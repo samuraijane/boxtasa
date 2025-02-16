@@ -15,6 +15,7 @@ export const Tabs = () => {
 
   const viewTabs = [
     ViewTabs.CODES,
+    ViewTabs.SNAPSHOT,
     ViewTabs.TRANSACTIONS,
     ViewTabs.TAXES,
     ViewTabs.VENDORS

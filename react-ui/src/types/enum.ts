@@ -10,6 +10,7 @@ export enum DbTabs {
 
 export enum ViewTabs {
   CODES = "codes",
+  SNAPSHOT = "snapshot",
   TAXES = "taxes",
   TRANSACTIONS = "transactions",
   VENDORS = "vendors"

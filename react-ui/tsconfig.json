@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es5"
+    "target": "es2015" // we need this in order to use `new Map()`
   },
   "exclude": ["build", "node_modules"],
   "include": ["src/**/*", "index.d.ts"]

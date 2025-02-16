@@ -1,6 +1,7 @@
 import {
   Account,
   BulkData,
+  GenericObjectStr,
   PostTransaction,
   Total,
   Transaction,
@@ -61,6 +62,43 @@ export const _sortByVendorName = (vendors: Vendor[]) => {
   });
 };
 
+/**
+ * Sorts an array of objects by up to two values of its keys.
+ * @param arr an array of objects
+ * @param keys the name of one or two keys upon which sorting is based
+ * @example
+ * const someData = [{name: "Carlos", age: 19}, {name: "Anna", age: 27}, {name: "Billy", age: 15}];
+ * const sorted = sortByKeys(someData, ["name"]);
+ * console.log(sorted);
+ * // Logs: [{name: "Anna", age: 27}, {name: "Billy", age: 15}, {name: "Carlos", age: 19}];
+ * @returns
+ */
+export const sortByKeys = (arr: GenericObjectStr[], keys: string[]) => { // L2
+  const [key1, key2] = keys;
+
+  let result: any[] = [];
+
+  if (key1 && !key2) {
+    result = arr.sort((a, b) => (
+      a[key1].localeCompare(b[key1])
+    ))
+  }
+
+  if (key1 && key2) {
+    result = arr.sort((a, b) => (
+       a[key1].localeCompare(b[key1]) || a[key2].localeCompare(b[key2])
+    ));
+  }
+  
+  return result;
+};
+
+/**
+ * 
+ * @todo Consider deprecating this in favor of `sortByKeys()`.
+ * @param accounts 
+ * @returns 
+ */
 export const sortByAccountNumber = (accounts: Account[]) => {
   return accounts.sort((a, b) => {
     const nameA = a.acct_no.toUpperCase();
@@ -161,5 +199,10 @@ NOTES
 [1]
 This ensures that the date from the very last iteration is accounted
 for.
+
+[2]
+The source for sorting based on two values comes from multiple answers
+on Stack Overflow at the URL below.
+https://stackoverflow.com/questions/6913512/how-to-sort-an-array-of-objects-by-multiple-fields
 
 */
