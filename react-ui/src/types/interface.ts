@@ -144,4 +144,9 @@ export interface GenericObjectStr {
   [key: string]: string;
 }
 
+export interface ComplexLabeling {
+  primaryLabel: string;
+  vendors: string[];
+}
+
 // TODO maybe combine PostTransaction and BulkData above

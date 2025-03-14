@@ -1,7 +1,7 @@
 import {
   Account,
   BulkData,
-  GenericObjectStr,
+  ComplexLabeling,
   PostTransaction,
   Total,
   Transaction,
@@ -62,6 +62,46 @@ export const _sortByVendorName = (vendors: Vendor[]) => {
   });
 };
 
+export const prepComplexLabeling = (data: Transaction[]): ComplexLabeling[] => {
+  let primaryLabels = [];
+  let vendorAndSecondaryLabels = [];
+  let resultPrep = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    const primaryLabel = item.labels.find((x) => x.name.indexOf("Loan") > -1)?.name || "Uknown";
+  
+    const secondaryLabel = item.labels.filter((y) => y.name !== primaryLabel)[0]?.name; // L3
+    const vendorAndSecondaryLabel = secondaryLabel ? `${item.vendor_name} - ${secondaryLabel}` : item.vendor_name;
+  
+    // the primary label does not exist
+    if (primaryLabels.indexOf(primaryLabel) < 0) {
+      primaryLabels.push(primaryLabel);
+      vendorAndSecondaryLabels.push(vendorAndSecondaryLabel);
+      resultPrep.push({
+        primaryLabel,
+        vendors: [vendorAndSecondaryLabel]
+      });
+    // the primary label does exist
+    } else {
+      const matchedIndex = resultPrep.findIndex((z) => z.primaryLabel === primaryLabel);
+      if (vendorAndSecondaryLabels.indexOf(vendorAndSecondaryLabel) < 0) {
+        vendorAndSecondaryLabels.push(vendorAndSecondaryLabel);
+        resultPrep[matchedIndex].vendors.push(vendorAndSecondaryLabel)
+      }
+    }
+  }
+
+  const result = resultPrep.map((a) => {
+    return {
+      ...a,
+      vendors: a.vendors.sort()
+    }
+  });
+
+  return sortByKeys(result, ["primaryLabel"]);
+};
+
 /**
  * Sorts an array of objects by up to two values of its keys.
  * @param arr an array of objects
@@ -73,7 +113,7 @@ export const _sortByVendorName = (vendors: Vendor[]) => {
  * // Logs: [{name: "Anna", age: 27}, {name: "Billy", age: 15}, {name: "Carlos", age: 19}];
  * @returns
  */
-export const sortByKeys = (arr: GenericObjectStr[], keys: string[]) => { // L2
+export const sortByKeys = (arr: any[], keys: string[]) => { // L2
   const [key1, key2] = keys;
 
   let result: any[] = [];
@@ -81,7 +121,7 @@ export const sortByKeys = (arr: GenericObjectStr[], keys: string[]) => { // L2
   if (key1 && !key2) {
     result = arr.sort((a, b) => (
       a[key1].localeCompare(b[key1])
-    ))
+    ));
   }
 
   if (key1 && key2) {
@@ -204,5 +244,11 @@ for.
 The source for sorting based on two values comes from multiple answers
 on Stack Overflow at the URL below.
 https://stackoverflow.com/questions/6913512/how-to-sort-an-array-of-objects-by-multiple-fields
+
+[l3]
+For now we only care about the first item in the array. Keep in mind,
+however, that this is fragile and may produce unexpected results if we
+need something other than the first item. It works for now because we
+expect there to be only one item in the array.
 
 */
