@@ -3,6 +3,7 @@ import {
   BulkData,
   ComplexLabeling,
   PostTransaction,
+  SimpleLabeling,
   Total,
   Transaction,
   Vendor
@@ -62,6 +63,49 @@ export const _sortByVendorName = (vendors: Vendor[]) => {
   });
 };
 
+/**
+ * Formats data in groups by property based on rents received.
+ * @param data 
+ * @returns 
+ */
+export const prepSimpleLabeling = (data: Transaction[]): SimpleLabeling[] => {
+  let labels = [];
+  let resultPrep = [];
+
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    const label = item.labels.filter((x) => x.name !== "E Rents Received")[0].name; // L1
+    if (labels.indexOf(label) < 0) {
+      labels.push(label);
+      resultPrep.push({
+        property: label,
+        tenants: [item.vendor_name]
+      });
+    } else {
+      const matchedIndex = resultPrep.findIndex((y) => y.property === label);
+      if (resultPrep[matchedIndex].tenants.indexOf(item.vendor_name) < 0) {
+        resultPrep[matchedIndex].tenants.push(item.vendor_name);
+      }
+    }
+  }
+
+  const result = resultPrep.map((a) => {
+    return {
+      ...a,
+      tenants: a.tenants.sort()
+    }
+  });
+
+  return sortByKeys(result, ["property"]);
+};
+
+/**
+ * Formats data in groups based on primary labels, each of which has
+ *   nested vendors. The vendors, in turn, each have a secondary label
+ *   attached to them.
+ * @param data 
+ * @returns 
+ */
 export const prepComplexLabeling = (data: Transaction[]): ComplexLabeling[] => {
   let primaryLabels = [];
   let vendorAndSecondaryLabels = [];

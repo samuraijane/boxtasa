@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { selectFilteredTransactions } from "../../features/filteredDataSlice";
 import { SnapshotAccounts } from "./subcomponents/accounts";
 import { SnapshotDebts } from "./subcomponents/debts";
+import { SnapshotRealEstate } from "./subcomponents/real-estate";
 import "./snapshot.scss";
 
 export const Snapshot = () => {
@@ -11,6 +12,7 @@ export const Snapshot = () => {
     <div className="snapshot">
       <SnapshotAccounts transactions={matchingTransactions} />
       <SnapshotDebts transactions={matchingTransactions.filter(x => x.code_name === "DE")} />
+      <SnapshotRealEstate transactions={matchingTransactions.filter(x => x.code_name === "SCHE")} />
     </div>
   )
 };

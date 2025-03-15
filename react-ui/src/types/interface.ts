@@ -149,4 +149,9 @@ export interface ComplexLabeling {
   vendors: string[];
 }
 
+export interface SimpleLabeling {
+  property: string;
+  tenants: string[];
+}
+
 // TODO maybe combine PostTransaction and BulkData above
