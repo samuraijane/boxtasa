@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cd react-ui/ && npm install && npm run build",
     "db:export": "sh export.sh",
-    "db:run": "psql -U sj -d playground -f ./sql-temp/run.sql",
+    "db:run": "psql -U sj -d boxtasa -f ./sql-temp/run.sql",
     "dev": "export NODE_ENV=dev && nodemon .",
     "start": "export NODE_ENV=prod && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
