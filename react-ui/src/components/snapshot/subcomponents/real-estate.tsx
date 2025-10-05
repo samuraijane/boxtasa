@@ -9,7 +9,7 @@ export const SnapshotRealEstate = ({ transactions }: {transactions: Transaction[
    * @returns 
    */
   const renderDataFor = (data: Transaction[]) => {
-    const polishedData = prepSimpleLabeling(data.filter((x) => x.labels.find((y) => y.name === "E Rents Received")));
+    const polishedData = prepSimpleLabeling(data, "E Rents Received");
     const items = polishedData.map((item) => (
       <li className="snapshot__accounts-inner" key={createId(12)}>
         <h3>{item.property}</h3>

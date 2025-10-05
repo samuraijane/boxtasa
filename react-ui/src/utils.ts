@@ -64,17 +64,20 @@ export const _sortByVendorName = (vendors: Vendor[]) => {
 };
 
 /**
- * Formats data in groups by property based on rents received.
- * @param data 
+ * Aggregates data based on a label defined in the `labels` table of the
+ *   database.
+ * @param data
+ * @param labelStr
  * @returns 
  */
-export const prepSimpleLabeling = (data: Transaction[]): SimpleLabeling[] => {
+export const prepSimpleLabeling = (data: Transaction[], labelStr: string): SimpleLabeling[] => {
+  const filteredData = data.filter((x) => x.labels.find((y) => y.name === labelStr));
   let labels = [];
   let resultPrep = [];
 
-  for (let i = 0; i < data.length; i++) {
-    const item = data[i];
-    const label = item.labels.filter((x) => x.name !== "E Rents Received")[0].name; // L1
+  for (let i = 0; i < filteredData.length; i++) {
+    const item = filteredData[i];
+    const label = item.labels.filter((x) => x.name !== labelStr)[0].name; // L1
     if (labels.indexOf(label) < 0) {
       labels.push(label);
       resultPrep.push({
@@ -225,7 +228,7 @@ const _groupDataByYear = (transactions: Transaction[]) => {
       currentTotal = parseInt(x.amount);
       currentYear = x.year_name;
     }
-    if (length === runningCount) { // 1
+    if (length === runningCount) { // L1
       totals.push({ count: currentCount, total: currentTotal, year: currentYear });
     }
   });
@@ -280,16 +283,16 @@ export const formatCurrency = (value: number) => (
 /*
 NOTES
 
-[1]
+[L1]
 This ensures that the date from the very last iteration is accounted
-for.
+for. (This may have changed, needs to be confirmed - October 4, 2025.)
 
-[2]
+[L2]
 The source for sorting based on two values comes from multiple answers
 on Stack Overflow at the URL below.
 https://stackoverflow.com/questions/6913512/how-to-sort-an-array-of-objects-by-multiple-fields
 
-[l3]
+[L3]
 For now we only care about the first item in the array. Keep in mind,
 however, that this is fragile and may produce unexpected results if we
 need something other than the first item. It works for now because we
