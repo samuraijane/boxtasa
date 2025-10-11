@@ -8,8 +8,10 @@ interface ActiveDataState {
   transactions: Transaction[];
 }
 
-export const deleteTransaction = createAsyncThunk('transaction/delete', async (id: string): Promise<number> => {
-  const url = `http://localhost:8080/api/transaction/${id}`;
+export const deleteTransaction = createAsyncThunk('transaction/delete', async (id: string, thunkAPI): Promise<number> => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+
+  const url = `${baseUrl}/api/transaction/${id}`;
   const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json"
@@ -31,9 +33,11 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({
   fixId,
   month,
   year
-}: SelectorState) => {
+}: SelectorState, thunkAPI) => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+
   const queryParams = `${acctId}&codeId=${codeId}&fixId=${fixId}&month=${month}&year=${year}`;
-  const url = `http://localhost:8080/api/transactions/?acctId=${queryParams}`;
+  const url = `${baseUrl}/api/transactions/?acctId=${queryParams}`;
   const data = await fetch(url);
   const _transactions = await data.json();
   return {
@@ -41,10 +45,11 @@ export const getTransactionData = createAsyncThunk('transactions/get', async ({
   };
 });
 
-export const patchTransaction = createAsyncThunk('transactions/patch', async (args: PatchTransaction, { getState }) => {
+export const patchTransaction = createAsyncThunk('transactions/patch', async (args: PatchTransaction, thunkAPI) => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
   const { id, note } = args;
 
-  const url = `http://localhost:8080/api/transaction/${id}`;
+  const url = `${baseUrl}/api/transaction/${id}`;
   const data = await fetch(url, {
     body: JSON.stringify({ note }),
     headers: {
@@ -59,8 +64,9 @@ export const patchTransaction = createAsyncThunk('transactions/patch', async (ar
 export const postTransaction = createAsyncThunk('transactions/post', async (args: PostTransaction, { getState }) => {
   const { codeId, labelIds, transactionId, vendorId } = args;
   const rootState = getState() as ReduxStore;
+  const { baseUrl } = rootState;
 
-  const url = `http://localhost:8080/api/transactions/?c=${codeId}&t=${transactionId}&v=${vendorId}`;
+  const url = `${baseUrl}/api/transactions/?c=${codeId}&t=${transactionId}&v=${vendorId}`;
   const data = await fetch(url, {
     body: JSON.stringify({ labelIds }),
     headers: {
@@ -83,8 +89,9 @@ export const postTransaction = createAsyncThunk('transactions/post', async (args
 
 export const postTransactionInBulk = createAsyncThunk('transactionsbulk/post', async (args: PostTransaction[], { getState }) => {
   const rootState = getState() as ReduxStore;
+  const { baseUrl } = rootState;
   
-  const data = await fetch("http://localhost:8080/api/bulk", {
+  const data = await fetch(`${baseUrl}/api/bulk`, {
     body: JSON.stringify(args),
     headers: {
       "Content-Type": "application/json"

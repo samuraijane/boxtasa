@@ -2,21 +2,27 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReduxStore, Vendor } from '../types/interface';
 import { _sortByVendorName } from '../utils';
 
-export const deleteVendor = createAsyncThunk('vendors/delete', async (id: string): Promise<Vendor[]> => {
-  const url = `http://localhost:8080/api/vendors/${id}`;
+export const deleteVendor = createAsyncThunk('vendors/delete', async (id: string, thunkAPI): Promise<Vendor[]> => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+
+  const url = `${baseUrl}/api/vendors/${id}`;
   const response = await fetch(url, {
     method: "DELETE"
   });
   return await response.json();
 });
 
-export const getVendors = createAsyncThunk('vendors/get', async (): Promise<Vendor[]> => {
-  const response = await fetch('http://localhost:8080/api/vendors');
+export const getVendors = createAsyncThunk('vendors/get', async (_, thunkAPI): Promise<Vendor[]> => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+
+  const response = await fetch(`${baseUrl}/api/vendors`);
   return await response.json();
 });
 
-export const postVendor = createAsyncThunk('transaction/vendor/post', async (vendorName: string): Promise<Vendor[]> => {
-  const url = `http://localhost:8080/api/vendors`;
+export const postVendor = createAsyncThunk('transaction/vendor/post', async (vendorName: string, thunkAPI): Promise<Vendor[]> => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+  
+  const url = `${baseUrl}/api/vendors`;
   const data = await fetch(url, {
     body: JSON.stringify({ vendorName }),
     headers: {
@@ -34,16 +40,13 @@ export const vendorSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(deleteVendor.fulfilled, (state, action: any) => (
-      // TODO remove `any`
-      _sortByVendorName([...action.payload]) as any
+      _sortByVendorName([...action.payload]) as any // L1
     ));
     builder.addCase(getVendors.fulfilled, (_, action: PayloadAction<Vendor[]>) => (
-      // TODO remove `any`
-      _sortByVendorName([...action.payload]) as any
+      _sortByVendorName([...action.payload]) as any // L1
     ));
     builder.addCase(postVendor.fulfilled, (state, action: any) => (
-      // TODO remove `any`
-      _sortByVendorName([...action.payload]) as any
+      _sortByVendorName([...action.payload]) as any //L1
     ));
   }
 });
@@ -51,3 +54,12 @@ export const vendorSlice = createSlice({
 export const selectVendor = (state: ReduxStore) => state.vendor;
 
 export default vendorSlice.reducer;
+
+/*
+
+NOTES
+
+[L1]
+TODO – Remove `any`
+
+*/

@@ -94,6 +94,7 @@ export interface ReduxStore {
   activeData: ActiveData;
   activeTransaction: Transaction;
   auth: boolean;
+  baseUrl: string;
   code: Code[];
   filteredData: FilteredData;
   fixes: number; // this is plural even though for now, it's only for a number; in the future, it's likely it will be array of numbers

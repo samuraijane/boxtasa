@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { ReduxStore, TaxesState } from '../types/interface';
 
-export const getTaxSubtotals = createAsyncThunk('tax/subtotals', async (year: number) => {
+export const getTaxSubtotals = createAsyncThunk('tax/subtotals', async (year: number, thunkAPI) => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+  
   if (!year) {
     throw new Error("A year must be included in the HTTP request.");
   }
-  const url = `http://localhost:8080/api/tax/subtotals/?year=${year}`;
+  const url = `${baseUrl}/api/tax/subtotals/?year=${year}`;
   const response = await fetch(url);
   return await response.json();
 });

@@ -3,6 +3,7 @@ import accountReducer from "../features/accountsSlice";
 import activeDataReducer from "../features/activeDataSlice";
 import activeTransactionReducer from "../features/activeTransactionSlice";
 import authReducer from "../features/authSlice";
+import baseUrlReducer from "../features/baseUrlSlice";
 import codeReducer from "../features/codesSlice";
 import filteredDataReducer from "../features/filteredDataSlice";
 import isModalReducer from "../features/isModalSlice";
@@ -20,6 +21,7 @@ export const store = configureStore({
     activeData: activeDataReducer,
     activeTransaction: activeTransactionReducer,
     auth: authReducer,
+    baseUrl: baseUrlReducer,
     code: codeReducer,
     filteredData: filteredDataReducer,
     isModal: isModalReducer,
@@ -33,7 +35,17 @@ export const store = configureStore({
   }
 });
 
-// This keeps typescript happy
+export type AppDispatch = typeof store.dispatch; // L1
+
+/*
+
+NOTES
+
+[L1]
+AppDispatch is the type of the dispatch function from Redux store. It is
+used for typing thunks and other async actions that use `dispatch`. See
+also the answer by wasilikoslow, as well as comments, at the link below.
+
 // https://stackoverflow.com/questions/70143816/argument-of-type-asyncthunkactionany-void-is-not-assignable-to-paramete
-// answer by wasilikoslow as well as commments
-export type AppDispatch = typeof store.dispatch;
+
+*/

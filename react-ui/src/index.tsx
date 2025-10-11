@@ -10,6 +10,7 @@ import { getCodes } from "./features/codesSlice";
 import { getLabels } from "./features/labelsSlice";
 import { getVendors } from "./features/vendorsSlice";
 import { getYears } from "./features/yearsSlice";
+import { setBaseUrl } from "./features/baseUrlSlice";
 import './styles/style.scss';
 
 const container: HTMLElement | null = document.getElementById("root");
@@ -21,6 +22,7 @@ store.dispatch(getCodes());
 store.dispatch(getLabels());
 store.dispatch(getVendors());
 store.dispatch(getYears());
+store.dispatch(setBaseUrl());
 
 root?.render(
   <StrictMode>

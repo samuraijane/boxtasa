@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReduxStore } from '../types/interface';
 
-export const getLabels = createAsyncThunk('labels/get', async () => {
-  const response = await fetch('http://localhost:8080/api/labels');
+export const getLabels = createAsyncThunk('labels/get', async (_, thunkAPI) => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+  
+  const response = await fetch(`${baseUrl}/api/labels`);
   return await response.json();
 });
 

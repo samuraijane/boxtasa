@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReduxStore } from '../types/interface';
 
-export const getAccounts = createAsyncThunk('accounts/get', async () => {
-  const response = await fetch('http://localhost:8080/api/accounts');
+export const getAccounts = createAsyncThunk('accounts/get', async (_, thunkAPI) => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+
+  const response = await fetch(`${baseUrl}/api/accounts`);
   return await response.json();
 });
 

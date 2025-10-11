@@ -1,12 +1,14 @@
 import { ChangeEvent, SyntheticEvent, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setAuth } from "../../features/authSlice";
+import { selectBaseUrl } from "../../features/baseUrlSlice";
 import "./login.scss";
 
 export const Login = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const baseUrl = useSelector(selectBaseUrl);
 
   const [creds, setCreds] = useState({
     password: "",
@@ -14,7 +16,7 @@ export const Login = (): JSX.Element => {
   });
 
   const handleFetch = async (password: string, username: string) => {
-    const data = await fetch("/api/auth/login", {
+    const data = await fetch(`${baseUrl}/api/auth/login`, {
       body: JSON.stringify({ password, username }),
       headers: {
         "Content-Type": "application/json"

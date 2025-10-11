@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ReduxStore } from '../types/interface';
 
 interface Auth {
   auth: boolean;
 }
 
-export const verifyAuth = createAsyncThunk('auth/verify', async () => {
-  const response = await fetch('/api/auth/verify');
+export const verifyAuth = createAsyncThunk('auth/verify', async (_ ,thunkAPI) => {
+  const { baseUrl } = thunkAPI.getState() as ReduxStore;
+
+  const response = await fetch(`${baseUrl}/api/auth/verify`);
   const { isAuth } = await response.json();
   return isAuth;
 });

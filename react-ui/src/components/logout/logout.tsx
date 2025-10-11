@@ -1,7 +1,8 @@
 import { MouseEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setAuth } from "../../features/authSlice";
+import { selectBaseUrl } from "../../features/baseUrlSlice";
 import "./logout.scss";
 
 interface Logout {
@@ -12,9 +13,10 @@ interface Logout {
 export const Logout = ({ href, text }: Logout): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const baseUrl = useSelector(selectBaseUrl);
 
   const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
-    const data = await fetch("/api/auth/logout", {
+    const data = await fetch(`${baseUrl}/api/auth/logout`, {
       headers: {
         "Content-Type": "application/json"
       },
