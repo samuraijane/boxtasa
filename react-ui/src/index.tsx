@@ -16,7 +16,7 @@ import './styles/style.scss';
 const container: HTMLElement | null = document.getElementById("root");
 const root = container && createRoot(container);
 
-store.dispatch(verifyAuth());
+// store.dispatch(verifyAuth()); // L1
 store.dispatch(getAccounts());
 store.dispatch(getCodes());
 store.dispatch(getLabels());
@@ -33,3 +33,15 @@ root?.render(
     </Provider>
   </StrictMode>
 );
+
+/*
+
+NOTES
+
+[L1]
+Disabling until we fully implement authentication. When enabled
+currently, it causes an error on refresh–
+
+"A case reducer on a non-draftable value must not return undefined"
+
+*/
